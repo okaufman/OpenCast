@@ -49,8 +49,9 @@ class xoctEventTableGUI extends ilTable2GUI
 	 * @param \xoctEventGUI $a_parent_obj
 	 * @param string $a_parent_cmd
 	 * @param \xoctOpenCast $xoctOpenCast
+	 * @param $load_data bool
 	 */
-	public function __construct(xoctEventGUI $a_parent_obj, $a_parent_cmd, xoctOpenCast $xoctOpenCast)
+	public function __construct(xoctEventGUI $a_parent_obj, $a_parent_cmd, xoctOpenCast $xoctOpenCast, $load_data = true)
 	{
 		/**
 		 * @var $ilCtrl ilCtrl
@@ -77,7 +78,9 @@ class xoctEventTableGUI extends ilTable2GUI
 			$this->setExportFormats(array( self::EXPORT_CSV ));
 		}
 
-		$this->parseData();
+		if ($load_data) {
+			$this->parseData();
+		}
 	}
 
 
@@ -137,8 +140,13 @@ class xoctEventTableGUI extends ilTable2GUI
 		}
 		if ($xE->getProcessingState() == xoctEvent::STATE_SUCCEEDED)
 		{
-			// PLAYER LINK
-			$playerLink = $xE->getPlayerLink();
+			if (xoctConf::getConfig(xoctConf::F_INTERNAL_VIDEO_PLAYER)) {
+				$this->ctrl->setParameter($this->parent_obj,xoctEventGUI::IDENTIFIER,$xE->getIdentifier());
+				$playerLink = $this->ctrl->getLinkTarget($this->parent_obj,'streamVideo');
+			} else {
+				$playerLink = $xE->getPlayerLink();
+			}
+
 			if ($playerLink)
 			{
 				$this->tpl->setCurrentBlock('link');
@@ -150,7 +158,7 @@ class xoctEventTableGUI extends ilTable2GUI
 					$modal = ilModalGUI::getInstance();
 					$modal->setId('modal_' . $xE->getIdentifier());
 					$modal->setHeading($xE->getTitle());
-					$modal->setBody('<iframe class="xoct_iframe" src="' . $xE->getPlayerLink() . '"></iframe>');
+					$modal->setBody('<iframe class="xoct_iframe" src="' . $playerLink . '"></iframe>');
 					$this->tpl->setVariable('MODAL', $modal->getHTML());
 					$this->tpl->setVariable('LINK_URL', '#');
 					$this->tpl->setVariable('MODAL_LINK', 'data-toggle="modal" data-target="#modal_' . $xE->getIdentifier() . '"');
