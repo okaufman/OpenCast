@@ -63,3 +63,9 @@ if (!xoctConf::getConfig(xoctConf::F_STD_ROLES)) {
 	}
 }
 ?>
+<#7>
+<?php
+xoctConf::set(xoctConf::F_SIGN_PLAYER_LINKS, 1);
+xoctConf::set(xoctConf::F_SIGN_DOWNLOAD_LINKS, 1);
+xoctConf::set(xoctConf::F_SIGN_THUMBNAIL_LINKS, 1);
+?>

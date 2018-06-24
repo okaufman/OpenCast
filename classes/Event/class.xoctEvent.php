@@ -467,7 +467,11 @@ class xoctEvent extends xoctObject {
 		$i = 0;
 		while (!$this->thumbnail_url && $i < count($possible_publications)) {
 			$url = $this->getPublicationMetadataForUsage(xoctPublicationUsage::find($possible_publications[$i]))->getUrl();
-			$this->thumbnail_url = xoctSecureLink::sign($url);
+			if (xoctConf::getConfig(xoctConf::F_SIGN_THUMBNAIL_LINKS)) {
+				$this->thumbnail_url = xoctSecureLink::sign($url);
+			} else {
+				$this->thumbnail_url = $url;
+			}
 			$i ++;
 		}
 		if (!$this->thumbnail_url) {
@@ -502,7 +506,11 @@ class xoctEvent extends xoctObject {
 	public function getPlayerLink() {
 		if (!isset($this->player_url)) {
 			$url = $this->getPublicationMetadataForUsage(xoctPublicationUsage::find(xoctPublicationUsage::USAGE_PLAYER))->getUrl();
-			$this->player_url = xoctSecureLink::sign($url);
+			if (xoctConf::getConfig(xoctConf::F_SIGN_PLAYER_LINKS)) {
+				$this->player_url = xoctSecureLink::sign($url);
+			} else {
+				$this->player_url = $url;
+			}
 		}
 
 		return $this->player_url;
@@ -515,7 +523,11 @@ class xoctEvent extends xoctObject {
 	public function getDownloadLink() {
 		if (!isset($this->download_url)) {
 			$url = $this->getPublicationMetadataForUsage(xoctPublicationUsage::find(xoctPublicationUsage::USAGE_DOWNLOAD))->getUrl();
-			$this->download_url = xoctSecureLink::sign($url);
+			if (xoctConf::getConfig(xoctConf::F_SIGN_DOWNLOAD_LINKS)) {
+				$this->download_url = xoctSecureLink::sign($url);
+			} else {
+				$this->download_url = $url;
+			}
 		}
 
 		return $this->download_url;
@@ -650,8 +662,17 @@ class xoctEvent extends xoctObject {
 			case self::STATE_SUCCEEDED:
 				if (!$this->getXoctEventAdditions()->getIsOnline()) {
 					$this->setProcessingState(self::STATE_OFFLINE);
-				} elseif (count($this->publication_status) <= 2) {
-					$this->setProcessingState(xoctEvent::STATE_NOT_PUBLISHED);
+				} else {
+					$conf_internal_player = xoctConf::getConfig(xoctConf::F_INTERNAL_VIDEO_PLAYER);
+					$publication_api = xoctPublicationUsage::getUsage(xoctPublicationUsage::USAGE_API);
+					$publication_player = xoctPublicationUsage::getUsage(xoctPublicationUsage::USAGE_PLAYER);
+
+					// "not published" depends: if the internal player is used, the "api" publication must be present, else the "player" publication
+					if (($conf_internal_player && !in_array($publication_api->getChannel(),$this->publication_status))
+						|| (!$conf_internal_player && !in_array($publication_player->getChannel(),$this->publication_status)))
+					{
+						$this->setProcessingState(xoctEvent::STATE_NOT_PUBLISHED);
+					}
 				}
 				break;
 			case '': // FIX: OpenCast delivers sometimes a empty state. this patch will be removed after fix on OpenCast
@@ -1084,7 +1105,13 @@ class xoctEvent extends xoctObject {
 	 * @return string
 	 */
 	public function getOwnerUsername() {
-		return $this->owner_username;
+		if ($this->owner_username) {
+			return $this->owner_username;
+		} elseif ($this->getOwner()) {
+			return $this->getOwner()->getNamePresentation();
+		} else {
+			return '&nbsp';
+		}
 	}
 
 
@@ -1200,7 +1227,8 @@ class xoctEvent extends xoctObject {
 		$processing->configuration->flagForReview = 'false';
 		$processing->configuration->publishToEngage = 'false';
 		$processing->configuration->publishToHarvesting = 'false';
-		$processing->configuration->straightToPublishing = 'false';
+		$processing->configuration->straightToPublishing = 'true';
+		$processing->configuration->publishToApi = 'true';
 		$processing->configuration->autopublish = $auto_publish ? 'true' : 'false';
 
 		return $processing;
