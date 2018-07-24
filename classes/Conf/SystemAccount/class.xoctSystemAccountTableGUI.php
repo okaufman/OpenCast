@@ -1,13 +1,4 @@
 <?php
-
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-
-require_once('class.xoctSystemAccount.php');
-require_once('./Services/Table/classes/class.ilTable2GUI.php');
-require_once('./Services/UIComponent/AdvancedSelectionList/classes/class.ilAdvancedSelectionListGUI.php');
-require_once('./Services/Form/classes/class.ilMultiSelectInputGUI.php');
-
-
 /**
  * Class xoctEventTableGUI
  *
@@ -36,7 +27,8 @@ class xoctSystemAccountTableGUI extends ilTable2GUI {
 		/**
 		 * @var $ilCtrl ilCtrl
 		 */
-		global $ilCtrl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
 		$this->ctrl = $ilCtrl;
 		$this->pl = ilOpenCastPlugin::getInstance();
 		$this->setId(self::TBL_ID);

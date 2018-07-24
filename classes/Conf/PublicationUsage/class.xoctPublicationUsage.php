@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class xoctPublicationUsage
@@ -8,6 +7,7 @@ require_once('./Services/ActiveRecord/class.ActiveRecord.php');
  */
 class xoctPublicationUsage extends ActiveRecord {
 
+	const TABLE_NAME = 'xoct_publication_usage';
 	const USAGE_ANNOTATE = 'annotate';
 	const USAGE_PLAYER = 'player';
 	const USAGE_API = 'api';
@@ -16,6 +16,7 @@ class xoctPublicationUsage extends ActiveRecord {
 	const USAGE_THUMBNAIL_FALLBACK_2 = 'thumbnail_fallback_2';
 	const USAGE_DOWNLOAD = 'download';
 	const USAGE_CUTTING = 'cutting';
+	const USAGE_DUAL_IMAGE_SOURCE = "dual-image-source";
 	const MD_TYPE_ATTACHMENT = 1;
 	const MD_TYPE_MEDIA = 2;
 	const MD_TYPE_PUBLICATION_ITSELF = 0;
@@ -35,6 +36,23 @@ class xoctPublicationUsage extends ActiveRecord {
 
 
 	/**
+	 * @return string
+	 * @deprecated
+	 */
+	static function returnDbTableName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
+	}
+
+
+	/**
 	 * @param $usage
 	 *
 	 * @return xoctPublicationUsage
@@ -51,16 +69,6 @@ class xoctPublicationUsage extends ActiveRecord {
 		$missing = array_diff(self::$usage_ids, self::getArray(NULL, 'usage_id'));
 
 		return $missing;
-	}
-
-
-	/**
-	 * @return string
-	 * @description Return the Name of your Database Table
-	 * @deprecated
-	 */
-	static function returnDbTableName() {
-		return 'xoct_publication_usage';
 	}
 
 

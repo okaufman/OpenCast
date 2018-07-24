@@ -1,7 +1,5 @@
 <?php
 
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Request/class.xoctRequest.php');
-
 /**
  * Class xoctSecureLink
  *
@@ -23,14 +21,14 @@ class xoctSecureLink {
 	 */
 	public static function sign($url) {
 		// this should not be necessary anymore, since you can activate/deactivate the url signing in the config
-//		if (!xoctEvent::$LOAD_PUB_SEPARATE) {
-//			return $url;
-//		}
+		//		if (!xoctEvent::$LOAD_PUB_SEPARATE) {
+		//			return $url;
+		//		}
 		if (!$url) {
 			return '';
 		}
-		if (isset($cache[$url])) {
-			return $cache[$url];
+		if (isset(self::$cache[$url])) {
+			return self::$cache[$url];
 		}
 
 		$data = json_decode(xoctRequest::root()->security()->sign($url));
@@ -38,7 +36,7 @@ class xoctSecureLink {
 		if ($data->error) {
 			return '';
 		}
-		$cache[$url] = $data->url;
+		self::$cache[$url] = $data->url;
 
 		return $data->url;
 	}

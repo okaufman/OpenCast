@@ -20,10 +20,7 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilOpenCastPlugin.php');
-include_once('./Services/Repository/classes/class.ilObjectPluginListGUI.php');
-require_once('class.ilObjOpenCastGUI.php');
-
+require_once __DIR__ . '/../vendor/autoload.php';
 /**
  * ListGUI implementation for OpenCast object plugin. This one
  * handles the presentation in container items (categories, courses, ...)
@@ -47,7 +44,7 @@ class ilObjOpenCastListGUI extends ilObjectPluginListGUI {
 
 
 	public function initType() {
-		$this->setType(ilOpenCastPlugin::XOCT);
+		$this->setType(ilOpenCastPlugin::PLUGIN_ID);
 	}
 
 
@@ -208,7 +205,7 @@ class ilObjOpenCastListGUI extends ilObjectPluginListGUI {
 			}
 			$xoctOpenCast->getSeries();
 
-			if (!$xoctOpenCast->isObjOnline()) {
+			if (!$xoctOpenCast->isOnline()) {
 				$props[] = array(
 					'alert' => true,
 					'newline' => true,
@@ -255,7 +252,8 @@ class ilObjOpenCastListGUI extends ilObjectPluginListGUI {
 	 */
 
 	public static function format_date_time($unix_timestamp) {
-		global $lng;
+		global $DIC;
+		$lng = $DIC['lng'];
 
 		$now = time();
 		$today = $now - $now % (60 * 60 * 24);

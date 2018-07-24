@@ -1,5 +1,5 @@
 <?php
-require_once('class.xoctPublicationMetadata.php');
+
 /**
  * Class xoctAttachment
  *
@@ -7,4 +7,24 @@ require_once('class.xoctPublicationMetadata.php');
  */
 class xoctAttachment extends xoctPublicationMetadata {
 
+	/**
+	 * @var string
+	 */
+	public $ref;
+
+
+	/**
+	 * @return string
+	 */
+	public function getRef() {
+		return $this->ref;
+	}
+
+
+	/**
+	 * @param string $ref
+	 */
+	public function setRef($ref) {
+		$this->ref = $ref;
+	}
 }

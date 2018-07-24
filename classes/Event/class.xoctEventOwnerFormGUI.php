@@ -1,7 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilObjOpenCastAccess.php');
-
 /**
  * Class xoctEventFormGUI
  *
@@ -36,7 +33,10 @@ class xoctEventOwnerFormGUI extends ilPropertyFormGUI {
 	 *
 	 */
 	public function __construct($parent_gui, xoctEvent $object, xoctOpenCast $xoctOpenCast) {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		$this->object = $object;
 		$this->xoctOpenCast = $xoctOpenCast;
 		$this->parent_gui = $parent_gui;

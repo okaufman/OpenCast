@@ -1,9 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctLog.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctException.php');
-require_once('class.xoctCurlSettings.php');
-require_once('class.xoctCurlError.php');
-
 /**
  * Class xoctCurl
  *
@@ -127,6 +122,9 @@ class xoctCurl {
 					break;
 				case 404:
 					throw new xoctException(xoctException::API_CALL_STATUS_404, $resp_orig);
+					break;
+				case 409:
+					throw new xoctException(xoctException::API_CALL_STATUS_409, $resp_orig);
 					break;
 				default:
 					throw new xoctException(xoctException::API_CALL_STATUS_500, $resp_orig);
@@ -586,8 +584,8 @@ class xoctCurl {
 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->getPostFields());
 
-		xoctLog::getInstance()->write('POST-Body', xoctLog::DEBUG_LEVEL_3);
-		xoctLog::getInstance()->write(print_r($this->getPostFields(), true), xoctLog::DEBUG_LEVEL_3);
+		xoctLog::getInstance()->write('POST-Body', xoctLog::DEBUG_LEVEL_2);
+		xoctLog::getInstance()->write(print_r($this->getPostFields(), true), xoctLog::DEBUG_LEVEL_2);
 	}
 
 
