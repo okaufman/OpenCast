@@ -127,18 +127,30 @@ class ilObjOpenCastGUI extends ilObjectPluginGUI {
 			$this->tpl->getStandardTemplate();
 
 			switch ($next_class) {
-				case 'xoctseriesgui':
-				case 'xocteventgui':
-				case 'xoctivtgroupgui':
-				case 'xoctivtgroupparticipantgui':
-				case 'xoctinvitationgui':
-					$xoctOpenCast = $this->initHeader();
-					$this->setTabs();
-					$xoctSeriesGUI = new $next_class($xoctOpenCast);
-					$this->ctrl->forwardCommand($xoctSeriesGUI);
-					$this->tpl->show();
-					break;
-				case 'ilpermissiongui':
+                case 'xoctivtgroupparticipantgui':
+                    $xoctOpenCast = $this->initHeader();
+                    $this->setTabs();
+                    $xoctSeriesGUI = new xoctIVTGroupParticipantGUI($xoctOpenCast);
+                    $this->ctrl->forwardCommand($xoctSeriesGUI);
+                    $this->tpl->show();
+                    break;
+                case 'xoctinvitationgui':
+                    $xoctOpenCast = $this->initHeader();
+                    $this->setTabs();
+                    $xoctSeriesGUI = new xoctInvitationGUI($xoctOpenCast);
+                    $this->ctrl->forwardCommand($xoctSeriesGUI);
+                    $this->tpl->show();
+                    break;
+                case 'xoctseriesgui':
+                case 'xocteventgui':
+                case 'xoctivtgroupgui':
+                    $xoctOpenCast = $this->initHeader();
+                    $this->setTabs();
+                    $xoctSeriesGUI = new $next_class($xoctOpenCast);
+                    $this->ctrl->forwardCommand($xoctSeriesGUI);
+                    $this->tpl->show();
+                    break;
+                case 'ilpermissiongui':
 					$this->initHeader(false);
 					parent::executeCommand();
 					break;
@@ -315,10 +327,11 @@ class ilObjOpenCastGUI extends ilObjectPluginGUI {
 		} catch (xoctException $e) {
 			//TODO log?
 		}
-		$cast->getSeries()->addProducers($producers, true);
-		$cast->getSeries()->addOrganizer(ilObjOpencast::_getParentCourseOrGroup($_GET['ref_id'])->getTitle(), true);
-		$cast->getSeries()->addContributor($this->user->getFirstname() . ' ' . $this->user->getLastname(), true);
-		$cast->getSeries()->update();
+		$series = $cast->getSeries();
+        $series->addProducers($producers, true);
+        $series->addOrganizer(ilObjOpencast::_getParentCourseOrGroup($_GET['ref_id'])->getTitle(), true);
+        $series->addContributor($this->user->getFirstname() . ' ' . $this->user->getLastname(), true);
+        $series->update();
 
 		if ($cast->getDuplicatesOnSystem()) {
 			ilUtil::sendInfo($this->pl->txt('msg_info_multiple_aftersave'), true);
@@ -330,8 +343,8 @@ class ilObjOpenCastGUI extends ilObjectPluginGUI {
 			ilObjOpenCastAccess::activateMemberUpload($newObj->getRefId());
 		}
 
-		$newObj->setTitle($cast->getSeries()->getTitle());
-		$newObj->setDescription($cast->getSeries()->getDescription());
+		$newObj->setTitle($series->getTitle());
+		$newObj->setDescription($series->getDescription());
 		$newObj->update();
 
 		parent::afterSave($newObj);

@@ -16,7 +16,9 @@ class xoctEvent extends xoctObject {
 	const STATE_SCHEDULED_OFFLINE = 'SCHEDULED_OFFLINE';
 	const STATE_INSTANTIATED = 'INSTANTIATED';
 	const STATE_ENCODING = 'RUNNING';
+	const STATE_RECORDING = 'RECORDING';
 	const STATE_NOT_PUBLISHED = 'NOT_PUBLISHED';
+	const STATE_READY_FOR_CUTTING = 'READY_FOR_CUTTING';
 	const STATE_FAILED = 'FAILED';
 	const NO_PREVIEW = './Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/templates/images/no_preview.png';
 	const THUMBNAIL_SCHEDULED = './Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/templates/images/thumbnail_scheduled.svg';
@@ -32,7 +34,9 @@ class xoctEvent extends xoctObject {
 		xoctEvent::STATE_SUCCEEDED          => 'success',
 		xoctEvent::STATE_INSTANTIATED       => 'info',
 		xoctEvent::STATE_ENCODING           => 'info',
+		xoctEvent::STATE_RECORDING          => 'info',
 		xoctEvent::STATE_NOT_PUBLISHED      => 'info',
+        xoctEvent::STATE_READY_FOR_CUTTING  => 'info',
 		xoctEvent::STATE_SCHEDULED          => 'scheduled',
 		xoctEvent::STATE_SCHEDULED_OFFLINE  => 'scheduled',
 		xoctEvent::STATE_FAILED             => 'danger',
@@ -515,12 +519,25 @@ class xoctEvent extends xoctObject {
 		return true;
 	}
 
+    /**
+     * @return bool
+     * @throws xoctException
+     */
+    public function unpublish() {
+        $workflow = xoctConf::getConfig(xoctConf::F_WORKFLOW_UNPUBLISH);
+        xoctRequest::root()->workflows()->post(array(
+            'workflow_definition_identifier' => $workflow,
+            'event_identifier' => $this->getIdentifier()
+        ));
+        self::removeFromCache($this->getIdentifier());
+        return true;
+	}
 
 	/**
 	 * @return string
 	 */
 	public function getThumbnailUrl() {
-		if ($this->getProcessingState() == self::STATE_SCHEDULED || $this->getProcessingState() == self::STATE_SCHEDULED_OFFLINE) {
+		if (in_array($this->getProcessingState(), array(self::STATE_SCHEDULED, self::STATE_SCHEDULED_OFFLINE, self::STATE_RECORDING))) {
 			$this->thumbnail_url = self::THUMBNAIL_SCHEDULED;
 			return $this->thumbnail_url;
 		}
@@ -769,12 +786,18 @@ class xoctEvent extends xoctObject {
 					if (($conf_internal_player && !in_array($publication_api->getChannel(),$this->publication_status))
 						|| (!$conf_internal_player && !in_array($publication_player->getChannel(),$this->publication_status)))
 					{
-						$this->setProcessingState(self::STATE_NOT_PUBLISHED);
+					    if ($this->hasPreviews()) {
+					        $this->setProcessingState(self::STATE_READY_FOR_CUTTING);
+                        } else {
+                            $this->setProcessingState(self::STATE_NOT_PUBLISHED);
+                        }
 					}
 				}
 				break;
 			case '': // empty state means it's a scheduled event
-				if (!$this->getXoctEventAdditions()->getIsOnline()) {
+                if ($this->status == 'EVENTS.EVENTS.STATUS.RECORDING') {
+                    $this->setProcessingState(self::STATE_RECORDING);
+                } elseif (!$this->getXoctEventAdditions()->getIsOnline()) {
 					$this->setProcessingState(self::STATE_SCHEDULED_OFFLINE);
 				} else {
 					$this->setProcessingState(self::STATE_SCHEDULED);
@@ -1489,6 +1512,6 @@ class xoctEvent extends xoctObject {
 	 * @return bool
 	 */
 	public function isScheduled() {
-		return in_array($this->getProcessingState(), array(self::STATE_SCHEDULED, self::STATE_SCHEDULED_OFFLINE));
+		return in_array($this->getProcessingState(), array(self::STATE_SCHEDULED, self::STATE_SCHEDULED_OFFLINE, self::STATE_RECORDING));
 	}
 }

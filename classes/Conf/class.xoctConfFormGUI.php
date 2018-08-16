@@ -212,6 +212,10 @@ class xoctConfFormGUI extends ilPropertyFormGUI {
 		$te->setRequired(true);
 		$this->addItem($te);
 
+		$te = new ilTextInputGUI($this->parent_gui->txt(xoctConf::F_WORKFLOW_UNPUBLISH), xoctConf::F_WORKFLOW_UNPUBLISH);
+		$te->setInfo($this->parent_gui->txt(xoctConf::F_WORKFLOW_UNPUBLISH . '_info'));
+		$this->addItem($te);
+
 		$te = new ilTextInputGUI($this->parent_gui->txt(xoctConf::F_EDITOR_LINK), xoctConf::F_EDITOR_LINK);
 		$te->setInfo($this->parent_gui->txt(xoctConf::F_EDITOR_LINK . '_info'));
 		$te->setRequired(true);
@@ -302,6 +306,23 @@ class xoctConfFormGUI extends ilPropertyFormGUI {
 		$te = new ilTextAreaInputGUI($this->parent_gui->txt(xoctConf::F_EULA), xoctConf::F_EULA);
 		$te->setRequired(true);
 		$te->setUseRte(true);
+        $te->setRteTagSet("extended");
+        $te->disableButtons(array(
+            'charmap',
+            'undo',
+            'redo',
+            'justifyleft',
+            'justifycenter',
+            'justifyright',
+            'justifyfull',
+            'anchor',
+            'fullscreen',
+            'cut',
+            'copy',
+            'paste',
+            'pastetext',
+            'formatselect',
+        ));
 		$te->setRows(5);
 		$this->addItem($te);
 
