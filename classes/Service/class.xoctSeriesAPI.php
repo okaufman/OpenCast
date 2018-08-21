@@ -123,8 +123,7 @@ class xoctSeriesAPI {
 		$cast->create();
 
 		$object->putInTree($parent_ref_id);
-		$object->setPermissions($parent_ref_id);
-
+        $object->setPermissions($parent_ref_id);
 
 		// add producers
 		$producers = ilObjOpenCastAccess::getProducersForRefID($object->getRefId());
@@ -139,10 +138,10 @@ class xoctSeriesAPI {
 			//TODO log?
 		}
 
-		$series = $cast->getSeries();
-		$series->addProducers($producers, true);
-		$series->addOrganizer(ilObjOpencast::_getParentCourseOrGroup($object->getRefId())->getTitle(), true);
-		$series->update();
+        $series = $cast->getSeries();
+        $series->addProducers($producers, true);
+        $series->addOrganizer(ilObjOpencast::_getParentCourseOrGroup($object->getRefId())->getTitle(), true);
+        $series->update();
 
 		//member upload
 		if (isset($additional_data['member_upload'])) {
