@@ -200,8 +200,8 @@ group_select_group#:#Select Group
 invitations_back#:#Back
 invitations_header#:#Grant Access to Event
 invitations_none_available#:#None available
-obj_xoct#:#SWITCHcast
-objs_xoct#:#SWITCHcast
+obj_xoct#:#SWITCHcast Series
+objs_xoct#:#SWITCHcast Series
 perm_upload#:#Upload
 perm_edit_videos#:#Edit Videos
 publication_usage_add#:#Add
@@ -310,7 +310,7 @@ subtab_permission_templates#:#Permission Templates
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
-xoct_new#:#Create SWITCHcast-Series
+xoct_new#:#Create SWITCHcast Series
 xoct_rep_robj_xoct_perm_upload#:#User can upload videos
 xoct_rep_robj_xoct_perm_edit_videos#:#User can edit videos
 xoct_visible#:#SWITCHcast object is visible

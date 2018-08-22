@@ -198,8 +198,8 @@ group_select_group#:#Gruppe auswählen
 invitations_back#:#Zurück
 invitations_header#:#Zugriffsrechte erteilen
 invitations_none_available#:#Keine verfügbar
-obj_xoct#:#SWITCHcast
-objs_xoct#:#SWITCHcast
+obj_xoct#:#SWITCHcast Serie
+objs_xoct#:#SWITCHcast Serie
 perm_upload#:#Upload
 perm_edit_videos#:#Videos Editieren
 publication_usage_add#:#Hinzufügen
@@ -308,7 +308,7 @@ subtab_permission_templates#:#Berechtigungsvorlagen
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
-xoct_new#:#SWITCHcast-Series erstellen
+xoct_new#:#SWITCHcast Serie erstellen
 xoct_rep_robj_xoct_perm_upload#:#Benutzer kann Videos hochladen
 xoct_rep_robj_xoct_perm_edit_videos#:#Benutzer kann Videos editieren
 xoct_visible#:#SWITCHcast-Objekt ist sichtbar
@@ -322,7 +322,7 @@ info_linked_items#:#Verlinkungen
 info_linked_item#:#Verlinkung
 info_auto_publish_forced#:#Das Video wird automatisch publiziert, da Sie nicht über genügend Rechte verfügen, um es später manuell zu publizieren.
 msg_info_multiple_aftersave#:#Diese Serie hat mehrere Verlinkungen in ILIAS (siehe unter «Info»). Hochgeladene Aufzeichnungen werden in alle Verlinkungen hochgeladen.
-msg_creation_failed#:#Objekte vom Typ "SWITCHcast" können nur innerhalb von Kursen oder Gruppen angelegt werden.
+msg_creation_failed#:#Objekte vom Typ "SWITCHcast Serie" können nur innerhalb von Kursen oder Gruppen angelegt werden.
 msg_permission_templates_info#:#Die erstellten Vorlagen können beim Erstellen und Bearbeiten einer Serie ausgewählt werden, um die konfigurierte Rolle mit den entsprechenden Rechten und ACL-Actions auf der Serie zu setzen. Die Rollen der restlichen Vorlagen werden dabei entfernt.
 msg_confirm_delete_perm_template#:#Sind Sie sicher, dass Sie folgende Vorlage löschen möchten?
 table_column_default#:#Default
