@@ -1,5 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Object/class.xoctObject.php');
 
 /**
  * Class xoctPublicationMetadata
@@ -7,6 +6,11 @@ require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/
  * @author Fabian Schmid <fs@studer-raimann.ch>
  */
 class xoctPublicationMetadata extends xoctObject {
+
+	const MEDIA_TYPE_VIDEO = "video";
+	const ROLE_PRESENTATION = "presentation";
+	const ROLE_PRESENTER = "presenter";
+
 
 	/**
 	 * @param string $id

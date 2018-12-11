@@ -3,7 +3,12 @@ admin_import#:#Import Settings
 common_actions#:#Actions
 config_activate_cache#:#Activate Cache
 config_api_base#:#Api-Base-URL
+config_api_version#:#API Version
+config_api_version_info#:#Format: vX.Y.Z - e.g.: v1.0.0
+config_audio_allowed#:#Audio Files
 config_cancel#:#Cancel
+config_create_scheduled_allowed#:#Activate "Schedule Event(s)"
+config_create_scheduled_allowed_info#:#Warning: Scheduling events requires SWITCHcast API v1.1.0.
 config_curl#:#cURL
 config_curl_debug_level#:#Debug-Level
 config_curl_password#:#API-Password
@@ -11,6 +16,8 @@ config_curl_username#:#API-Username
 config_editor_link#:#Link to SWITCHcast Video Editor
 config_editor_link_info#:#The placeholder &#123event_id} can be used. E.g.: https://myswitchcast.com/external-url/events/&#123event_id}/editor
 config_eula#:#EULA
+config_events#:#Events
+config_series#:#Series
 config_licenses#:#Licenses
 config_licenses_info#:#Add new lines with URL#Name
 config_license_info#:#License-Info
@@ -34,7 +41,8 @@ config_update#:#Update
 config_upload_token#:#Activate Upload-Token
 config_user_mapping#:#User-Mapping
 config_use_modals#:#Open Player in Modal
-config_workflow#:#Workflow-ID
+config_workflow#:#Processing Workflow ID
+config_workflow_unpublish#:#Unpublish Workflow ID
 config_advanced#:#Advanced
 config_security#:#Security
 config_security_info#:#Improves the security by using SWITCHcast "Stream Security". Only activate, if SWITCHcast is configured to use it.
@@ -49,12 +57,14 @@ config_group_producers#:#ILIAS Producers
 config_std_roles#:#Standard roles
 config_std_roles_info#:#These roles are given read and write permissions when creating a series or an event.
 config_api_base_info#:#e.g.: https://myswitchcast.com/api
+config_audio_allowed_info#:#Allows the upload of audio files.
 config_curl_username_info#:#User account in SWITCHcast which will be used to communicate over the API (needs enough permissions in OC).
 config_curl_password_info#:#Password for above account.
 config_curl_debug_level_info#:#Level of detail for log entries.
 config_activate_cache_info#:#Improves the loading time for event lists by storing events locally. Can lead to temporarily corrupt metadata.
 config_use_modals_info#:#When active: the video player will not be opened in a seperate window but in a overlaying "Modal" window.
 config_workflow_info#:#ID of the workflow which will be executed in SWITCHcast after uploading an event.
+config_workflow_unpublish_info#:#ID of the workflow which will be executed in SWITCHcast before deleting an event. Requires API version 1.1.0.
 config_user_mapping_info#:#Userfield in ILIAS which shall be used to identify the user in SWITCHcast.
 config_group_producers_info#:#Users with the permission "Edit Videos" will be assigned to this SWITCHcast group to obtain access to SWITCHcast.
 config_role_user_prefix_info#:#User specific role in SWITCHcast. Is used to grant the user permission on a series in SWITCHcast. Example: ROLE_USER_&#123IDENTIFIER}
@@ -65,7 +75,32 @@ config_no_metadata#:#Without Metadata
 config_no_metadata_info#:#The metadata don't need to be fetched seperately in the latest API versions, therefore this option will improve the performance. However, this will lead to an error in previous versions.
 config_internal_player#:#Internal Video-Player
 config_internal_player_info#:#When active, the plugin will use an own video player instead of redirecting to SWITCHcast.
-event_add_new#:#Add Event
+config_general#:#General
+config_report_quality#:#Enable "Report Quality Problems"
+config_report_quality_info#:#Enables the possibility to report quality problems of videos inside SWITCHcast objects.
+config_report_quality_email#:#Email
+config_report_quality_email_info#:#Address to which the report will be sent.
+config_report_quality_text#:#Info Text
+config_report_quality_text_info#:#Text which will be display as an info in the reporting form.
+config_report_quality_access#:#Access
+config_report_quality_access_1#:#All users
+config_report_quality_access_2#:#Only vide owner and users with the permission "Edit Videos".
+config_report_date#:#Enable "Report Date Modification"
+config_report_date_info#:#Enables the possibility to report wrong dates of events inside SWITCHcast objects.
+config_report_date_email#:#Email
+config_report_date_email_info#:#Address to which the report will be sent.
+config_report_date_text#:#Info Text
+config_report_date_text_info#:#ext which will be display as an info in the reporting form.
+config_scheduled_metadata_editable#:#Metadata of scheduled events editable
+config_scheduled_metadata_editable_0#:#No
+config_scheduled_metadata_editable_1#:#Yes, with effective changes to event date and location
+config_scheduled_metadata_editable_1_info#:#Warning: possible only with SWITCHcast API v1.1.0 or higher
+config_scheduled_metadata_editable_2#:#All, except date and recording station.
+config_video_portal_title#:#Title of external Video Portal
+config_video_portal_link#:#Link to external Video Portal
+config_video_portal_link_info#:#Will be displayed in the settings and info tab of a series. &#123series_id} can be used as a placeholder. E.g.: https://myswitchcast-tube.com/cast/channels/&#123series_id}
+config_permission_templates#:#Permission Templates
+event_add_new#:#Upload Event
 event_annotate#:#Annotate
 event_auto_publish#:#Auto publish
 event_cancel#:#Cancel
@@ -77,20 +112,37 @@ event_creator#:#Creator
 event_cut#:#Cut Event
 event_date#:#Date
 event_delete#:#Delete Event
+event_unpublish#:#Delete Publications
 event_delete_confirm#:#This will delete the Event in ILIAS and in SWITCHcast. Do you want to proceed?
+event_unpublish_confirm#:#You have to remove all publications from this event in order to delete this event. Do you want to proceed?
 event_description#:#Subtitle
 event_download#:#Download
 event_duration#:#Duration
 event_edit#:#Edit Metadata
+event_edit_date#:#Edit Metadata and Date
 event_edit_owner#:#Edit Owner
-event_file_presenter#:#File
+event_end#:#End
+event_file_presenter#:#Video File
+event_file_presenter_w_audio#:#Video/Audio File
 event_identifier#:#ID
 event_invite_others#:#Grant access rights
 event_location#:#Recording Station
 event_msg_created#:#Upload finished
 event_msg_deleted#:#Event deleted
+event_msg_unpublish_started#:#The publications are now being removed.
+event_msg_currently_unpublishing#:#The process to remove the publications is already running.
 event_msg_no_access#:#No Access
 event_msg_success#:#Saved changes
+event_msg_scheduled#:#Event(s) scheduled
+event_msg_scheduling_conflict#:#Event(s) could not be scheduled, due to an overlap with existing events:
+event_msg_scheduled_in_past#:#Scheduling error: The event has already ended.
+event_msg_end_before_start#:#Scheduling error: Schedule end has to be later than the start.
+event_multiple#:#Repeat Event
+event_multiple_start#:#Start Date
+event_multiple_start_time#:#Start Time
+event_multiple_end#:#End Date
+event_multiple_end_time#:#End Time
+event_multiple_weekdays#:#Repeat on
 event_owner#:#Owner
 event_owner_select#:#--not assigned--
 event_owner_username#:#Owner
@@ -100,12 +152,18 @@ event_presenters#:#Presenters
 event_preview#:#Preview
 event_processing_state#:#State
 event_recording_station#:#Recording Station
+event_schedule_new#:#Schedule Event(s)
 event_start_time#:#Start
+event_start#:#Start
 event_state_failed#:#Publication failed. Please contact the support.
 event_state_instantiated#:#Converting not yet started, not yet visible to students
 event_state_not_published#:#Not published, not yet visible to students
+event_state_ready_for_cutting#:#Not published (ready for cutting), not yet visible to students
 event_state_running#:#Converting, not yet visible to students
 event_state_offline#:#Offline, not visible to students
+event_state_scheduled#:#Scheduled Event, not visible to students.
+event_state_scheduled_offline#:#Scheduled Event (Offline), not visible to students.
+event_state_recording#:#Is currently being recorded, not visible to students.
 event_title#:#Title
 event_update#:#Save
 event_updateOwner#:#Update owner
@@ -123,6 +181,8 @@ event_set_online#:#Set online
 event_delete_confirm_w_duplicates#:#This will delete the Event in SWITCHcast and in every linked series in ILIAS. Do you want to proceed?
 event_state_failed_owner#:#Publication failed. Please contact the support.
 event_state_running_owner#:#Converting, not yet visible to other students
+event_report_date_modification#:#Report Date Modifications
+event_report_quality_problem#:#Report Quality Problems
 groups_available_participants_header#:#Available Participants
 groups_header#:#Groups
 groups_new#:#New Group
@@ -188,15 +248,19 @@ series_existing_channel_no#:#Create new Series
 series_existing_channel_yes#:#Choose existing Series
 series_existing_identifier#:#Existing Series
 series_intended_lifetime#:#Intended lifetime of content
-series_intended_lifetime_info#:#How long shoud the video material be published?
+series_intended_lifetime_info#:#How long should the video material be published?
 series_introduction_text#:#Work instruction
 series_license#:#License
 series_metadata#:#Series-Infos
 series_obj_online#:#Online
+series_none#:#None
 series_permission_allow_set_own#:#Grant Access Rights
 series_permission_allow_set_own_info#:#An owner can give other students the right to watch his/her video.
 series_permission_per_clip#:#Set permissions for an Event
 series_permission_per_clip_info#:#This setting enables an individual rights management based on Event ownership (iVT-Mode). Let this setting deactivated, when all students are allowed to see all the Events of this series.
+series_permission_template#:#Permissions
+series_publish_on_video_portal#:#Publish Series on %s
+series_publish_on_video_portal_info#:#This setting leads to a publication on the video portal of your university. Leave this setting deactivated if the recordings are only to be viewed in ILIAS.
 series_save#:#Save
 series_saved#:#Series-Information saved
 series_show_upload_token#:#Show Upload-Token
@@ -210,6 +274,8 @@ series_has_duplicates_events#:#This Series has several links in ILIAS. Uploads w
 series_has_duplicates_events_delete#:#MISSING
 series_member_upload#:#Upload by members
 series_member_upload_info#:#Course- or groupmembers are given the permission "Upload", which allows them to upload videos and delete own videos. This setting can be changed later in the tab "Permissions".
+series_video_portal_link#:#Link to Series in %s
+series_links#:#Links
 system_account_add_new#:#Add System-Account
 system_account_cancel#:#Cancel
 system_account_create#:#Create
@@ -232,6 +298,15 @@ tab_settings#:#Settings
 tab_system_accounts#:#System-Accounts
 tab_back#:#Back
 tab_migration#:#Migration
+tab_video_portal#:#Video Portal
+subtab_api#:#API
+subtab_general#:#General
+subtab_events#:#Events
+subtab_series#:#Series
+subtab_groups_roles#:#Groups & Roles
+subtab_security#:#Security
+subtab_advanced#:#Advanced
+subtab_permission_templates#:#Permission Templates
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
@@ -250,3 +325,40 @@ info_linked_item#:#Link
 info_auto_publish_forced#:#The video will be published automatically, since you don't own the rights to publish it manually.
 msg_info_multiple_aftersave#:#This Series has several links in ILIAS. Uploads will appear in every linked series, too.
 msg_creation_failed#:#Objects of type "SWITCHcast" can only be created in courses or groups.
+msg_permission_templates_info#:#The created templates can be chosen from when creating or editing a series. If chosen, the configured role with the given permissions and actions will be set on the series. The roles of the residual templates will be removed.
+msg_confirm_delete_perm_template#:#Do you really want to delete the following template?
+table_column_default#:#Default
+table_column_is_default#:#Default
+table_column_title#:#Title
+table_column_info#:#Info
+table_column_role#:#Role
+table_column_read#:#Read
+table_column_write#:#Write
+table_column_additional_acl_actions#:#Additional ACL Actions
+table_column_additional_actions_download#:#Additional Actions Download
+table_column_additional_actions_annotate#:#Additional Actions Annotate
+button_new_permission_template#:#Add New Template
+perm_tpl_form_is_default#:#Default Template
+perm_tpl_form_is_default_info#:#This template will be used if the series should not be published to the external video portal. Therefore, only one template can be defined as the default template.
+perm_tpl_form_title_de#:#Title DE
+perm_tpl_form_title_en#:#Title EN
+perm_tpl_form_title_de_info#:#Will be used for presentation inside ILIAS (German).
+perm_tpl_form_title_en_info#:#Will be used for presentation inside ILIAS (English).
+perm_tpl_form_info_de#:#Info (DE)
+perm_tpl_form_info_en#:#Info (EN)
+perm_tpl_form_info_de_info#:#Will be used for presentation inside ILIAS (German).
+perm_tpl_form_info_en_info#:#Will be used for presentation inside ILIAS (English).
+perm_tpl_form_role#:#Role
+perm_tpl_form_role_info#:#Defines the role which will be set in SWITCHcast.
+perm_tpl_form_read#:#Read
+perm_tpl_form_read_info#:#Defines if the above role will be given read permissions.
+perm_tpl_form_write#:#Write
+perm_tpl_form_write_info#:#Defines if the above role will be given write permissions.
+perm_tpl_form_additional_acl_actions#:#Additional ACL Actions
+perm_tpl_form_additional_acl_actions_info#:#Additional ACL Actions which will be set for the above role (comma-separated).
+perm_tpl_form_additional_actions_download#:#Additional Actions with active Download
+perm_tpl_form_additional_actions_download_info#:#Additional ACL Actions which will be set for the above role when download is active (i.e. "Only Streaming" is inactive).
+perm_tpl_form_additional_actions_annotate#:#Additional Actions with active Annotate
+perm_tpl_form_additional_actions_annotate_info#:#Additional ACL Actions which will be set for the above role when annotate is active.
+msg_date_report_sent#:#The report has been sent. You will receive a confirmation email when the modifications will be done.
+msg_quality_report_sent#:#The report has been sent. The support has been informed and will contact you.

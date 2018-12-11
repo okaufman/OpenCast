@@ -1,5 +1,4 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
 
 /**
  * Class xoctInvitation
@@ -8,14 +7,24 @@ require_once('./Services/ActiveRecord/class.ActiveRecord.php');
  */
 class xoctInvitation extends ActiveRecord {
 
+	const TABLE_NAME = 'xoct_invitations';
 	const STATUS_ACTIVE = 1;
 
 
 	/**
 	 * @return string
+	 * @deprecated
 	 */
 	static function returnDbTableName() {
-		return 'xoct_invitations';
+		return self::TABLE_NAME;
+	}
+
+
+	/**
+	 * @return string
+	 */
+	public function getConnectorContainerName() {
+		return self::TABLE_NAME;
 	}
 
 
@@ -90,10 +99,11 @@ class xoctInvitation extends ActiveRecord {
 
 		$active_invitations = array();
 		foreach ($invitations as $inv) {
-			if (ilObjOpenCastAccess::hasPermission('edit_videos', null, $inv->getOwnerId())) {
+			if (ilObjOpenCastAccess::hasPermission('edit_videos', NULL, $inv->getOwnerId())) {
 				$active_invitations[] = $inv;
 			}
 		}
+
 		return $active_invitations;
 	}
 
@@ -129,7 +139,7 @@ class xoctInvitation extends ActiveRecord {
 		// if grant_access_rights is deactivated, only admins' invitations are active
 		$active_invitations = array();
 		foreach ($all_invitations as $inv) {
-			if (ilObjOpenCastAccess::hasPermission('edit_videos', null, $inv->getOwnerId())) {
+			if (ilObjOpenCastAccess::hasPermission('edit_videos', NULL, $inv->getOwnerId())) {
 				$active_invitations[] = $inv;
 			}
 		}
@@ -226,7 +236,7 @@ class xoctInvitation extends ActiveRecord {
 	 * @return xoctUser
 	 */
 	public function getXoctUser() {
-		if (! $this->xoct_user AND $this->getUserId()) {
+		if (!$this->xoct_user AND $this->getUserId()) {
 			$this->xoct_user = xoctUser::getInstance(new ilObjUser($this->getUserId()));
 		}
 

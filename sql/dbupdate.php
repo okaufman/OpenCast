@@ -27,7 +27,7 @@ xoctEventAdditions::updateDB();
 <#4>
 <?php
 require_once("./Services/Migration/DBUpdate_3560/classes/class.ilDBUpdateNewObjectType.php");
-$xoct_type_id = ilDBUpdateNewObjectType::addNewType('xoct', 'Plugin OpenCast');
+$xoct_type_id = ilDBUpdateNewObjectType::addNewType(ilOpenCastPlugin::PLUGIN_ID, 'Plugin OpenCast');
 
 //Adding a new Permission rep_robj_xoct_upload ("Upload")
 $offering_admin = ilDBUpdateNewObjectType::addCustomRBACOperation( //$a_id, $a_title, $a_class, $a_pos
@@ -65,7 +65,36 @@ if (!xoctConf::getConfig(xoctConf::F_STD_ROLES)) {
 ?>
 <#7>
 <?php
+require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/class.xoctConf.php');
 xoctConf::set(xoctConf::F_SIGN_PLAYER_LINKS, 1);
 xoctConf::set(xoctConf::F_SIGN_DOWNLOAD_LINKS, 1);
 xoctConf::set(xoctConf::F_SIGN_THUMBNAIL_LINKS, 1);
+?>
+<#8>
+<?php
+require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/PermissionTemplates/class.xoctPermissionTemplate.php';
+xoctPermissionTemplate::updateDB();
+?>
+<#9>
+<?php
+require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/class.xoctConf.php');
+xoctConf::set(xoctConf::F_REPORT_QUALITY_TEXT,
+	'Haben Sie Qualitätsprobleme mit dem Bild oder Ton Ihrer Aufzeichnungen oder Videos? Sie können den Support über das untenstehende Formular kontaktieren.<br><br>Nennen Sie die betroffenen Videos und die Art der Qualitätsprobleme. Der Support nimmt so bald wie möglich Kontakt mit Ihnen auf.'
+);
+xoctConf::set(xoctConf::F_REPORT_DATE_TEXT,
+	'Über das untenstehende Formular können Sie dem Support Terminanpassungen an Ihren geplanten Aufzeichnungen melden (z.B. Start- & Endzeit, Datum, Hörsaal).<br><br>Nennen Sie die betroffenen Termine und Ihre Anpassungswünsche. Der Support wird die Anpassungen nach Überprüfung vornehmen. Die Anpassungen werden Ihnen per Email bestätigt.'
+);
+
+?>
+<#10>
+<?php
+require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/PermissionTemplates/class.xoctPermissionTemplate.php';
+xoctPermissionTemplate::updateDB();
+require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/class.xoctConf.php');
+xoctConf::set(xoctConf::F_VIDEO_PORTAL_TITLE, 'Video Portal');
+?>
+<#11>
+<?php
+require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/PermissionTemplates/class.xoctPermissionTemplate.php';
+xoctPermissionTemplate::updateDB();
 ?>

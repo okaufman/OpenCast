@@ -1,8 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Series/Acl/class.xoctAcl.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/class.xoctConf.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/IVTGroup/class.xoctUser.php');
-
 /**
  * Class xoctAclStandardSets
  *
@@ -26,6 +22,10 @@ class xoctAclStandardSets {
 		$acls = array();
 		// standard roles
 		foreach (xoctConf::getConfig(xoctConf::F_STD_ROLES) as $std_role) {
+			if (!$std_role) {
+				continue;
+			}
+
 			$acl = new xoctAcl();
 			$acl->setRole($std_role);
 			$acl->setAllow(true);

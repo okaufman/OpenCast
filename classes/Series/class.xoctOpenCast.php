@@ -1,8 +1,4 @@
 <?php
-require_once('./Services/ActiveRecord/class.ActiveRecord.php');
-require_once('class.xoctSeries.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctDataMapper.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/IVTGroup/class.xoctIVTGroup.php');
 
 /**
  * Class xoctOpenCast
@@ -12,12 +8,15 @@ require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/
  */
 class xoctOpenCast extends ActiveRecord {
 
+	const TABLE_NAME = 'xoct_data';
+
+
 	/**
 	 * @return string
 	 * @deprecated
 	 */
 	static function returnDbTableName() {
-		return 'xoct_data';
+		return self::TABLE_NAME;
 	}
 
 
@@ -25,7 +24,7 @@ class xoctOpenCast extends ActiveRecord {
 	 * @return string
 	 */
 	public function getConnectorContainerName() {
-		return 'xoct_data';
+		return self::TABLE_NAME;
 	}
 
 
@@ -43,6 +42,7 @@ class xoctOpenCast extends ActiveRecord {
 		return false;
 	}
 
+
 	/**
 	 * @param $obj_id
 	 *
@@ -58,25 +58,33 @@ class xoctOpenCast extends ActiveRecord {
 	}
 
 
-	/**
-	 * @return xoctSeries
-	 */
+    /**
+     * @return xoctSeries
+     * @throws xoctException
+     */
 	public function getSeries() {
-		/**
-		 * @var $xoctSeries xoctSeries
-		 */
-		if ($this->getSeriesIdentifier()) {
-			$xoctSeries = xoctSeries::find($this->getSeriesIdentifier());
-			if ($xoctSeries instanceof xoctSeries) {
-				return $xoctSeries;
-			}
-		}
+        /**
+         * @var $series_array xoctSeries[]
+         */
+        static $series_array;
+        if (!isset($series_array[$this->getSeriesIdentifier()])) {
+            if ($this->getSeriesIdentifier()) {
+                $xoctSeries = xoctSeries::find($this->getSeriesIdentifier());
+            }
+            if (!($xoctSeries instanceof xoctSeries)) {
+                $xoctSeries = new xoctSeries();
+            }
+            $series_array[$this->getSeriesIdentifier()] = $xoctSeries;
+        }
 
-		return new xoctSeries();
+        return $series_array[$this->getSeriesIdentifier()];
 	}
 
 
-	public function create() {
+    /**
+     *
+     */
+    public function create() {
 		if ($this->getObjId() === 0) {
 			$this->update();
 		} else {
@@ -86,13 +94,19 @@ class xoctOpenCast extends ActiveRecord {
 	}
 
 
-	public function update() {
+    /**
+     *
+     */
+    public function update() {
 		parent::update();
 		xoctDataMapper::xoctOpenCastupdated($this);
 	}
 
-
-	public function delete() {
+    /**
+     *
+     */
+    public function delete() {
+//        $this->removeOrganizerAndContributor();
 		foreach (xoctIVTGroup::where(array('serie_id' => $this->obj_id))->get() as $ivt_group) {
 			$ivt_group->delete();
 		}
@@ -100,9 +114,10 @@ class xoctOpenCast extends ActiveRecord {
 	}
 
 
-	/**
-	 * @return bool | int[]
-	 */
+    /**
+     * @return Int[]|bool
+     * @throws Exception
+     */
 	public function getDuplicatesOnSystem()
 	{
 		if (!$this->getObjId() || !$this->getSeriesIdentifier())
@@ -120,14 +135,14 @@ class xoctOpenCast extends ActiveRecord {
 		foreach ($duplicates_ar->get() as $oc) {
 			/** @var xoctOpenCast $oc */
 			if ($oc->getObjId() != $this->getObjId()) {
-				global $ilDB;
+				global $DIC;
+				$ilDB = $DIC['ilDB'];
 
-				$query = "SELECT deleted, ref_id FROM object_reference".
-					" WHERE obj_id = ".$ilDB->quote($oc->getObjId(), "integer");
+				$query = "SELECT deleted, ref_id FROM object_reference" . " WHERE obj_id = " . $ilDB->quote($oc->getObjId(), "integer");
 				$set = $ilDB->query($query);
 				$rec = $ilDB->fetchAssoc($set);
 
-				if (!$rec['deleted']) {
+				if (!$rec['deleted'] && $rec['ref_id']) {
 					$duplicates_ids[] = $rec['ref_id'];
 				}
 			}
@@ -138,6 +153,25 @@ class xoctOpenCast extends ActiveRecord {
 		}
 
 		return false;
+	}
+
+    /**
+     * @return mixed|string
+     */
+	public function getVideoPortalLink() {
+		if ($link_template = xoctConf::getConfig(xoctConf::F_VIDEO_PORTAL_LINK)) {
+			$link = str_replace('{series_id}', $this->getSeriesIdentifier(), $link_template);
+			return '<a target="_blank" href="' . $link . '">' . $link . '</a>';
+		}
+		return '';
+	}
+
+
+	/**
+	 * @return ilObjOpenCast
+	 */
+	public function getILIASObject() {
+		return new ilObjOpenCast(array_shift(ilObjOpenCast::_getAllReferences($this->getObjId())));
 	}
 
 
@@ -317,7 +351,7 @@ class xoctOpenCast extends ActiveRecord {
 	/**
 	 * @return boolean
 	 */
-	public function isObjOnline() {
+	public function isOnline() {
 		return $this->obj_online;
 	}
 
@@ -325,7 +359,7 @@ class xoctOpenCast extends ActiveRecord {
 	/**
 	 * @param boolean $obj_online
 	 */
-	public function setObjOnline($obj_online) {
+	public function setOnline($obj_online) {
 		$this->obj_online = $obj_online;
 	}
 
@@ -333,7 +367,7 @@ class xoctOpenCast extends ActiveRecord {
 	/**
 	 * @return string
 	 */
-	public function getIntroText() {
+	public function getIntroductionText() {
 		return $this->intro_text;
 	}
 
@@ -341,7 +375,7 @@ class xoctOpenCast extends ActiveRecord {
 	/**
 	 * @param string $intro_text
 	 */
-	public function setIntroText($intro_text) {
+	public function setIntroductionText($intro_text) {
 		$this->intro_text = $intro_text;
 	}
 
@@ -361,6 +395,32 @@ class xoctOpenCast extends ActiveRecord {
 		$this->permission_allow_set_own = $permission_allow_set_own;
 	}
 
-}
+    /**
+     * @throws Exception
+     */
+    protected function removeOrganizerAndContributor()
+    {
+        $organizers = array();
+        $contributors = array();
+        foreach (array_filter($this->getDuplicatesOnSystem()) as $duplicate_ref_id) {
+            $organizers[] = ilObjOpenCast::_getParentCourseOrGroup($duplicate_ref_id)->getTitle();
+            $contributor = new ilObjUser(ilObjOpenCast::_lookupOwner(ilObjOpenCast::_lookupObjectId($duplicate_ref_id)));
+            $contributors = $contributor->getFirstname() . ' ' . $contributor->getLastname();
+        }
+        $this_organizer = ilObjOpenCast::_getParentCourseOrGroup($this->getILIASObject()->getRefId());
+        $this_contributor = new ilObjUser($this->getILIASObject()->getOwner());
+        $this_contributor = $this_contributor->getFirstname() . ' ' . $this_contributor->getLastname();
 
+        if (!in_array($this_organizer, $organizers)) {
+            $this->getSeries()->removeOrganizer($this_organizer, true);
+        }
+
+        if (!in_array($this_contributor, $contributors)) {
+            $this->getSeries()->removeContributor($this_contributor, true);
+        }
+
+        $this->getSeries()->update();
+    }
+
+}
 ?>

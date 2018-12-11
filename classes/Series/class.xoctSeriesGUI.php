@@ -1,9 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Series/class.xoctSeriesFormGUI.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Series/class.xoctSeries.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctGUI.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/IVTGroup/class.xoctUser.php');
-
 /**
  * Class xoctSeriesGUI
  *
@@ -14,7 +9,10 @@ require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/
 class xoctSeriesGUI extends xoctGUI {
 
 	const SERIES_ID = 'series_id';
-
+	/**
+	 * @var xoctOpenCast
+	 */
+	protected $xoctOpenCast;
 
 	/**
 	 * @param xoctOpenCast $xoctOpenCast
@@ -43,12 +41,10 @@ class xoctSeriesGUI extends xoctGUI {
 
 
 	protected function add() {
-		// TODO: Implement add() method.
 	}
 
 
 	protected function create() {
-		// TODO: Implement create() method.
 	}
 
 
@@ -80,12 +76,10 @@ class xoctSeriesGUI extends xoctGUI {
 
 
 	protected function confirmDelete() {
-		// TODO: Implement confirmDelete() method.
 	}
 
 
 	protected function delete() {
-		// TODO: Implement delete() method.
 	}
 
 

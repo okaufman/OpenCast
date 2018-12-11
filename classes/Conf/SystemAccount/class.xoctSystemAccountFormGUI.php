@@ -1,7 +1,4 @@
 <?php
-require_once('./Services/Form/classes/class.ilPropertyFormGUI.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctWaiterGUI.php');
-
 /**
  * Class xoctSystemAccountFormGUI
  *
@@ -36,7 +33,10 @@ class xoctSystemAccountFormGUI extends ilPropertyFormGUI {
 	 * @param xoctSystemAccount $xoctSystemAccount
 	 */
 	public function __construct($parent_gui, xoctSystemAccount $xoctSystemAccount) {
-		global $ilCtrl, $lng, $tpl;
+		global $DIC;
+		$ilCtrl = $DIC['ilCtrl'];
+		$lng = $DIC['lng'];
+		$tpl = $DIC['tpl'];
 		$this->object = $xoctSystemAccount;
 		$this->parent_gui = $parent_gui;
 		$this->ctrl = $ilCtrl;

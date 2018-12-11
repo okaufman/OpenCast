@@ -1,6 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctWaiterGUI.php');
-
 /**
  * Class xoctFileUploadInputGUI
  *
@@ -54,7 +52,8 @@ class xoctFileUploadInputGUI extends ilSubEnabledFormPropertyGUI {
 	 * @param $a_postvar
 	 */
 	public function __construct(ilPropertyFormGUI $ilPropertyFormGUI, $cmd, $a_title, $a_postvar) {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$pl = ilOpenCastPlugin::getInstance();
 		xoctWaiterGUI::loadLib();
 		$ilPropertyFormGUI->setId($ilPropertyFormGUI->getId() ? $ilPropertyFormGUI->getId() : md5(rand(1, 99)));
@@ -83,7 +82,8 @@ class xoctFileUploadInputGUI extends ilSubEnabledFormPropertyGUI {
 
 
 	protected function initJS() {
-		global $tpl;
+		global $DIC;
+		$tpl = $DIC['tpl'];
 		$tpl->addJavaScript('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/templates/default/form/uploader.min.js');
 		$pl = ilOpenCastPlugin::getInstance();
 		$settings = new stdClass();
@@ -404,7 +404,8 @@ class xoctPlupload {
 		}
 
 		$filePath = $targetDir . DIRECTORY_SEPARATOR . $fileName;
-		global $ilLog;
+		global $DIC;
+		$ilLog = $DIC['ilLog'];
 		$ilLog->write('plupload chunks');
 		$ilLog->write($filePath);
 		$this->setFilePath($filePath);

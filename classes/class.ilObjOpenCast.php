@@ -20,14 +20,7 @@
 	| Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA. |
 	+-----------------------------------------------------------------------------+
 */
-
-require_once('./Services/Repository/classes/class.ilObjectPlugin.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Conf/class.xoctConf.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Request/class.xoctCurlSettings.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Request/class.xoctCurl.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Request/class.xoctRequest.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilOpenCastPlugin.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Series/class.xoctOpenCast.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 /**
  * Class ilObjOpenCast
  *
@@ -51,7 +44,8 @@ class ilObjOpenCast extends ilObjectPlugin {
 		/**
 		 * @var $ilDB ilDB
 		 */
-		global $ilDB;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
 
 		parent::__construct($a_ref_id);
 		$this->db = $ilDB;
@@ -59,7 +53,7 @@ class ilObjOpenCast extends ilObjectPlugin {
 
 
 	final function initType() {
-		$this->setType(ilOpenCastPlugin::XOCT);
+		$this->setType(ilOpenCastPlugin::PLUGIN_ID);
 	}
 
 
@@ -118,9 +112,9 @@ class ilObjOpenCast extends ilObjectPlugin {
 		$xoctOpenCastOld = xoctOpenCast::find($this->getId());
 
 		$xoctOpenCastNew->setSeriesIdentifier($xoctOpenCastOld->getSeriesIdentifier());
-		$xoctOpenCastNew->setIntroText($xoctOpenCastOld->getIntroText());
+		$xoctOpenCastNew->setIntroductionText($xoctOpenCastOld->getIntroductionText());
 		$xoctOpenCastNew->setAgreementAccepted($xoctOpenCastOld->getAgreementAccepted());
-		$xoctOpenCastNew->setObjOnline(false);
+		$xoctOpenCastNew->setOnline(false);
 		$xoctOpenCastNew->setPermissionAllowSetOwn($xoctOpenCastOld->getPermissionAllowSetOwn());
 		$xoctOpenCastNew->setStreamingOnly($xoctOpenCastOld->getStreamingOnly());
 		$xoctOpenCastNew->setUseAnnotations($xoctOpenCastOld->getUseAnnotations());
@@ -139,7 +133,8 @@ class ilObjOpenCast extends ilObjectPlugin {
 	 * @return bool|ilObjCourse|ilObjGroup
 	 */
 	public static function _getParentCourseOrGroup($ref_id) {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		static $crs_or_grp_object;
 		if (!is_array($crs_or_grp_object)) {
 			$crs_or_grp_object = array();
@@ -163,6 +158,31 @@ class ilObjOpenCast extends ilObjectPlugin {
 		$crs_or_grp_object[$ref_id] = ilObjectFactory::getInstanceByRefId($ref_id);
 		return $crs_or_grp_object[$ref_id];
 	}
+
+    /**
+     * @return string
+     */
+    public static function _getCourseOrGroupRole() {
+		global $DIC;
+		/** @var ilObjUser $user */
+		$user = $DIC['ilUser'];
+		/** @var ilRbacReview $rbacreview */
+		$rbacreview = $DIC['rbacreview'];
+
+		$crs_or_group = self::_getParentCourseOrGroup($_GET['ref_id']);
+
+		if ($rbacreview->isAssigned($user->getId(), $crs_or_group->getDefaultAdminRole())) {
+			return $crs_or_group instanceof ilObjCourse ? 'Kursadministrator' : 'Gruppenadministrator';
+        }
+        if ($rbacreview->isAssigned($user->getId(), $crs_or_group->getDefaultMemberRole())) {
+			return $crs_or_group instanceof ilObjCourse ? 'Kursmitglied' : 'Gruppenmitglied';
+        }
+        if (($crs_or_group instanceof ilObjCourse) && $rbacreview->isAssigned($user->getId(), $crs_or_group->getDefaultTutorRole())) {
+			return 'Kurstutor';
+        }
+
+        return 'Unbekannt';
+   	}
 }
 
 ?>

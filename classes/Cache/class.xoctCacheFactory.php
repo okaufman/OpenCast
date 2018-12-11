@@ -1,6 +1,4 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once('Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoct.php');
 /**
  * Class xoctCacheFactory
  *
@@ -10,7 +8,8 @@ class xoctCacheFactory {
 	private static $cache_instance = null;
 
 	/**
-	 * Generates an new instance of the live voting service.
+	 * This used to distinguish between the ILIAS 5.1 and 5.2 cache. Since 5.1 is no longer supported, this function
+     * just returns a cache instance.
 	 *
 	 * @return xoctCache
 	 */
@@ -18,15 +17,9 @@ class xoctCacheFactory {
 
 		if(self::$cache_instance === null)
 		{
-			if (xoct::is52()) {
-				require ('Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Cache/v52/class.xoctCache.php');
-				self::$cache_instance = xoctCache::getInstance('');
-				self::$cache_instance->init();
-			} else {
-				require ('Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Cache/v51/class.xoctCache.php');
-				self::$cache_instance = xoctCache::getCacheInstance();
-			}
 
+            self::$cache_instance = xoctCache::getInstance('');
+            self::$cache_instance->init();
 
 			/*
 			 * caching adapter of the xlvoConf will call getInstance again,

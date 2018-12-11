@@ -1,5 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Object/class.xoctObject.php');
 
 /**
  * Class xoctMetadata
@@ -24,6 +23,12 @@ class xoctMetadata extends xoctObject {
 
 	const FLAVOR_DUBLINCORE_SERIES = "dublincore/series";
 	const FLAVOR_DUBLINCORE_EPISODES = "dublincore/episode";
+	const FLAVOR_PRESENTER_PLAYER_PREVIEW = "presenter/player+preview";
+	const FLAVOR_PRESENTATION_PLAYER_PREVIEW = "presentation/player+preview";
+	const FLAVOR_PRESENTATION_SEGMENT_PREVIEW_HIGHRES = "presentation/segment+preview+highres";
+	const FLAVOR_PRESENTATION_SEGMENT_PREVIEW_LOWRES = "presentation/segment+preview+lowres";
+	const FLAVOR_PRESENTER_SEGMENT_PREVIEW_HIGHRES = "presenter/segment+preview+highres";
+	const FLAVOR_PRESENTER_SEGMENT_PREVIEW_LOWRES = "presenter/segment+preview+lowres";
 	/**
 	 * @var string
 	 */

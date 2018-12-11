@@ -1,16 +1,5 @@
 <?php
 /* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Migration/class.xoctMigrationLog.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoct.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/Scast/classes/class.ilObjScast.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilObjOpenCast.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Series/class.xoctOpenCast.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/Scast/classes/Group/class.xscaGroup.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Group/class.xoctGroup.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/IVTGroup/class.xoctIVTGroup.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/IVTGroup/class.xoctIVTGroupParticipant.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Invitations/class.xoctInvitation.php';
-require_once 'Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/Event/class.xoctEventTableGUI.php';
 /**
  * Class xoctScaMigration
  *
@@ -88,7 +77,10 @@ class xoctScaMigration {
 	 * xoctScaMigration constructor.
 	 */
 	public function __construct($migration_data, $command_line_execution = false) {
-		global $ilDB, $rbacadmin, $rbacreview;
+		global $DIC;
+		$ilDB = $DIC['ilDB'];
+		$rbacadmin = $DIC['rbacadmin'];
+		$rbacreview = $DIC['rbacreview'];
 		$this->migration_data = $migration_data;
 		$this->log = xoctMigrationLog::getInstance();
 		$this->db = $ilDB;
@@ -154,7 +146,8 @@ class xoctScaMigration {
 	}
 
 	protected function migrateObjectData() {
-		global $tree;
+		global $DIC;
+		$tree = $DIC['tree'];
 		$this->log->write('migrate Object Data..', null, $this->command_line);
 		$sql = $this->db->query('
 			SELECT rep_robj_xsca_data.*, object_reference.ref_id, object_data.* 
@@ -320,7 +313,7 @@ class xoctScaMigration {
 		while ($rec = $this->db->fetchAssoc($sql)) {
 			$this->db->insert('rbac_templates', array(
 				'rol_id' => array('integer', $rec['rol_id']),
-				'type' => array('text', 'xoct'),
+				'type' => array('text', ilOpenCastPlugin::PLUGIN_ID),
 				'ops_id' => array('integer', $rec['ops_id']),
 				'parent' => array('integer', $rec['parent']),
 			));

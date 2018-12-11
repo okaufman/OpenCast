@@ -1,9 +1,4 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctGUI.php');
-require_once('class.xoctInvitation.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.xoctWaiterGUI.php');
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilObjOpenCast.php');
-
 /**
  * Class xoctInvitationGUI
  *
@@ -36,7 +31,8 @@ class xoctInvitationGUI extends xoctGUI {
 
 
 	protected function index() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$xoctUser = xoctUser::getInstance($ilUser);
 		if (!ilObjOpenCastAccess::checkAction(ilObjOpenCastAccess::ACTION_SHARE_EVENT, $this->xoctEvent, $xoctUser, $this->xoctOpenCast)) {
 			ilUtil::sendFailure('Access denied', true);
@@ -71,7 +67,8 @@ class xoctInvitationGUI extends xoctGUI {
 
 
 	public function getAll() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		/**
 		 * @var $xoctUser xoctUser
 		 */
@@ -134,7 +131,8 @@ class xoctInvitationGUI extends xoctGUI {
 
 
 	protected function create() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$obj = xoctInvitation::where(array(
 			'event_identifier' => $this->xoctEvent->getIdentifier(),
 			'user_id' => $_POST['id'],
@@ -172,7 +170,8 @@ class xoctInvitationGUI extends xoctGUI {
 
 
 	protected function delete() {
-		global $ilUser;
+		global $DIC;
+		$ilUser = $DIC['ilUser'];
 		$obj = xoctInvitation::where(array(
 			'event_identifier' => $this->xoctEvent->getIdentifier(),
 			'user_id' => $_POST['id'],

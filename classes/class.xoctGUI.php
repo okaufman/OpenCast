@@ -1,6 +1,5 @@
 <?php
-require_once('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/classes/class.ilOpenCastPlugin.php');
-
+require_once __DIR__ . '/../vendor/autoload.php';
 /**
  * Class xoctGUI
  *
@@ -22,7 +21,13 @@ abstract class xoctGUI {
 
 
 	public function __construct() {
-		global $tpl, $ilCtrl, $ilTabs, $ilToolbar, $ilUser;
+		global $DIC;
+		$tpl = $DIC['tpl'];
+		$ilCtrl = $DIC['ilCtrl'];
+		$ilTabs = $DIC['ilTabs'];
+		$ilToolbar = $DIC['ilToolbar'];
+		$ilUser = $DIC['ilUser'];
+		$lng = $DIC['lng'];
 		/**
 		 * @var $ilCtrl    ilCtrl
 		 * @var $ilTabs    ilTabsGUI
@@ -35,6 +40,7 @@ abstract class xoctGUI {
 		$this->toolbar = $ilToolbar;
 		$this->user = $ilUser;
 		$this->pl = ilOpenCastPlugin::getInstance();
+		$this->lng = $lng;
 	}
 
 
