@@ -114,7 +114,7 @@ event_date#:#Datum
 event_delete#:#Aufzeichung löschen
 event_unpublish#:#Publikationen entfernen
 event_delete_confirm#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auch auf SWITCHcast). Wollen Sie diese Aufzeichnung wirklich löschen?
-event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, müssen erst alle Publikationen in SWITCHcast entfernt werden. Wollen Sie die Publikationen wirklich entfernen?
+event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, muss zuerst die Publikation rückgängig gemacht werden. Wollen Sie die Publikation wirklich rückgängig machen?
 event_description#:#Untertitel
 event_download#:#Download
 event_duration#:#Dauer

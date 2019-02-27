@@ -112,9 +112,9 @@ event_creator#:#Creator
 event_cut#:#Cut Event
 event_date#:#Date
 event_delete#:#Delete Event
-event_unpublish#:#Delete Publications
+event_unpublish#:#Remove Publication
 event_delete_confirm#:#This will delete the Event in ILIAS and in SWITCHcast. Do you want to proceed?
-event_unpublish_confirm#:#You have to remove all publications from this event in order to delete this event. Do you want to proceed?
+event_unpublish_confirm#:#To be able to delete this recording you must first remove its publication. Do you want to proceed?
 event_description#:#Subtitle
 event_download#:#Download
 event_duration#:#Duration
