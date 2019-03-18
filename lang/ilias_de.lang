@@ -39,8 +39,8 @@ config_role_producer#:#Producer
 config_role_user_prefix#:#Präfix für Benutzer-Rolle (User-Mapping wird ergänzt)
 config_update#:#Aktualisieren
 config_upload_token#:#Aktiviere Upload-Token
-config_user_mapping#:#User-Mapping
 config_use_modals#:#Player in Modal öffnen
+config_user_mapping#:#User-Mapping
 config_workflow#:#Processing-Workflow-ID
 config_workflow_unpublish#:#Unpublish-Workflow-ID
 config_advanced#:#Erweitert
@@ -59,8 +59,10 @@ config_std_roles_info#:#Die hier angegebenen Rollen erhalten Schreib- und Lesere
 config_api_base_info#:#z.B.: https://myswitchcast.com/api
 config_audio_allowed_info#:#Wenn aktiviert, können neben Video-Dateien auch Audio-Dateien hochgeladen werden.
 config_curl_username_info#:#Benutzeraccount in SWITCHcast, der zur Kommunikation über die API genutzt wird (benötigt genügend Rechte in OC)
-config_curl_password_info#:#Passwort zum oben angegebenen Account. 
+config_curl_password_info#:#Passwort zum oben angegebenen Account.
 config_curl_debug_level_info#:#Detaillierungsgrad der Einträge im Log.
+config_streaming_url_info#:#Wowza URL für adaptive streaming. Bsp: https://wowza.myopencast.com:8090/opencast-engage
+config_use_streaming_info#:#Wenn aktive werden die MP4 Streams aus der API durch passende Streaming URLs ersetzt
 config_activate_cache_info#:#Verbessert die Ladezeiten der Videolisten durch lokales Speichern. Kann vorübergehend zu falschen (nicht aktuellen) Metadaten führen.
 config_use_modals_info#:#Wenn aktiviert: Beim Abspielen von Videos wird kein neues Browserfenster geöffnet, sondern der Player wird im aktuellen Fenster angezeigt.
 config_workflow_info#:#ID des workflows, welcher nach dem Hochladen eines Videos in SWITCHcast angewendet wird.
@@ -75,6 +77,9 @@ config_no_metadata#:#Ohne Metadaten
 config_no_metadata_info#:#Ab API Version 1.1.0 müssen die Metadaten nicht mehr separat geholt werden, mit dieser Option kann somit die Performanz verbessert werden. In allen älteren Versionen wird diese Option allerdings zu einem Fehler führen.
 config_internal_player#:#Interner Video-Player
 config_internal_player_info#:#Wenn aktiviert, wird ein im Plugin integrierter Video-Player verwendet, statt an SWITCHcast weiterzuleiten.
+config_use_streaming#:#Benutze Streaming URLs
+config_streaming#:#Streaming
+config_streaming_url#:#Wowza URL
 config_general#:#Allgemeines
 config_report_quality#:#"Qualitätsprobleme melden" aktivieren
 config_report_quality_info#:#Aktiviert die Möglichkeit, Qualitätsprobleme von Aufzeichnungen innerhalb von SWITCHcast-Objekten zu melden.
@@ -96,10 +101,16 @@ config_scheduled_metadata_editable_0#:#Nein
 config_scheduled_metadata_editable_1#:#Ja, mit wirksamer Änderung der Terminprogrammierung
 config_scheduled_metadata_editable_1_info#:#Achtung: Erst ab SWITCHcast API-Version 1.1.0 möglich
 config_scheduled_metadata_editable_2#:#Alle, außer Datum und Aufnahmestation
+config_segment_tag#:#Segment-preview-Tag
+config_segment_tag_info#:#Benutze den Tag für das Filtern der Segment-Previews
+config_use_highlowres_segment_preview#:#High- und Low-Resolution Previews nutzen.
+config_use_highlowres_segment_preview_info#:#Standardmässig in Opencast deaktiviert, muss konfiguriert werden.
 config_video_portal_title#:#Bezeichung des externen Videoportals
 config_video_portal_link#:#Link zu externem Videoportal
 config_video_portal_link_info#:#Wird in den Einstellungen und im Infotab einer Serie angezeigt. Als Platzhalter kann &#123series_id} verwendet werden. Bsp: https://myswitchcast-tube.com/cast/channels/&#123series_id}
 config_permission_templates#:#Berechtigungsvorlagen
+config_upload_chunk_size#:#Upload-Chunk-Größe (MB)
+config_upload_chunk_size_info#:#Der Video-Upload erfolgt stückweise, wobei ein Stück die hier angegebene Größe hat. Das Erhöhen dieser Größe kann die Upload-Geschwindigkeit verbessern, wobei allerdings auf das Upload-Limit geachtet werden sollte. Standard: 20MB
 event_add_new#:#Aufzeichnung hochladen
 event_annotate#:#Annotieren
 event_auto_publish#:#Automatisch publizieren
@@ -195,6 +206,8 @@ group_delete_participant#:#Möchten Sie das Mitglied wirklich entfernen?
 group_none_available#:#Keine verfügbar
 group_none_available_all#:#Keine verfügbar
 group_select_group#:#Gruppe auswählen
+current_owner_header#:#Besitzer
+owner_only_one_owner#:#Es kann nur ein Besitzer pro Video ausgewählt werden.
 invitations_back#:#Zurück
 invitations_header#:#Zugriffsrechte erteilen
 invitations_none_available#:#Keine verfügbar
@@ -224,11 +237,13 @@ publication_usage_title#:#Titel
 publication_usage_type_annotate#:#Annotationen
 publication_usage_type_api#:#API
 publication_usage_type_cutting#:#Cutting-Tool
+publication_usage_type_segments#:#Segments
 publication_usage_type_player#:#Player
 publication_usage_type_thumbnail#:#Vorschaubild
 publication_usage_update#:#Aktualisieren
 publication_usage_usage_id#:#Nutzung
 publication_usage_type_thumbnail_fallback_2#:#Thumbnail Fallback 2
+publication_usage_type_download#:#Download
 series_accept_eula#:#Ich akzeptiere die Nutzungsvereinbarungen
 series_alert_eula#:#Die Nutzungsvereinbarung muss akzeptiert werden
 series_cancel#:#Abbrechen
@@ -297,6 +312,7 @@ tab_system_accounts#:#System-Accounts
 tab_back#:#Zurück
 tab_migration#:#Migration
 tab_video_portal#:#Videoportal
+tab_reports#:#Verfasste Meldungen
 subtab_api#:#API
 subtab_events#:#Aufzeichnungen
 subtab_series#:#Serien
@@ -325,6 +341,9 @@ msg_info_multiple_aftersave#:#Diese Serie hat mehrere Verlinkungen in ILIAS (sie
 msg_creation_failed#:#Objekte vom Typ "SWITCHcast Serie" können nur innerhalb von Kursen oder Gruppen angelegt werden.
 msg_permission_templates_info#:#Die erstellten Vorlagen können beim Erstellen und Bearbeiten einer Serie ausgewählt werden, um die konfigurierte Rolle mit den entsprechenden Rechten und ACL-Actions auf der Serie zu setzen. Die Rollen der restlichen Vorlagen werden dabei entfernt.
 msg_confirm_delete_perm_template#:#Sind Sie sicher, dass Sie folgende Vorlage löschen möchten?
+msg_confirm_delete_reports#:#Sind Sie sicher, dass Sie folgende Meldungen löschen möchten?
+msg_reports_deleted#:#Meldungen wurden gelöscht.
+msg_reports_table#:#Hier werden alle Meldungen der Benutzer zu Qualitätsproblemen oder Terminanpassungen gelistet. Das Verschicken dieser Meldungen kann im Tab "Einstellungen" (Subtabs "Aufzeichnungen" und "Serien") konfiguriert werden.
 table_column_default#:#Default
 table_column_is_default#:#Default
 table_column_title#:#Titel
@@ -360,3 +379,6 @@ perm_tpl_form_additional_actions_annotate#:#Zus. Actions bei aktivem Annotate
 perm_tpl_form_additional_actions_annotate_info#:#Zusätzliche ACL-Actions, welche bei aktivem Annotieren obiger Rolle zugeschrieben werden (kommasepariert).
 msg_date_report_sent#:#Die Meldung wurde abgeschickt. Die Anpassungen werden Ihnen per Mail bestätigt, sobald sie vorgenommen wurden.
 msg_quality_report_sent#:#Die Meldung wurde abgeschickt. Der Support wurde benachrichtigt und meldet sich bei Ihnen.
+date_from#:#Datum Von
+date_to#:#Datum Bis
+sender#:#Verfasser
