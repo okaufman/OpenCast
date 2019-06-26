@@ -384,3 +384,6 @@ msg_quality_report_sent#:#The report has been sent. The support has been informe
 date_from#:#Date From
 date_to#:#Date To
 sender#:#Creator
+rep_robj_xoct_grp_create_xoct#:#create SWITCHcast series
+rep_robj_xoct_cat_create_xoct#:#create SWITCHcast series
+rep_robj_xoct_crs_create_xoct#:#create SWITCHcast series
