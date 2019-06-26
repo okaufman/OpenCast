@@ -382,6 +382,8 @@ msg_quality_report_sent#:#Die Meldung wurde abgeschickt. Der Support wurde benac
 date_from#:#Datum Von
 date_to#:#Datum Bis
 sender#:#Verfasser
-rep_robj_xoct_grp_create_xoct#:#SWITCHcast Serie anlegen
-rep_robj_xoct_cat_create_xoct#:#SWITCHcast Serie anlegen
-rep_robj_xoct_crs_create_xoct#:#SWITCHcast Serie anlegen
+grp_create_xoct#:#SWITCHcast Serie anlegen
+cat_create_xoct#:#SWITCHcast Serie anlegen
+crs_create_xoct#:#SWITCHcast Serie anlegen
+root_create_xoct#:#SWITCHcast Serie anlegen
+fold_create_xoct#:#SWITCHcast Serie anlegen
