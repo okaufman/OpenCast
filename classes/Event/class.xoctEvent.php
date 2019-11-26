@@ -899,7 +899,7 @@ class xoctEvent extends xoctObject {
 	/**
 	 * @var xoctPublication[]
 	 */
-	protected $publications;
+	protected $publications = array();
 	/**
 	 * @var xoctMetadata
 	 */
