@@ -1,5 +1,5 @@
 <?php
-
+use srag\DIC\OpenCast\DICTrait;
 /**
  * Class xoctOpenCast
  *
@@ -8,16 +8,10 @@
  */
 class xoctOpenCast extends ActiveRecord {
 
+	use DICTrait;
+	const PLUGIN_CLASS_NAME = ilOpenCastPlugin::class;
+
 	const TABLE_NAME = 'xoct_data';
-
-
-	/**
-	 * @return string
-	 * @deprecated
-	 */
-	static function returnDbTableName() {
-		return self::TABLE_NAME;
-	}
 
 
 	/**
@@ -63,17 +57,15 @@ class xoctOpenCast extends ActiveRecord {
      * @throws xoctException
      */
 	public function getSeries() {
+	    if (!$this->getSeriesIdentifier()) {
+	        return new xoctSeries();
+        }
         /**
          * @var $series_array xoctSeries[]
          */
         static $series_array;
         if (!isset($series_array[$this->getSeriesIdentifier()])) {
-            if ($this->getSeriesIdentifier()) {
-                $xoctSeries = xoctSeries::find($this->getSeriesIdentifier());
-            }
-            if (!($xoctSeries instanceof xoctSeries)) {
-                $xoctSeries = new xoctSeries();
-            }
+            $xoctSeries = xoctSeries::find($this->getSeriesIdentifier()) ?: new xoctSeries();
             $series_array[$this->getSeriesIdentifier()] = $xoctSeries;
         }
 
@@ -137,12 +129,9 @@ class xoctOpenCast extends ActiveRecord {
 		foreach ($duplicates_ar->get() as $oc) {
 			/** @var xoctOpenCast $oc */
 			if ($oc->getObjId() != $this->getObjId()) {
-				global $DIC;
-				$ilDB = $DIC['ilDB'];
-
-				$query = "SELECT deleted, ref_id FROM object_reference" . " WHERE obj_id = " . $ilDB->quote($oc->getObjId(), "integer");
-				$set = $ilDB->query($query);
-				$rec = $ilDB->fetchAssoc($set);
+				$query = "SELECT deleted, ref_id FROM object_reference" . " WHERE obj_id = " . self::dic()->database()->quote($oc->getObjId(), "integer");
+				$set = self::dic()->database()->query($query);
+				$rec = self::dic()->database()->fetchAssoc($set);
 
 				if (!$rec['deleted'] && $rec['ref_id']) {
 					$duplicates_ids[] = $rec['ref_id'];
@@ -252,6 +241,30 @@ class xoctOpenCast extends ActiveRecord {
 	 * @con_length    1
 	 */
 	protected $obj_online = false;
+	/**
+	 * @var integer
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype integer
+	 * @con_length    8
+	 */
+	protected $default_view = xoctUserSettings::VIEW_TYPE_LIST;
+	/**
+	 * @var bool
+	 *
+	 * @con_has_field true
+	 * @con_fieldtype integer
+	 * @con_length    1
+	 */
+	protected $view_changeable = true;
+    /**
+     * @var bool
+     *
+     * @con_has_field true
+     * @con_fieldtype integer
+     * @con_length    1
+     */
+	protected $chat_active = true;
 
 
 	/**
@@ -396,6 +409,52 @@ class xoctOpenCast extends ActiveRecord {
 	public function setPermissionAllowSetOwn($permission_allow_set_own) {
 		$this->permission_allow_set_own = $permission_allow_set_own;
 	}
+
+	/**
+	 * @return int
+	 */
+	public function getDefaultView() {
+		return $this->default_view;
+	}
+
+	/**
+	 * @param int $default_view
+	 */
+	public function setDefaultView($default_view) {
+		$this->default_view = $default_view;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isViewChangeable() {
+		return $this->view_changeable;
+	}
+
+	/**
+	 * @param bool $view_changeable
+	 */
+	public function setViewChangeable($view_changeable) {
+		$this->view_changeable = $view_changeable;
+	}
+
+
+    /**
+     * @param bool $chat_active
+     */
+    public function setChatActive($chat_active)
+    {
+        $this->chat_active = $chat_active;
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function isChatActive()
+    {
+        return $this->chat_active;
+    }
 
     /**
      * @throws Exception

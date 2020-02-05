@@ -1,5 +1,6 @@
 <?php
-/* Copyright (c) 1998-2009 ILIAS open source, Extended GPL, see docs/LICENSE */
+use srag\DIC\OpenCast\DICTrait;
+use srag\Plugins\Opencast\Model\API\Group\Group;
 
 /**
  * Class xoctSeriesAPI
@@ -8,29 +9,19 @@
  */
 class xoctSeriesAPI {
 
+	use DICTrait;
+	const PLUGIN_CLASS_NAME = ilOpenCastPlugin::class;
+
 	/**
 	 * @var self
 	 */
 	protected static $instance;
-	/**
-	 * @var ilTree
-	 */
-	protected $tree;
-	/**
-	 * @var ilObjectDefinition
-	 */
-	protected $objDefinition;
 
 
 	/**
 	 * xoctSeriesAPI constructor.
 	 */
 	public function __construct() {
-		global $DIC;
-		$tree = $DIC['tree'];
-		$objDefinition = $DIC['objDefinition'];
-		$this->tree = $tree;
-		$this->objDefinition = $objDefinition;
 	}
 
 
@@ -71,7 +62,7 @@ class xoctSeriesAPI {
 	 */
 	public function create($parent_ref_id, $title, $additional_data = array()) {
 		$parent_type = ilObject2::_lookupType($parent_ref_id, true);
-		if (!$this->objDefinition->isContainer($parent_type)) {
+		if (!self::dic()->objDefinition()->isContainer($parent_type)) {
 			throw new xoctInternalApiException("object with parent_ref_id $parent_ref_id is of type $parent_type but should be a container");
 		}
 		if (!ilObjOpenCast::_getParentCourseOrGroup($parent_ref_id)) {
@@ -132,10 +123,9 @@ class xoctSeriesAPI {
 		}
 
 		try {
-			$ilias_producers = xoctGroup::find(xoctConf::getConfig(xoctConf::F_GROUP_PRODUCERS));
+			$ilias_producers = Group::find(xoctConf::getConfig(xoctConf::F_GROUP_PRODUCERS));
 			$ilias_producers->addMembers($producers);
 		} catch (xoctException $e) {
-			//TODO log?
 		}
 
         $series->addProducers($producers, true);
@@ -146,6 +136,8 @@ class xoctSeriesAPI {
 		if (isset($additional_data['member_upload'])) {
 			ilObjOpenCastAccess::activateMemberUpload($object->getRefId());
 		}
+
+		xoctSeriesWorkflowParameterRepository::getInstance()->syncAvailableParameters($object->getId());
 
 		return $cast;
 	}

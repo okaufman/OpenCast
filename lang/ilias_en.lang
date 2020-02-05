@@ -48,6 +48,9 @@ config_security#:#Security
 config_security_info#:#Improves the security by using SWITCHcast "Stream Security". Only activate, if SWITCHcast is configured to use it.
 config_sign_annotation_links#:#Sign Annotation Link
 config_sign_player_links#:#Sign Player Link
+config_sign_player_links_overwrite_default#:#Use event duration for the validity of the signature
+config_sign_player_links_additional_time_percent#:#Additional Time
+config_sign_player_links_additional_time_percent_info#:#How much additional time should be added to the validity of the signature in percent, depending on the event duration?
 config_sign_download_links#:#Sign Download Link
 config_sign_thumbnail_links#:#Sign Thumbnail Link
 config_request_comb_lv#:#Request Combination Level
@@ -111,6 +114,24 @@ config_video_portal_link_info#:#Will be displayed in the settings and info tab o
 config_permission_templates#:#Permission Templates
 config_upload_chunk_size#:#Upload Chunk Size (MB)
 config_upload_chunk_size_info#:#The video upload is separated in chunks, whereas one chunk has the here defined size. Increasing the chunk size can improve the upload speed. Default: 20MB
+config_btn_load_parameters#:#Load Parameters via API
+config_btn_edit_parameters#:#Add/Edit Parameters
+config_btn_add_parameter#:#Add New Parameter
+config_workflow_parameter_value_0#:#None (Use Default)
+config_workflow_parameter_value_1#:#Always Active
+config_workflow_parameter_value_2#:#Always Inactive
+config_workflow_parameter_value_3#:#Show in Form
+config_allow_workflow_params_in_series#:#Enable configuration in series
+config_overwrite_series_params#:#Overwrite series configurations
+config_overwrite_series_params_info#:#When active, saving this form will overwrite all parameter configurations in series with the configurations selected in the plugin settings.
+config_enable_live_streams#:#Live Streams
+config_enable_live_streams_info#:#Allow viewing Live Streams. Live Streams will be automatically played in the internal video player.
+config_start_x_minutes_before_live#:#Enter before start
+config_start_x_minutes_before_live_info#:#Defines how many minutes before the start of the event the player is accessable.
+config_presentation_node#:#URL Presentation Node
+config_presentation_node_info#:#Required to fetch the Live Streams. Example: https://presentation.opencast.my-university.de/
+config_enable_chat#:#Activate Chat
+config_enable_chat_info#:#Enables an on-screen chat beside the Live Event. This option must additionally be set in the settings of an object to be effective.
 event_add_new#:#Upload Event
 event_annotate#:#Annotate
 event_auto_publish#:#Auto publish
@@ -118,6 +139,7 @@ event_cancel#:#Cancel
 event_clear_cache#:#Reload Events
 event_clips#:#Events
 event_create#:#Upload Event
+event_createScheduled#:#Create Event
 event_created#:#Created
 event_creator#:#Creator
 event_cut#:#Cut Event
@@ -158,6 +180,7 @@ event_owner#:#Owner
 event_owner_select#:#--not assigned--
 event_owner_username#:#Owner
 event_player#:#Play
+event_player_live#:#Join
 event_presenter#:#Presenter
 event_presenters#:#Presenters
 event_preview#:#Preview
@@ -175,6 +198,9 @@ event_state_offline#:#Offline, not visible to students
 event_state_scheduled#:#Scheduled Event, not visible to students.
 event_state_scheduled_offline#:#Scheduled Event (Offline), not visible to students.
 event_state_recording#:#Is currently being recorded, not visible to students.
+event_state_live_scheduled#:#Live Stream (not started yet). Open from %s.
+event_state_live_offline#:#Scheduled live Stream (Offline), not visible to students.
+event_state_live_running#:#Currently running Live Stream.
 event_title#:#Title
 event_update#:#Save
 event_updateOwner#:#Update owner
@@ -194,6 +220,8 @@ event_state_failed_owner#:#Publication failed. Please contact the support.
 event_state_running_owner#:#Converting, not yet visible to other students
 event_report_date_modification#:#Report Date Modifications
 event_report_quality_problem#:#Report Quality Problems
+event_series#:#Series
+event_own_series#:#Own Series (%s)
 groups_available_participants_header#:#Available Participants
 groups_header#:#Groups
 groups_new#:#New Group
@@ -246,12 +274,16 @@ publication_usage_update#:#Update
 publication_usage_usage_id#:#Usage
 publication_usage_type_thumbnail_fallback_2#:#Thumbnail Fallback 2
 publication_usage_type_download#:#Download
+publication_usage_type_live_event#:#Live-Event
 series_accept_eula#:#I accept the agreement
 series_alert_eula#:#The EULA has to be accepted
 series_cancel#:#Cancel
 series_channel_id#:#Series ID
 series_channel_type#:#Series-Type
 series_create#:#Create Series
+series_chat_active#:#Live Chat
+series_chat_active_info#:#Activates an on-screen chat for live events.
+series_default_view#:#Default View
 series_department#:#Department
 series_department_info#:#How is the name of your department?
 series_description#:#Description
@@ -275,7 +307,7 @@ series_permission_per_clip#:#Set permissions for an Event
 series_permission_per_clip_info#:#This setting enables an individual rights management based on Event ownership (iVT-Mode). Let this setting deactivated, when all students are allowed to see all the Events of this series.
 series_permission_template#:#Permissions
 series_publish_on_video_portal#:#Publish Series on %s
-series_publish_on_video_portal_info#:#This setting leads to a publication on the video portal of your university. Leave this setting deactivated if the recordings are only to be viewed in ILIAS.
+series_publish_on_video_portal_info#:#This setting leads to a publication on the video portal of your institution. Leave this setting deactivated if the recordings are only to be viewed in ILIAS.
 series_save#:#Save
 series_saved#:#Series-Information saved
 series_show_upload_token#:#Show Upload-Token
@@ -290,6 +322,10 @@ series_has_duplicates_events_delete#:#MISSING
 series_member_upload#:#Upload by members
 series_member_upload_info#:#Course- or groupmembers are given the permission "Upload", which allows them to upload videos and delete own videos. This setting can be changed later in the tab "Permissions".
 series_video_portal_link#:#Link to Series in %s
+series_view_changeable#:#View changeable
+series_view_changeable_info#:#The user has the possibility to change the view.
+series_view_type_0#:#List
+series_view_type_1#:#Tiles
 series_links#:#Links
 system_account_add_new#:#Add System-Account
 system_account_cancel#:#Cancel
@@ -315,6 +351,7 @@ tab_back#:#Back
 tab_migration#:#Migration
 tab_video_portal#:#Video Portal
 tab_reports#:#Reports
+tab_workflow_params#:#Workflow Parameters
 subtab_api#:#API
 subtab_general#:#General
 subtab_events#:#Events
@@ -323,6 +360,9 @@ subtab_groups_roles#:#Groups & Roles
 subtab_security#:#Security
 subtab_advanced#:#Advanced
 subtab_permission_templates#:#Permission Templates
+subtab_parameters#:#Parameters
+subtab_settings#:#Settings
+subtab_workflow_params#:#Workflow Parameters
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
@@ -346,6 +386,13 @@ msg_confirm_delete_perm_template#:#Do you really want to delete the following te
 msg_confirm_delete_reports#:#Do you really want to delete the following reports?
 msg_reports_deleted#:#Reports deleted.
 msg_reports_table#:#All user reports to quality problems or date modifications will be listed here. The functionality for these reports can be configured in the tab "Settings" (subtabs "Events" and "Series").
+msg_confirm_delete_param#:#Do you really want to delete the following parameter?
+msg_load_workflow_params#:#The following parameters were returned by the workflow API. Would you like to load these (new parameters will be created, old ones will be deleted and already existing parameters will be updated)?
+msg_no_params_found#:#No parameters were found. The defined workflow may have no configuration panel, from which the parameters can be read. Please create the parameters manually.
+msg_success#:#Changes saved successfully.
+msg_confirm_overwrite_series_params#:#Warning: This will overwrite all locally adjusted configurations of workflow parameters in ILIAS Opencast objects. Continue?
+msg_workflow_params_parsing_failed#:#Parsing of parameters via API failed:
+msg_workflow_parameters_info#:#Workflow Parameter are information which are passed to Opencast through the variable 'processing' when creating or scheduling an event. Note that the parameters must match the given workflow definition (Settings -> Events -> Processing Workflow ID). Clicking the button "Load Parameters via API" will try to load the parameters automatically - however this will only work if the workflow definition in Opencast has configured a configuration panel.
 table_column_default#:#Default
 table_column_is_default#:#Default
 table_column_title#:#Title
@@ -389,3 +436,15 @@ cat_create_xoct#:#create SWITCHcast series
 crs_create_xoct#:#create SWITCHcast series
 root_create_xoct#:#create SWITCHcast series
 fold_create_xoct#:#create SWITCHcast series
+workflow_parameters#:#Workflow Parameters
+default_values#:#Default Values
+default_value_member#:#Usage for Members
+default_value_admin#:#Usage for Admins
+value_member#:#Usage for Members
+value_admin#:#Usage for Admins
+list#:#List
+tiles#:#Tiles
+tiles_per_page#:#Tiles per page:
+event_live_waiting_text#:#Live Event hasn't started yet. <br>Scheduled start time: %s
+event_live_interrupted_text#:#The Live Event has been paused or prematurely terminated.
+event_live_over_text#:#Live Event finished.

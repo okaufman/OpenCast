@@ -48,6 +48,9 @@ config_security#:#Security
 config_security_info#:#Erhöht die Sicherheit mithilfe von SWITCHcasts "Stream Security". Nur aktivieren, wenn SWITCHcast dafür konfiguriert ist.
 config_sign_annotation_links#:#Annotationslink signieren
 config_sign_player_links#:#Playerlink signieren
+config_sign_player_links_overwrite_default#:#Benutze Aufzeichnungsdauer als Dauer für die Gültigkeit der Signatur
+config_sign_player_links_additional_time_percent#:#Zusätzliche Zeit
+config_sign_player_links_additional_time_percent_info#:#Wieviel zusätzliche Zeit soll der Gültigkeit der Signatur in Prozent, abhängig von der Dauer, hinzugefügt werden?
 config_sign_download_links#:#Downloadlink signieren
 config_sign_thumbnail_links#:#Thumbnaillink signieren
 config_request_comb_lv#:#Request Kombinations Level
@@ -111,6 +114,24 @@ config_video_portal_link_info#:#Wird in den Einstellungen und im Infotab einer S
 config_permission_templates#:#Berechtigungsvorlagen
 config_upload_chunk_size#:#Upload-Chunk-Größe (MB)
 config_upload_chunk_size_info#:#Der Video-Upload erfolgt stückweise, wobei ein Stück die hier angegebene Größe hat. Das Erhöhen dieser Größe kann die Upload-Geschwindigkeit verbessern, wobei allerdings auf das Upload-Limit geachtet werden sollte. Standard: 20MB
+config_btn_load_parameters#:#Parameter via API Laden
+config_btn_edit_parameters#:#Parameter Hinzufügen/Bearbeiten
+config_btn_add_parameter#:#Neuen Parameter Hinzufügen
+config_workflow_parameter_value_0#:#Keine (Standard verwenden)
+config_workflow_parameter_value_1#:#Immer aktiv
+config_workflow_parameter_value_2#:#Immer inaktiv
+config_workflow_parameter_value_3#:#Im Formular anbieten
+config_allow_workflow_params_in_series#:#Erlaube Konfiguration in Serien
+config_overwrite_series_params#:#Überschreibe Serienkonfigurationen
+config_overwrite_series_params_info#:#Wenn aktiv, werden beim Speichern alle Parameter-Konfigurationen in Serien mit den in der Pluginkonfiguration ausgewählten Einstellungen überschrieben.
+config_enable_live_streams#:#Live-Streams
+config_enable_live_streams_info#:#Abspielen von Live-Streams ermöglichen. Live-Streams werden automatisch im internen Video-Player abgespielt.
+config_start_x_minutes_before_live#:#Beitritt bevor Start
+config_start_x_minutes_before_live_info#:#Gibt an, wieviele Minuten vor Start des Events der Player geöffnet werden kann.
+config_presentation_node#:#URL Presentation Node
+config_presentation_node_info#:#Wird zum Holen des Live-Streams benötigt. Z.B.: https://presentation.opencast.meine-uni.de/
+config_enable_chat#:#Chat aktivieren
+config_enable_chat_info#:#Aktiviert einen on-screen Chat neben dem Live-Event. Diese Option muss zusätzlich in den Einstellungen eines Objektes aktiviert werden, um wirksam zu werden.
 event_add_new#:#Aufzeichnung hochladen
 event_annotate#:#Annotieren
 event_auto_publish#:#Automatisch publizieren
@@ -118,11 +139,12 @@ event_cancel#:#Abbrechen
 event_clear_cache#:#Aufzeichnungen neu laden
 event_clips#:#Aufzeichnungen
 event_create#:#Aufzeichnung hochladen
+event_createScheduled#:#Aufzeichnungstermin(e) erstellen
 event_created#:#Erstellt
 event_creator#:#Ersteller
 event_cut#:#Aufzeichnung schneiden
 event_date#:#Datum
-event_delete#:#Aufzeichung löschen
+event_delete#:#Aufzeichnung löschen
 event_unpublish#:#Publikationen entfernen
 event_delete_confirm#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auch auf SWITCHcast). Wollen Sie diese Aufzeichnung wirklich löschen?
 event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, muss zuerst die Publikation rückgängig gemacht werden. Wollen Sie die Publikation wirklich rückgängig machen?
@@ -144,7 +166,7 @@ event_msg_unpublish_started#:#Die Publikationen werden nun entfernt.
 event_msg_currently_unpublishing#:#Der Prozess zum Entfernen der Publikationen läuft bereits.
 event_msg_no_access#:#kein Zugriff
 event_msg_success#:#Änderungen gespeichert
-event_msg_scheduled#:#Aufzeichungstermin(e) erstellt.
+event_msg_scheduled#:#Aufzeichnungstermin(e) erstellt.
 event_msg_scheduling_conflict#:#Termin(e) konnte(n) nicht erstellt werden, da es Überschneidungen mit existierenden Terminen gibt:
 event_msg_scheduled_in_past#:#Planungskonflikt: Aufzeichnungen können nicht in der Vergangenheit geplant werden.
 event_msg_end_before_start#:#Planungskonflikt: Der Endzeitpunkt der Aufzeichnung muss nach dem Anfangszeitpunkt liegen.
@@ -158,6 +180,7 @@ event_owner#:#Besitzer
 event_owner_select#:#--nicht zugewiesen--
 event_owner_username#:#Besitzer
 event_player#:#Abspielen
+event_player_live#:#Beitreten
 event_presenter#:#Referent/in
 event_presenters#:#Referent/in
 event_preview#:#Vorschau
@@ -175,6 +198,9 @@ event_state_offline#:#Offline, für Studierende nicht sichtbar.
 event_state_scheduled#:#Geplante Aufzeichnung, für Studierende nicht sichtbar.
 event_state_scheduled_offline#:#Geplante Aufzeichnung (Offline), für Studierende nicht sichtbar.
 event_state_recording#:#Wird momentan Aufgezeichnet, für Studierende nicht sichtbar.
+event_state_live_scheduled#:#Live-Übertragung (noch nicht begonnen). Offen ab %s.
+event_state_live_offline#:#Geplante Live-Aufzeichnung (Offline), für Studierende nicht sichtbar.
+event_state_live_running#:#Laufende Live-Übertragung.
 event_title#:#Titel
 event_update#:#Speichern
 event_updateOwner#:#Besitzer speichern
@@ -192,6 +218,8 @@ event_state_failed_owner#:#Fehlgeschlagen. Melden Sie sich bei Ihrer Supportstel
 event_state_running_owner#:#Wird konvertiert, für andere Studierende noch nicht sichtbar
 event_report_date_modification#:#Terminanpassungen melden
 event_report_quality_problem#:#Qualitätsprobleme melden
+event_series#:#Serie
+event_own_series#:#Eigene Serie (%s)
 groups_available_participants_header#:#Verfügbare Teilnehmer
 groups_header#:#Gruppen
 groups_new#:#Neue Gruppe
@@ -244,12 +272,16 @@ publication_usage_update#:#Aktualisieren
 publication_usage_usage_id#:#Nutzung
 publication_usage_type_thumbnail_fallback_2#:#Thumbnail Fallback 2
 publication_usage_type_download#:#Download
+publication_usage_type_live_event#:#Live-Event
 series_accept_eula#:#Ich akzeptiere die Nutzungsvereinbarungen
 series_alert_eula#:#Die Nutzungsvereinbarung muss akzeptiert werden
 series_cancel#:#Abbrechen
 series_channel_id#:#Series ID
 series_channel_type#:#Serie-Typ
 series_create#:#Serie anlegen
+series_chat_active#:#Live-Chat
+series_chat_active_info#:#Aktiviert einen on-screen Chat bei Live-Events.
+series_default_view#:#Standard-Ansicht
 series_department#:#Department
 series_department_info#:#Name Ihrer Institution
 series_description#:#Beschreibung
@@ -273,7 +305,7 @@ series_permission_per_clip#:#Rechte pro Aufzeichnung setzen
 series_permission_per_clip_info#:#Diese Einstellung aktiviert eine individuelle Rechteverwaltung auf Aufzeichnungs-Ebene (iVT-Modus). Lassen Sie Einstellung deaktiviert, wenn alle Kursteilnehmer sämtliche Aufzeichnungen der gewählten Serie sehen dürfen.
 series_permission_template#:#Berechtigungen
 series_publish_on_video_portal#:#Serie auf %s publizieren
-series_publish_on_video_portal_info#:#Diese Einstellung führt zu einer Publikation auf dem Videoportal Ihrer Universität. Lassen Sie die Einstellung deaktiviert, wenn die Aufzeichnungen nur in ILIAS zu sehen sein sollen.
+series_publish_on_video_portal_info#:#Diese Einstellung führt zu einer Publikation auf dem Videoportal Ihrer Hochschule. Lassen Sie die Einstellung deaktiviert, wenn die Aufzeichnungen nur in ILIAS zu sehen sein sollen.
 series_save#:#Speichern
 series_saved#:#Serie-Informationen gespeichert
 series_show_upload_token#:#Upload-Token anzeigen
@@ -288,6 +320,10 @@ series_has_duplicates_events_delete#:#MISSING
 series_member_upload#:#Upload durch Mitglieder
 series_member_upload_info#:#Kurs- bzw. Gruppenmitglieder erhalten durch das Recht "Upload" die Möglichkeit, Videos hochzuladen und eigene Videos zu löschen. Kann später in den Rechteeinstellungen geändert werden.
 series_video_portal_link#:#Link zur Serie in %s
+series_view_changeable#:#Ansicht änderbar
+series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, die Ansicht selbst zu wechseln.
+series_view_type_0#:#Liste
+series_view_type_1#:#Kacheln
 series_links#:#Links
 system_account_add_new#:#System-Account hinzufügen
 system_account_cancel#:#Abbrechen
@@ -313,6 +349,7 @@ tab_back#:#Zurück
 tab_migration#:#Migration
 tab_video_portal#:#Videoportal
 tab_reports#:#Verfasste Meldungen
+tab_workflow_params#:#Workflow Parameter
 subtab_api#:#API
 subtab_events#:#Aufzeichnungen
 subtab_series#:#Serien
@@ -321,6 +358,9 @@ subtab_groups_roles#:#Gruppen & Rollen
 subtab_security#:#Security
 subtab_advanced#:#Erweitert
 subtab_permission_templates#:#Berechtigungsvorlagen
+subtab_parameters#:#Parameter
+subtab_settings#:#Einstellungen
+subtab_workflow_params#:#Workflow-Parameter
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
@@ -344,6 +384,13 @@ msg_confirm_delete_perm_template#:#Sind Sie sicher, dass Sie folgende Vorlage l�
 msg_confirm_delete_reports#:#Sind Sie sicher, dass Sie folgende Meldungen löschen möchten?
 msg_reports_deleted#:#Meldungen wurden gelöscht.
 msg_reports_table#:#Hier werden alle Meldungen der Benutzer zu Qualitätsproblemen oder Terminanpassungen gelistet. Das Verschicken dieser Meldungen kann im Tab "Einstellungen" (Subtabs "Aufzeichnungen" und "Serien") konfiguriert werden.
+msg_confirm_delete_param#:#Sind Sie sicher, dass Sie folgenden Parameter löschen möchten?
+msg_load_workflow_params#:#Folgende Parameter wurden über die Workflow-API gefunden. Möchten Sie diese laden (neue Parameter werden erstellt, alte gelöscht und bereits vorhandene Parameter werden aktualisiert)?
+msg_no_params_found#:#Es konnten keine Parameter über die API gefunden werden. Möglicherweise existiert für den ausgewählten Workflow kein Configuration Panel, aus welchem die Parameter gelesen werden können. Bitte erstellen Sie die Parameter manuell.
+msg_success#:#Änderungen erfolgreich gespeichert.
+msg_confirm_overwrite_series_params#:#Achtung: Damit werden alle lokal angepassten Konfigurationen zu Workflow-Parameter in den Einstellungen von ILIAS-Opencast-Objekten überschrieben. Fortfahren?
+msg_workflow_params_parsing_failed#:#Das Lesen der Parameter aus der API ist fehlgeschlagen:
+msg_workflow_parameters_info#:#Workflow-Parameter sind Informationen, welche beim Hochladen oder Planen eines Events in der Variable 'processing' an Opencast mitgeschickt werden. Beachten Sie, dass die Parameter auf den Konfigurierten Workflow (Einstellungen -> Aufzeichnungen -> Processing-Workflow-ID) abgestimmt sein müssen. Über die Schaltfläche "Parameter via API Laden" können Sie versuchen, diese Parameter automatisch zu laden - dies funktioniert allerdings nur, wenn in der Workflow-Definition in Opencast ein entsprechendes Configuration-Panel konfiguriert ist.
 table_column_default#:#Default
 table_column_is_default#:#Default
 table_column_title#:#Titel
@@ -387,3 +434,16 @@ cat_create_xoct#:#SWITCHcast Serie anlegen
 crs_create_xoct#:#SWITCHcast Serie anlegen
 root_create_xoct#:#SWITCHcast Serie anlegen
 fold_create_xoct#:#SWITCHcast Serie anlegen
+workflow_parameters#:#Workflow Parameter
+default_values#:#Standardwerte
+default_value_member#:#Verwendung Mitglieder
+default_value_admin#:#Verwendung Admins
+value_member#:#Verwendung Mitglieder
+value_admin#:#Verwendung Admins
+list#:#Liste
+tiles#:#Kacheln
+tiles_per_page#:#Kacheln pro Seite:
+event_live_waiting_text#:#Das Live Event hat noch nicht begonnen.<br>Geplante Startzeit: %s
+event_live_interrupted_text#:#Das Live Event wurde unterbrochen oder frühzeitig beendet.
+event_live_over_text#:#Das Live Event wurde beendet.
+

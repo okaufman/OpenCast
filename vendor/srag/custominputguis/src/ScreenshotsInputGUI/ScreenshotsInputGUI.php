@@ -9,7 +9,6 @@ use ILIAS\FileUpload\DTO\ProcessingStatus;
 use ILIAS\FileUpload\DTO\UploadResult;
 use ilTemplate;
 use srag\DIC\OpenCast\DICTrait;
-use srag\DIC\OpenCast\Plugin\Plugin;
 use srag\DIC\OpenCast\Plugin\Pluginable;
 use srag\DIC\OpenCast\Plugin\PluginInterface;
 
@@ -39,9 +38,9 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	 */
 	protected $screenshots = [];
 	/**
-	 * @var Plugin|null
+	 * @var PluginInterface|null
 	 */
-	protected $plugin = NULL;
+	protected $plugin = null;
 
 
 	/**
@@ -50,7 +49,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	 * @param string $title
 	 * @param string $post_var
 	 */
-	public function __construct(string $title = "", string $post_var = "") {
+	public function __construct($title = '', $post_var = '') {
 		parent::__construct($title, $post_var);
 	}
 
@@ -58,7 +57,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	/**
 	 * @return bool
 	 */
-	public function checkInput(): bool {
+	public function checkInput() {
 		$this->processScreenshots();
 
 		if ($this->getRequired() && count($this->screenshots) === 0) {
@@ -72,7 +71,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	/**
 	 * @return string[]
 	 */
-	public function getAllowedFormats(): array {
+	public function getAllowedFormats() {
 		return $this->allowed_formats;
 	}
 
@@ -80,7 +79,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	/**
 	 * @return string
 	 */
-	public function getJSOnLoadCode(): string {
+	public function getJSOnLoadCode() {
 		$screenshot_tpl = $this->getPlugin()->template(__DIR__ . "/templates/screenshot.html", true, true, false);
 		$screenshot_tpl->setVariable("TXT_REMOVE_SCREENSHOT", $this->getPlugin()
 			->translate("remove_screenshot", self::LANG_MODULE_SCREENSHOTSINPUTGUI));
@@ -94,9 +93,9 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 
 
 	/**
-	 * @return PluginInterface
+	 * @inheritdoc
 	 */
-	public function getPlugin(): PluginInterface {
+	public function getPlugin() {
 		return $this->plugin;
 	}
 
@@ -104,7 +103,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	/**
 	 * @return UploadResult[]
 	 */
-	public function getValue(): array {
+	public function getValue() {
 		return $this->screenshots;
 	}
 
@@ -155,17 +154,15 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 			$uploads = self::dic()->http()->request()->getUploadedFiles()[$this->getPostVar()];
 
 			if (is_array($uploads)) {
-				$uploads = array_values(array_flip(array_map(function (UploadedFile $file): string {
-					return $file->getClientFilename();
-				}, $uploads)));
+				$uploads = array_values(array_flip(array_map(function (UploadedFile $file) {
+    return $file->getClientFilename();
+}, $uploads)));
 
 				$this->screenshots = array_values(array_filter(self::dic()->upload()
-					->getResults(), function (UploadResult $file) use (&$uploads): bool {
-					$ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
-
-					return ($file->getStatus()->getCode() === ProcessingStatus::OK && in_array($file->getPath(), $uploads)
-						&& in_array($ext, $this->allowed_formats));
-				}));
+					->getResults(), function (UploadResult $file) use(&$uploads) {
+    $ext = pathinfo($file->getName(), PATHINFO_EXTENSION);
+    return $file->getStatus()->getCode() === ProcessingStatus::OK && in_array($file->getPath(), $uploads) && in_array($ext, $this->allowed_formats);
+}));
 			}
 		}
 	}
@@ -174,7 +171,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	/**
 	 * @return string
 	 */
-	public function render(): string {
+	public function render() {
 		$this->initJS();
 
 		$screenshots_tpl = $this->getPlugin()->template(__DIR__ . "/templates/screenshots.html", true, true, false);
@@ -183,9 +180,9 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 		$screenshots_tpl->setVariable("TXT_TAKE_PAGE_SCREENSHOT", $this->getPlugin()
 			->translate("take_page_screenshot", self::LANG_MODULE_SCREENSHOTSINPUTGUI));
 		$screenshots_tpl->setVariable("POST_VAR", $this->getPostVar());
-		$screenshots_tpl->setVariable("ALLOWED_FORMATS", implode(",", array_map(function (string $format): string {
-			return "." . $format;
-		}, $this->allowed_formats)));
+		$screenshots_tpl->setVariable("ALLOWED_FORMATS", implode(",", array_map(function ($format) {
+    return '.' . $format;
+}, $this->allowed_formats)));
 
 		return self::output()->getHTML($screenshots_tpl);
 	}
@@ -196,20 +193,8 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	 *
 	 * @return self
 	 */
-	public function setAllowedFormats(array $allowed_formats): self {
+	public function setAllowedFormats(array $allowed_formats) {
 		$this->allowed_formats = $allowed_formats;
-
-		return $this;
-	}
-
-
-	/**
-	 * @param PluginInterface $plugin
-	 *
-	 * @return self
-	 */
-	public function setPlugin(PluginInterface $plugin): self {
-		$this->plugin = $plugin;
 
 		return $this;
 	}
@@ -220,8 +205,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	 *
 	 * @return self
 	 */
-	public function setPostVar(/*string*/
-		$post_var): self {
+	public function setPostVar($post_var) {
 		$this->postvar = $post_var;
 
 		return $this;
@@ -233,8 +217,7 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	 *
 	 * @return self
 	 */
-	public function setTitle(/*string*/
-		$title): self {
+	public function setTitle($title) {
 		$this->title = $title;
 
 		return $this;
@@ -260,5 +243,15 @@ class ScreenshotsInputGUI extends ilFormPropertyGUI implements Pluginable {
 	public function setValueByArray(/*array*/
 		$values)/*: void*/ {
 		//throw new ilFormException("ScreenshotsInputGUI does not support set screenshots!");
+	}
+
+
+	/**
+	 * @inheritdoc
+	 */
+	public function withPlugin(PluginInterface $plugin) {
+		$this->plugin = $plugin;
+
+		return $this;
 	}
 }
