@@ -323,7 +323,7 @@ series_member_upload#:#Upload by members
 series_member_upload_info#:#Course- or groupmembers are given the permission "Upload", which allows them to upload videos and delete own videos. This setting can be changed later in the tab "Permissions".
 series_video_portal_link#:#Link to Series in %s
 series_view_changeable#:#View changeable
-series_view_changeable_info#:#The user has the possibility to change the view.
+series_view_changeable_info#:#The user is able to switch between list and tile view.
 series_view_type_0#:#List
 series_view_type_1#:#Tiles
 series_links#:#Links

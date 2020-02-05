@@ -321,7 +321,7 @@ series_member_upload#:#Upload durch Mitglieder
 series_member_upload_info#:#Kurs- bzw. Gruppenmitglieder erhalten durch das Recht "Upload" die Möglichkeit, Videos hochzuladen und eigene Videos zu löschen. Kann später in den Rechteeinstellungen geändert werden.
 series_video_portal_link#:#Link zur Serie in %s
 series_view_changeable#:#Ansicht änderbar
-series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, die Ansicht selbst zu wechseln.
+series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, zwischen Listen- und Kachelansicht zu wechseln.
 series_view_type_0#:#Liste
 series_view_type_1#:#Kacheln
 series_links#:#Links
