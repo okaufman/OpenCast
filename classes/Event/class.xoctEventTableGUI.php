@@ -167,7 +167,7 @@ class xoctEventTableGUI extends ilTable2GUI {
 				'sort_field' => NULL,
 			),
 			'event_title' => array(
-				'selectable' => true,
+				'selectable' => false,
 				'sort_field' => 'title',
 			),
 			'event_description' => array(
@@ -433,7 +433,7 @@ class xoctEventTableGUI extends ilTable2GUI {
 					continue 2;
 			}
 
-			$set[$k] = utf8_decode($value);
+			$set[$k] = $value;
 		}
 		parent::fillRowCSV($a_csv, $set);
 	}
