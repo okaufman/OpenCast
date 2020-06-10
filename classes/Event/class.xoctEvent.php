@@ -734,15 +734,13 @@ class xoctEvent extends APIObject {
 	 */
 	protected $title;
 	/**
-<<<<<<< HEAD
 	 * @var xoctPublication[]
 	 */
 
 	protected $publications = array();
 
 	/**
-=======
->>>>>>> sr_master
+
 	 * @var Metadata
 	 */
 	protected $metadata = null;
