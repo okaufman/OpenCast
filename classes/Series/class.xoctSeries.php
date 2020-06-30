@@ -30,6 +30,7 @@ class xoctSeries extends APIObject {
 	public function __construct($identifier = '') {
 		if ($identifier) {
 			$this->setIdentifier($identifier);
+			sleep(1);
 			$this->read();
 		}
 	}
