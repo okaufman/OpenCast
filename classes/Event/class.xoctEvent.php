@@ -733,11 +733,7 @@ class xoctEvent extends APIObject {
 	 * @var string
 	 */
 	protected $title;
-	/**
-	 * @var xoctPublication[]
-	 */
 
-	protected $publications = array();
 
 	/**
 
