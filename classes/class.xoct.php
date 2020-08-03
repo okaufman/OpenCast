@@ -21,7 +21,7 @@ class xoct {
 	 * @return int
 	 */
 	public static function getILIASVersion() {
-		if (self::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '5.4.999')) {
+		if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '5.4.999')) {
 			return self::ILIAS_6;
 		}
 		if (ilComponent::isVersionGreaterString(ILIAS_VERSION_NUMERIC, '5.3.999')) {
