@@ -1,6 +1,5 @@
 <?php
 
-use ILIAS\UI\Component\Modal\Modal;
 use srag\DIC\OpenCast\Exception\DICException;
 use srag\Plugins\Opencast\Chat\GUI\ChatHistoryGUI;
 use srag\Plugins\Opencast\Chat\Model\ChatroomAR;
@@ -42,6 +41,10 @@ class xoctEventGUI extends xoctGUI {
     const CMD_REPUBLISH = 'republish';
 	const CMD_OPENCAST_STUDIO = 'opencaststudio';
     const CMD_DOWNLOAD = 'download';
+    /**
+     * @var ilObjOpenCastGUI
+     */
+    private $parent_gui;
 
     /**
 	 * @var xoctOpenCast
@@ -52,13 +55,14 @@ class xoctEventGUI extends xoctGUI {
      */
     protected $modals;
 
-
     /**
-	 * @param xoctOpenCast $xoctOpenCast
-	 */
-	public function __construct(xoctOpenCast $xoctOpenCast = NULL) {
+     * @param ilObjOpenCastGUI $parent_gui
+     * @param xoctOpenCast     $xoctOpenCast
+     */
+	public function __construct(ilObjOpenCastGUI $parent_gui, xoctOpenCast $xoctOpenCast) {
 		$this->xoctOpenCast = $xoctOpenCast instanceof xoctOpenCast ? $xoctOpenCast : new xoctOpenCast();
-	}
+        $this->parent_gui = $parent_gui;
+    }
 
 
     /**
@@ -95,6 +99,13 @@ class xoctEventGUI extends xoctGUI {
         self::dic()->tabs()->activateTab(ilObjOpenCastGUI::TAB_EVENTS);
         self::dic()->mainTemplate()->addCss('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/templates/default/events.css');
         self::dic()->mainTemplate()->addJavaScript('./Customizing/global/plugins/Services/Repository/RepositoryObject/OpenCast/templates/default/events.js');	// init waiter
+        self::dic()->mainTemplate()->addOnLoadCode(
+            "$(document).on('shown.bs.dropdown', (e) => {
+					$(e.target).children('.dropdown-menu').each((i, el) => {
+						il.Util.fixPosition(el);
+					});
+				});"
+        );	// fix action menu position bug
         self::dic()->mainTemplate()->addCss(self::plugin()->getPluginObject()->getDirectory() . '/templates/default/reporting_modal.css');
 
         switch ($cmd) {
@@ -184,11 +195,11 @@ class xoctEventGUI extends xoctGUI {
 	 */
 	protected function index() {
 		ilChangeEvent::_recordReadEvent(
-			$this->xoctOpenCast->getILIASObject()->getType(),
-			$this->xoctOpenCast->getILIASObject()->getRefId(),
-			$this->xoctOpenCast->getObjId(),
-			self::dic()->user()->getId()
-		);
+            $this->parent_gui->object->getType(),
+            $this->parent_gui->object->getRefId(),
+            $this->xoctOpenCast->getObjId(),
+            self::dic()->user()->getId()
+        );
 
 		switch (xoctUserSettings::getViewTypeForUser(self::dic()->user()->getId(), filter_input(INPUT_GET, 'ref_id'))) {
 			case xoctUserSettings::VIEW_TYPE_LIST:
@@ -213,17 +224,15 @@ class xoctEventGUI extends xoctGUI {
 	protected function indexList() {
 		$this->initViewSwitcherHTML('list');
 
-		if (isset($_GET[xoctEventTableGUI::getGeneratedPrefix($this->xoctOpenCast) . '_xpt']) || !empty($_POST)) {
-			// you're here when exporting or changing selected columns
-			$xoctEventTableGUI = new xoctEventTableGUI($this, self::CMD_STANDARD, $this->xoctOpenCast);
-			if ($xoctEventTableGUI->hasScheduledEvents()) {
-				self::dic()->mainTemplate()->addOnLoadCode("$('#xoct_report_date_button').removeClass('hidden');");
-			}
-			return $xoctEventTableGUI->getHTML();
+		if (isset($_GET[xoctEventTableGUI::getGeneratedPrefix($this->xoctOpenCast) . '_xpt'])
+            || !empty($_POST)
+            || xoctConf::getConfig(xoctConf::F_LOAD_TABLE_SYNCHRONOUSLY))
+		{
+			return $this->getTableGUI();
 		}
 
 		self::dic()->mainTemplate()->addJavascript("./Services/Table/js/ServiceTable.js");
-		$this->loadAjaxCodeForList();	// the tableGUI is loaded asynchronously
+		$this->loadAjaxCodeForList();	// load table asynchronously
 		return '<div id="xoct_table_placeholder"></div>';
 	}
 
@@ -235,7 +244,11 @@ class xoctEventGUI extends xoctGUI {
 	protected function indexTiles() {
 		$this->initViewSwitcherHTML('tiles');
 
-		$this->loadAjaxCodeForTiles();	// the tilesGUI is loaded asynchronously
+		if (xoctConf::getConfig(xoctConf::F_LOAD_TABLE_SYNCHRONOUSLY)) {
+		    return $this->getTilesGUI();
+        }
+
+		$this->loadAjaxCodeForTiles();	// load tiles asynchronously
 		return '<div id="xoct_tiles_placeholder"></div>';
 	}
 
@@ -341,6 +354,12 @@ class xoctEventGUI extends xoctGUI {
 	 * ajax call
 	 */
 	public function asyncGetTableGUI() {
+        echo $this->getTableGUI();
+        exit();
+	}
+
+    public function getTableGUI()
+    {
         $modals_html = $this->getModalsHTML();
         $xoctEventTableGUI = new xoctEventTableGUI($this, self::CMD_STANDARD, $this->xoctOpenCast);
         $html = $xoctEventTableGUI->getHTML();
@@ -358,17 +377,28 @@ class xoctEventGUI extends xoctGUI {
                         });
                     </script>";
         }
-        echo $html . $modals_html;
-        exit();
-	}
-
+        return $html . $modals_html;
+    }
 
 	/**
 	 * ajax call
 	 */
-	public function asyncGetTilesGUI() {
-		$xoctEventTileGUI = new xoctEventTileGUI($this, $this->xoctOpenCast);
-		$html = $this->getModalsHTML();
+	public function asyncGetTilesGUI()
+    {
+        echo $this->getTilesGUI();
+        exit();
+	}
+
+    /**
+     * @return string
+     * @throws DICException
+     * @throws ilTemplateException
+     * @throws xoctException
+     */
+	protected function getTilesGUI()  : string
+    {
+        $xoctEventTileGUI = new xoctEventTileGUI($this, $this->xoctOpenCast);
+        $html = $this->getModalsHTML();
         $html .= $xoctEventTileGUI->getHTML();
         if ($xoctEventTileGUI->hasScheduledEvents()) {
             $signal = $this->getModals()->getReportDateModal()->getShowSignal()->getId();
@@ -384,9 +414,10 @@ class xoctEventGUI extends xoctGUI {
                         });
                     </script>";
         }
-        echo $html;
-        exit();
-	}
+        return $html;
+    }
+
+
 
 
 	/**
@@ -509,16 +540,45 @@ class xoctEventGUI extends xoctGUI {
 
 
 	/**
-	 * 
+	 *
 	 */
 	public function opencaststudio(){
+
+		// add user to ilias producers
+		$xoctUser = xoctUser::getInstance(self::dic()->user());
+		try {
+			$ilias_producers = Group::find(xoctConf::getConfig(xoctConf::F_GROUP_PRODUCERS));
+			$sleep = $ilias_producers->addMember($xoctUser);
+		} catch (xoctException $e) {
+			$sleep = false;
+		}
+
+		// add user to series producers
+		/** @var xoctSeries $xoctSeries */
+		$xoctSeries = xoctSeries::find($this->xoctOpenCast->getSeriesIdentifier());
+		if ($xoctSeries->addProducer($xoctUser)) {
+			$sleep = true;
+		}
+
+		if ($sleep) {
+			sleep(3);
+		}
+
+		// redirect to oc studio
 		$xoctSeries =  $this->xoctOpenCast->getSeriesIdentifier();
 		$base = rtrim(xoctConf::getConfig(xoctConf::F_API_BASE), "/");
 		$base = str_replace('/api', '', $base);
-		$studio_link = $base . '/studio' . '?upload.seriesId=' . $xoctSeries;
+
+		$return_link =  ILIAS_HTTP_PATH . '/'
+			. self::dic()->ctrl()->getLinkTarget($this, self::CMD_STANDARD, '', false, false);
+
+		$studio_link = $base . '/studio'
+			. '?upload.seriesId=' . $xoctSeries
+			. '&return.label=ILIAS'
+			. '&return.target=' . urlencode($return_link);
 		header('Location:' . $studio_link);
 	}
-		
+
 
 	/**
 	 *
@@ -578,22 +638,30 @@ class xoctEventGUI extends xoctGUI {
         $extension = pathinfo($url)['extension'];
         $url = xoctConf::getConfig(xoctConf::F_SIGN_DOWNLOAD_LINKS) ? xoctSecureLink::signDownload($url) : $url;
 
-        // get filesize
-        $ch = curl_init($url);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        curl_setopt($ch, CURLOPT_HEADER, TRUE);
-        curl_setopt($ch, CURLOPT_NOBODY, TRUE);
-        curl_exec($ch);
-        $size = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
-        curl_close($ch);
 
-        // deliver file
-        header('Content-Description: File Transfer');
-        header('Content-Type: ' . $publication->getMediatype());
-        header('Content-Disposition: attachment; filename="' . $event->getTitle() . '.' . $extension . '"');
-        header('Content-Length: ' . $size);
-        readfile($url);
+		if(xoctConf::getConfig(xoctConf::F_EXT_DL_SOURCE)){
+			// Open external source page
+			header('Location: '.$url);
+		} else {
+            // get filesize
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, TRUE);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($ch, CURLOPT_HEADER, TRUE);
+            curl_setopt($ch, CURLOPT_NOBODY, TRUE);
+            curl_exec($ch);
+            $size = curl_getinfo($ch, CURLINFO_CONTENT_LENGTH_DOWNLOAD);
+            curl_close($ch);
+
+            // deliver file
+            header('Content-Description: File Transfer');
+        	header('Content-Type: ' . $publication->getMediatype());
+        	header('Content-Disposition: attachment; filename="' . $event->getTitle() . '.' . $extension . '"');
+        	header('Content-Length: ' . $size);
+			readfile($url);
+		}
+		
+		
         exit;
     }
 

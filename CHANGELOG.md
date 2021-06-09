@@ -1,19 +1,115 @@
 # Change Log
 
-## [x]
+## [3.6.0]
+- Change: ILIAS 7 compatibility
+- Change: dropped ILIAS 5.4 compatibility
+
+## [3.5.10]
+- Fix: tile view always showed Annotation & Download buttons
+
+## [3.5.9]
+- Change: ws v7.4.6
+- Change: hosted-git-info v2.8.9
+
+## [3.5.8]
+- Improvement: allow to copy and link objects in all possible views (repository "manage" function, repository actions dropdown and copying containers)
+
+## [3.5.7]
+- Fix: Prevent race condition when creating series via internal api
+- Fix: action menus crossed the window border
+- Fix: bad caching led to wrong ref ids (internal API)
+- Fix/Improvement: (Live streaming) player now checks individual chunklists before loading, to prevent an error with multi-resolution streams
+- Doc: added ROLE_SUDO to required roles in configuration doc
+
+## [3.5.6]
+- Fix: modals didn't work with config "Load event table synchronously"
+
+## [3.5.5]
+- Fix: error when creating new object
+- Fix: remove ssl default version for curl
+
+## [3.5.4]
+- Fix: settings form was filled out with old values after changing title or description
+- Fix: removed unnecessary signing of download urls
+- Change/Improvement: ILIAS object's title and description are synchronized with Opencast series only when opening the settings (this saves requests and boosts performance). Additionally, when saving the settings, all objects linked to the same series are updated (this increases the loading time for saving the settings but prevents inconsistent data).
+
+## [3.5.3]
+- Feature: paella player version 6.5.2 (thanks to mliradelc)
+- Improvement: add user to producers when opening opencast studio (thanks to rfcmaXi)
+- Fix: fixed some lang vars (thanks to reiferschris)
+
+## [3.5.2]
+- Fix: joining a live event always showed a (wrong) status overlay first 
+- Change: set default permission template when creating series with xoctSeriesAPI
+
+## [3.5.1]
+- Fix: small code change for InteractiveVideo plugin
+- Fix: removed php 7.1 syntax
+
+## [3.5.0]
+- Improvement: Paella Player v6.5.0 (fixed some minor issues)
+- Improvement: better performance by ommiting some unnecessary requests
+- Improvement: allow upload of .m4v files
+- Improvement: added available playback rates 1.75 and 2.0
+- Improvement: check and filter not-transmitting streams for multi-live-streams
+- Improvement: avoid showing 'interrupted' message for delayed live streams
+- Improvement: prevent player from loading last used profile (=layout)
+- Improvement/fix: new series - disable "choose existing series" if none available
+- Feature: show column for unprotected link only if such link is present (and restricted to edit_videos permission)
+- Feature: config for presigning urls (possible performance boost)
+- Feature: config for synchronous loading of table (possible performance boost)
+- Feature: additional option 'Login' for user mapping
+- Feature: config for making "Presenter" field mandatory (thanks mliradelc!)
+- Fix: internal player showed two streams but no quality selector on a single stream with multiple qualities
+- Fix: omit error when emptying trash with old Opencast object via cron job
+- Fix: show preview image in paella player
+- Fix: fixed user filter in 'change owner' and 'grant access' views (was case-sensitive)
+- Fix: fixed time format for reports table (plugin configuration)
+- Fix: fixed Opencast Studio return link (thanks LukasKalbertodt!)
+
+## [3.4.2]
+- Fix: upload error (wrong acl format)
+
+## [3.4.1]
+- Fix: paella time-marks plugin broke live stream player
+
+## [3.4.0]
+- Fix/Improvement: Updated Paella Player to v6.4.3 (fixes broken player buttons)
+
+## [3.3.4]
+- Fix: properly show scheduling conflict messages
+- Fix: Fatal error when opening workflow configuration
+- Fix: Unpublish Workflow didn't work properly in some situations
+
+## [3.3.3]
+- Added config for 'Common IdP' (currently used for OpencastPageComponent's permission checks)
+
+## [3.3.2]
+- Refactored download publications for easier integration in InteractiveVideo plugin
+
+## [3.3.1]
+- Fix save object metadata with % character
+
+## [3.3.0]
+- Download event button has now the option "External download Source"
+- Added Labels for FullHD and UltraHD
+- Add support for Opencast Studio return link
+
+## [3.2.0]
+- Fix latest ILIAS 6
 - Fix republish workflows with same name
 - Add line break after each iframe
 - Remove possible iframe border
 - Fix Docker-ILIAS log
+- Min. PHP 7.0
 
 ## [3.1.1]
 - Follow curl redirects
 - Fix core autoload conflict
 
-
 ## [3.1.0]
-- Change: ILIAS 6 compatability
-- Change: dropped ILIAS 5.3 compatability
+- Change: ILIAS 6 compatibility
+- Change: dropped ILIAS 5.3 compatibility
 - Fix: Fixed small caching bugs
 
 ## [3.0.0]
