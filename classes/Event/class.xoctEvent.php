@@ -1261,6 +1261,11 @@ class xoctEvent extends APIObject {
 		$this->workflow_parameters = $workflow_parameters;
 	}
 
+	public function setWorkflowParameter(string $parameter_id, $value)
+    {
+        $this->workflow_parameters[$parameter_id] = $value;
+    }
+
 
 	/**
 	 *
