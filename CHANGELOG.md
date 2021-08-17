@@ -1,9 +1,14 @@
 # Change Log
 
+## [3.7.0]
+- Feature: Caching via ILIAS Database (configurable in Plugin configuration: Settings -> Advanced)
+
 ## [3.6.0]
 - Change: ILIAS 7 compatibility
 - Feature: internal series api - allow additional producers when creating series
 - Feature: internal event api - allow setting workflow parameters when creating event
+- Feature: paella player version 6.5.4 (LL-HLS support)
+- Fix: Annotation Tool signature issues (thanks to mliradelc)
 
 ## [3.5.11]
 - Fix: add presenter stream before presentation to avoid missing audio in paella player
