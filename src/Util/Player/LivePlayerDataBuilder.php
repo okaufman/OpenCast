@@ -35,7 +35,8 @@ class LivePlayerDataBuilder extends PlayerDataBuilder
                         "hls" => [
                             [
                                 "src" => $track['url'],
-                                "mimetype" => $track['mimetype']
+                                "mimetype" => $track['mimetype'],
+                                "isLiveStream" => true
                             ]
                         ]
                     ]
@@ -49,7 +50,8 @@ class LivePlayerDataBuilder extends PlayerDataBuilder
                     "hls" => [
                         [
                             "src" => $track['url'],
-                            "mimetype" => $track['mimetype']
+                            "mimetype" => $track['mimetype'],
+                            "isLiveStream" => true
                         ]
                     ]
                 ]
