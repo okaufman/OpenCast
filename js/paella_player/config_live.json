@@ -58,7 +58,8 @@
           "maxBufferSize": 6000000,
           "maxBufferHole": 0.5,
           "lowBufferWatchdogPeriod": 0.5,
-          "highBufferWatchdogPeriod": 3
+          "highBufferWatchdogPeriod": 3,
+          "liveMaxLatencyDurationCount": 10000
         }
       },
       {
