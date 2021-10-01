@@ -193,7 +193,7 @@ event_identifier#:#ID
 event_invite_others#:#Zugriffsrechte erteilen
 event_location#:#Aufnahmestation
 event_msg_created#:#Upload abgeschlossen
-event_msg_deleted#:#Aufzeichnung gelöscht
+event_msg_deleted#:#Aufzeichnung wird gelöscht. Bis sie in der unten stehenden Liste verschwindet, dauert es eine Weile.
 event_msg_unpublish_started#:#Die Publikationen werden nun entfernt.
 event_msg_currently_unpublishing#:#Der Prozess zum Entfernen der Publikationen läuft bereits.
 event_msg_no_access#:#kein Zugriff

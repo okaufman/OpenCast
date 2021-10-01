@@ -195,7 +195,7 @@ event_identifier#:#ID
 event_invite_others#:#Grant access rights
 event_location#:#Recording Station
 event_msg_created#:#Upload finished
-event_msg_deleted#:#Event deleted
+event_msg_deleted#:#Event deleted. It takes a while for it to disappear in the list below.
 event_msg_unpublish_started#:#The publications are now being removed.
 event_msg_currently_unpublishing#:#The process to remove the publications is already running.
 event_msg_no_access#:#No Access
