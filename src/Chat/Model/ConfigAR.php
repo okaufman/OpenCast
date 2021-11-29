@@ -51,7 +51,7 @@ class ConfigAR extends ActiveRecord
     public static function getConfig($name) {
         if (!self::$cache_loaded[$name]) {
             $obj = new self($name);
-            self::$cache[$name] = json_decode($obj->getValue());
+            self::$cache[$name] = $obj->getValue();
             self::$cache_loaded[$name] = true;
         }
 
