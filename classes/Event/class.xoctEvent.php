@@ -153,9 +153,7 @@ class xoctEvent extends APIObject {
 			$this->initAdditions();
 		}
 
-        if (!$this->metadata) {
-            $this->loadMetadata();
-        }
+        $this->loadMetadata();
 
         // if no_metadata option is set, the metadata below will already be initialized
         if (EventRepository::$no_metadata) {
@@ -366,7 +364,6 @@ class xoctEvent extends APIObject {
 	public function update() {
 		// Metadata
 		$this->updateMetadataFromFields($this->isScheduled());
-		$this->getMetadata()->setFlavor(Metadata::FLAVOR_DUBLINCORE_EPISODES);
 		$this->getMetadata()->removeField('identifier');
 		$this->getMetadata()->removeField('isPartOf');
 		$this->getMetadata()->removeField('createdBy'); // can't be updated at the moment
@@ -925,7 +922,7 @@ class xoctEvent extends APIObject {
 	 * @return string
 	 */
 	public function getDescription() {
-		return strip_tags($this->description);
+		return $this->description;
 	}
 
 
@@ -991,7 +988,7 @@ class xoctEvent extends APIObject {
 	 * @return string
 	 */
 	public function getLocation() {
-		return strip_tags($this->location);
+		return $this->location;
 	}
 
 
@@ -1007,7 +1004,7 @@ class xoctEvent extends APIObject {
 	 * @return String
 	 */
 	public function getPresenter() {
-		return strip_tags($this->presenter);
+		return $this->presenter;
 	}
 
 
@@ -1093,7 +1090,7 @@ class xoctEvent extends APIObject {
 	 * @return string
 	 */
 	public function getTitle() {
-		return strip_tags($this->title);
+		return $this->title;
 	}
 
 
