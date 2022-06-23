@@ -167,6 +167,7 @@ class OpencastDIC
             return new SeriesWorkflowParameterRepository(
                 $this->dic->ui()->factory(),
                 $this->dic->refinery(),
+                $c['plugin'],
                 $c['workflow_parameter_parser']);
         });
         $this->container['workflow_parameter_parser'] = $this->container->factory(function ($c) {

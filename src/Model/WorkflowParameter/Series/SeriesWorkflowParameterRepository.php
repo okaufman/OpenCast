@@ -5,6 +5,7 @@ namespace srag\Plugins\Opencast\Model\WorkflowParameter\Series;
 use ILIAS\Refinery\Factory as RefineryFactory;
 use ILIAS\UI\Component\Input\Field\Input;
 use ILIAS\UI\Factory;
+use ilPlugin;
 use srag\Plugins\Opencast\Model\Config\PluginConfig;
 use srag\Plugins\Opencast\Model\Object\ObjectSettings;
 use srag\Plugins\Opencast\Model\WorkflowParameter\Config\WorkflowParameter;
@@ -39,13 +40,19 @@ class SeriesWorkflowParameterRepository
      * @var WorkflowParameterParser
      */
     private $workflowParameterParser;
+    /**
+     * @var ilPlugin
+     */
+    private $plugin;
 
     public function __construct(Factory                 $ui_factory,
                                 RefineryFactory         $refinery,
+                                ilPlugin                 $plugin,
                                 WorkflowParameterParser $workflowParameterParser)
     {
         $this->ui_factory = $ui_factory;
         $this->refinery = $refinery;
+        $this->plugin = $plugin;
         $this->workflowParameterParser = $workflowParameterParser;
     }
 
@@ -61,6 +68,7 @@ class SeriesWorkflowParameterRepository
             $self = new self(
                 $DIC->ui()->factory(),
                 $DIC->refinery(),
+                \ilOpenCastPlugin::getInstance(),
                 new WorkflowParameterParser()
             );
             self::$instance = $self;
@@ -323,7 +331,7 @@ class SeriesWorkflowParameterRepository
 
     private function buildFormSection(array $items): Input
     {
-        return $this->ui_factory->input()->field()->section($items, 'Workflow Parameter')
+        return $this->ui_factory->input()->field()->section($items, $this->plugin->txt('processing_settings'))
             ->withAdditionalTransformation($this->refinery->custom()->transformation(function ($vs) {
                 $vs['object'] = $this->workflowParameterParser->configurationFromFormData($vs);
                 return $vs;

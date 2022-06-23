@@ -492,6 +492,7 @@ date_from#:#Datum Von
 date_to#:#Datum Bis
 sender#:#Verfasser
 workflow_parameters#:#Workflow Parameter
+processing_settings#:#Verarbeitungseinstellungen
 default_values#:#Standardwerte
 default_value_member#:#Verwendung Mitglieder
 default_value_admin#:#Verwendung Admins
@@ -533,6 +534,7 @@ md_prefill#:#Vorausgefüllt mit
 md_prefill_none#:#Leer
 md_prefill_username_creator#:#Benutzername
 md_prefill_crs_title#:#Kurstitel
+md_prefill_time#:#Zeit
 md_actions#:#Aktionen
 md_title_de#:#Titel Deutsch
 md_title_en#:#Titel Englisch

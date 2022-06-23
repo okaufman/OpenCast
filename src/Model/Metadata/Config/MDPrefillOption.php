@@ -9,11 +9,13 @@ class MDPrefillOption
     const T_COURSE_TITLE = 'crs_title';
     const T_USERNAME_OF_CREATOR = 'username_creator';
     const T_NONE = 'none';
+    const T_TIME ='startDate';
 
     public static $allowed_values = [
         self::T_COURSE_TITLE,
         self::T_USERNAME_OF_CREATOR,
-        self::T_NONE
+        self::T_NONE,
+        self::T_TIME
     ];
 
     /**
@@ -47,6 +49,12 @@ class MDPrefillOption
     public static function none() : self
     {
         return new self(self::T_NONE);
+    }
+
+
+    public static function time() : self
+    {
+        return new self(self::T_TIME);
     }
 
     /**

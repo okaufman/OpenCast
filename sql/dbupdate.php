@@ -149,6 +149,7 @@ if (\srag\Plugins\Opencast\Model\WorkflowParameter\Config\WorkflowParameter::cou
     (new \srag\Plugins\Opencast\Model\WorkflowParameter\Series\SeriesWorkflowParameterRepository(
         $DIC->ui()->factory(),
         $DIC->refinery(),
+        \ilOpenCastPlugin::getInstance(),
         new \srag\Plugins\Opencast\Model\WorkflowParameter\WorkflowParameterParser()
     ))->createParamsForAllObjects($params);
 }

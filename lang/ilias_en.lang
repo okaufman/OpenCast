@@ -495,6 +495,7 @@ date_from#:#Date From
 date_to#:#Date To
 sender#:#Creator
 workflow_parameters#:#Workflow Parameters
+processing_settings#:#Processing settings
 default_values#:#Default Values
 default_value_member#:#Usage for Members
 default_value_admin#:#Usage for Admins
@@ -535,6 +536,7 @@ md_prefill#:#Prefilled with
 md_prefill_none#:#None
 md_prefill_username_creator#:#Username
 md_prefill_crs_title#:#Course Title
+md_prefill_time#:#current time
 md_actions#:#Actions
 md_title_de#:#Title German
 md_title_en#:#Title English
