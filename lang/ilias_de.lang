@@ -17,7 +17,7 @@ config_api_version_info#:#Format: vX.Y.Z - z.B.: v1.0.0
 config_audio_allowed#:#Audio-Dateien
 config_cancel#:#Abbrechen
 config_create_scheduled_allowed#:#"Aufzeichnungstermin(e) planen" erlauben
-config_create_scheduled_allowed_info#:#Achtung: Das planen von Aufzeichnungsterminen ist erst ab SWITCHcast API-Version 1.1.0 möglich.
+config_create_scheduled_allowed_info#:#Achtung: Das planen von Aufzeichnungsterminen ist erst ab Opencast API-Version 1.1.0 möglich.
 config_common_idp#:#Gemeinsamer IdP
 config_common_idp_info#:#Auswählen, falls ILIAS und Opencast den selben Identity Provider verwenden (z.B. Shibboleth oder LDAP). Dadurch können gewisse Rechteprüfungen genauer durchgeführt werden.
 config_oc_studio_allowed#:#Opencast Studio aktivieren
@@ -26,8 +26,8 @@ config_curl#:#cURL
 config_curl_debug_level#:#Debug-Level
 config_curl_password#:#API-Passwort
 config_curl_username#:#API-Benutzername
-config_editor_link#:#Link zum SWITCHcast-Video-Editor
-config_editor_link_info#:#Als Platzhalter kann &#123event_id} verwendet werden. Bsp: https://myswitchcast.com/external-url/events/&#123event_id}/editor
+config_editor_link#:#Link zum Opencast-Video-Editor
+config_editor_link_info#:#Link, welcher für die Aktion "Schneiden" verwendet wird. Als Platzhalter kann &#123event_id} verwendet werden. Default: https://[ihre-opencast-url.de]/admin-ng/index.html#!/events/events/&#123event_id}/tools/editor
 config_eula#:#Nutzungsvereinbarung
 config_events#:#Aufzeichnungen
 config_external_download_source#:#Externe Downloadquelle
@@ -44,7 +44,7 @@ config_log_level_2#:#MEDIUM
 config_log_level_3#:#HIGH
 config_log_level_4#:#ULTRA
 config_msg_success#:#Gespeichert
-config_roles#:#SWITCHcast-Rollen
+config_roles#:#Opencast-Rollen
 config_role_anonymous#:#Anonym
 config_role_external_application_member#:#External Application Member
 config_role_ext_application#:#External Application
@@ -61,7 +61,7 @@ config_workflow#:#Processing-Workflow-ID
 config_workflow_unpublish#:#Unpublish-Workflow-ID
 config_advanced#:#Erweitert
 config_security#:#Security
-config_security_info#:#Erhöht die Sicherheit mithilfe von SWITCHcasts "Stream Security". Nur aktivieren, wenn SWITCHcast dafür konfiguriert ist.
+config_security_info#:#Erhöht die Sicherheit mithilfe von Opencasts "Stream Security". Nur aktivieren, wenn Opencast dafür konfiguriert ist.
 config_sign_annotation_links#:#Annotationslink signieren
 config_sign_annotation_links_time#:#Gültigkeit in Sekunden
 config_sign_annotation_links_time_info#:#Wie lange der Link für Annotation gültig sein soll (0 entspricht Verwaltung durch Opencast).
@@ -80,37 +80,36 @@ config_sign_thumbnail_links_time#:#Gültigkeit in Sekunden
 config_sign_thumbnail_links_time_info#:#Wie lange der Link für Thumbnail gültig sein soll (0 entspricht Verwaltung durch Opencast).
 config_sign_thumbnail_links_with_ip#:#Für Client-IP signieren
 config_request_comb_lv#:#Request Kombinations Level
-config_request_comb_lv_info#:#Definiert die Zusammensetzung der Anfragen, mit welchen die Events von SWITCHcast geholt werden (viele kleine/wenige grosse Anfragen). Dies hat keinen Einfluss auf die Funktionalität, beeinflusst jedoch die Performanz.
-config_groups#:#SWITCHcast-Gruppen
+config_request_comb_lv_info#:#Definiert die Zusammensetzung der Anfragen, mit welchen die Events von Opencast geholt werden (viele kleine/wenige grosse Anfragen). Dies hat keinen Einfluss auf die Funktionalität, beeinflusst jedoch die Performanz.
+config_groups#:#Opencast-Gruppen
 config_group_producers#:#ILIAS Producers
 config_std_roles#:#Standardrollen
 config_std_roles_info#:#Die hier angegebenen Rollen erhalten Schreib- und Leserechte beim Erstellen eines Events oder einer Serie.
-config_api_base_info#:#z.B.: https://myswitchcast.com/api
+config_api_base_info#:#z.B.: https://myopencast.com/api
 config_audio_allowed_info#:#Wenn aktiviert, können neben Video-Dateien auch Audio-Dateien hochgeladen werden.
-config_curl_username_info#:#Benutzeraccount in SWITCHcast, der zur Kommunikation über die API genutzt wird (benötigt genügend Rechte in OC)
+config_curl_username_info#:#Benutzeraccount in Opencast, der zur Kommunikation über die API genutzt wird (benötigt genügend Rechte in OC)
 config_curl_password_info#:#Passwort zum oben angegebenen Account.
 config_curl_debug_level_info#:#Detaillierungsgrad der Einträge im Log.
-config_streaming_url_info#:#Wowza URL für adaptive streaming. Bsp: https://wowza.myopencast.com:8090/opencast-engage
-config_use_streaming_info#:#Wenn aktive werden die MP4 Streams aus der API durch passende Streaming URLs ersetzt
+config_streaming_url_info#:#Wowza-URL für adaptive streaming. Bsp: https://wowza.myopencast.com:8090/opencast-engage
+config_use_streaming_info#:#Wenn aktiv, werden die Streaming URLs für Opencast Events vom Plugin eigens generiert, in der Form: [Wowza-URL]/smil:engage-player_[Event-ID]_[presenter|presentation].smil/playlist.m3u8
 config_use_modals_info#:#Wenn aktiviert: Beim Abspielen von Videos wird kein neues Browserfenster geöffnet, sondern der Player wird im aktuellen Fenster angezeigt.
-config_workflow_info#:#ID des workflows, welcher nach dem Hochladen eines Videos in SWITCHcast angewendet wird.
-config_workflow_unpublish_info#:#ID des workflows, welcher vor dem Löschen eines Videos in SWITCHcast angewendet wird. Benötigt API-Version 1.1.0.
-config_user_mapping_info#:#Benutzerfeld in ILIAS, welches zur Identifikation eines Benutzers in SWITCHcast verwendet werden soll.
-config_group_producers_info#:#Benutzer mit dem Recht "Videos editieren" werden vom Plugin in der hier angegebenen SWITCHcast-Gruppe eingeschrieben, um dadurch Zugriff auf SWITCHcast zu erhalten.
-config_role_user_prefix_info#:#Benutzereigene Rolle in SWITCHcast. Wird auf Serien gesetzt, um dem Benutzer genügend Rechte in SWITCHcast einzuräumen. Bsp: ROLE_USER_&#123IDENTIFIER}
-config_role_ivt_external_prefix_info#:#Gibt den Besitzer eines Events an. Diese Rolle muss NICHT in SWITCHcast existieren. Bsp: ROLE_OWNER_&#123IDENTIFIER}
-config_role_ivt_email_prefix_info#:#Gibt den Besitzer eines Events an. Diese Rolle muss NICHT in SWITCHcast existieren. Bsp: ROLE_OWNER_EMAIL_&#123IDENTIFIER}
+config_workflow_info#:#ID des workflows, welcher nach dem Hochladen eines Videos in Opencast angewendet wird.
+config_workflow_unpublish_info#:#ID des workflows, welcher vor dem Löschen eines Videos in Opencast angewendet wird. Benötigt API-Version 1.1.0.
+config_user_mapping_info#:#Benutzerfeld in ILIAS, welches zur Identifikation eines Benutzers in Opencast verwendet werden soll. <br><b>Achtung: Die Email-Adresse kann je nach ILIAS-Konfiguration durch den Benutzer selbst geändert werden. In diesem Fall sollte Email-Adresse auf keinen Fall als Mapping verwendet werden.</b>
+config_group_producers_info#:#Benutzer mit dem Recht "Videos editieren" werden vom Plugin in der hier angegebenen Opencast-Gruppe eingeschrieben, um dadurch Zugriff auf Opencast zu erhalten.
+config_role_user_prefix_info#:#Benutzereigene Rolle in Opencast. Wird auf Serien gesetzt, um dem Benutzer genügend Rechte in Opencast einzuräumen. Bsp: ROLE_USER_&#123IDENTIFIER}
+config_role_owner_prefix_info#:#Gibt den Besitzer eines Events an. Diese Rolle muss NICHT in Opencast existieren. Bsp: ROLE_OWNER_&#123IDENTIFIER}. NICHT den gleichen Wert wie für Benutzerrolle wählen.
 config_identifier_to_uppercase#:#User-Mapping in Grossbuchstaben
 config_no_metadata#:#Ohne Metadaten
 config_no_metadata_info#:#Ab API Version 1.1.0 müssen die Metadaten nicht mehr separat geholt werden, mit dieser Option kann somit die Performanz verbessert werden. In allen älteren Versionen wird diese Option allerdings zu einem Fehler führen.
 config_internal_player#:#Interner Video-Player
-config_internal_player_info#:#Wenn aktiviert, wird ein im Plugin integrierter Video-Player verwendet, statt an SWITCHcast weiterzuleiten.
-config_use_streaming#:#Benutze Streaming URLs
+config_internal_player_info#:#Wenn aktiviert, wird ein im Plugin integrierter Video-Player verwendet, statt an Opencast weiterzuleiten.
+config_use_streaming#:#Selbstgenerierte Streaming-URLs verwenden
 config_streaming#:#Streaming
-config_streaming_url#:#Wowza URL
+config_streaming_url#:#Wowza-URL
 config_general#:#Allgemeines
 config_report_quality#:#"Qualitätsprobleme melden" aktivieren
-config_report_quality_info#:#Aktiviert die Möglichkeit, Qualitätsprobleme von Aufzeichnungen innerhalb von SWITCHcast-Objekten zu melden.
+config_report_quality_info#:#Aktiviert die Möglichkeit, Qualitätsprobleme von Aufzeichnungen innerhalb von Opencast-Objekten zu melden.
 config_report_quality_email#:#Email
 config_report_quality_email_info#:#Adresse, an welche die Meldung des Problems geschickt wird.
 config_report_quality_text#:#Info-Text
@@ -119,7 +118,7 @@ config_report_quality_access#:#Zugriff
 config_report_quality_access_1#:#Alle Benutzer
 config_report_quality_access_2#:#Nur Besitzer des Videos und Benutzer mit dem Recht "Videos editieren"
 config_report_date#:#"Terminanpassungen melden" aktivieren
-config_report_date_info#:#Aktiviert die Möglichkeit, Terminanpassungen von geplanten Aufzeichnungen innerhalb von SWITCHcast-Objekten zu melden.
+config_report_date_info#:#Aktiviert die Möglichkeit, Terminanpassungen von geplanten Aufzeichnungen innerhalb von Opencast-Objekten zu melden.
 config_report_date_email#:#Email
 config_report_date_email_info#:#Adresse, an welche die Meldung der Anpassung geschickt wird.
 config_report_date_text#:#Info-Text
@@ -127,7 +126,7 @@ config_report_date_text_info#:#Text, welcher als Info im Formular zum Melden von
 config_scheduled_metadata_editable#:#Metadaten von geplanten Events editierbar
 config_scheduled_metadata_editable_0#:#Nein
 config_scheduled_metadata_editable_1#:#Ja, mit wirksamer Änderung der Terminprogrammierung
-config_scheduled_metadata_editable_1_info#:#Achtung: Erst ab SWITCHcast API-Version 1.1.0 möglich
+config_scheduled_metadata_editable_1_info#:#Achtung: Erst ab Opencast API-Version 1.1.0 möglich
 config_scheduled_metadata_editable_2#:#Alle, außer Datum und Aufnahmestation
 config_segment_tag#:#Segment-preview-Tag
 config_segment_tag_info#:#Benutze den Tag für das Filtern der Segment-Previews
@@ -135,7 +134,7 @@ config_use_highlowres_segment_preview#:#High- und Low-Resolution Previews nutzen
 config_use_highlowres_segment_preview_info#:#Standardmässig in Opencast deaktiviert, muss konfiguriert werden.
 config_video_portal_title#:#Bezeichung des externen Videoportals
 config_video_portal_link#:#Link zu externem Videoportal
-config_video_portal_link_info#:#Wird in den Einstellungen und im Infotab einer Serie angezeigt. Als Platzhalter kann &#123series_id} verwendet werden. Bsp: https://myswitchcast-tube.com/cast/channels/&#123series_id}
+config_video_portal_link_info#:#Wird in den Einstellungen und im Infotab einer Serie angezeigt. Als Platzhalter kann &#123series_id} verwendet werden. Bsp: https://myopencast-tube.com/cast/channels/&#123series_id}
 config_permission_templates#:#Berechtigungsvorlagen
 config_presenter_mandatory#:#"Referent/in" als Pflichtfeld
 config_presenter_mandatory_info#:#Macht das Ausfüllen des Feldes "Referent/in" für einen Event-Upload Pflicht.
@@ -178,8 +177,8 @@ event_cut#:#Schneiden
 event_date#:#Datum
 event_delete#:#Löschen
 event_unpublish#:#Publikationen entfernen
-event_delete_confirm#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auch auf SWITCHcast). Wollen Sie diese Aufzeichnung wirklich löschen?
-event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, muss zuerst die Publikation rückgängig gemacht werden. Wollen Sie die Publikation wirklich rückgängig machen?
+event_delete_confirm#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auch auf Opencast). Wollen Sie diese Aufzeichnung wirklich löschen?
+event_unpublish_confirm#:#Damit diese Aufzeichnung gelöscht werden kann, müssen erst alle Publikationen in Opencast entfernt werden. Wollen Sie die Publikationen wirklich entfernen?
 event_description#:#Untertitel
 event_download#:#Download
 event_duration#:#Dauer
@@ -193,7 +192,7 @@ event_identifier#:#ID
 event_invite_others#:#Zugriffsrechte erteilen
 event_location#:#Aufnahmestation
 event_msg_created#:#Upload abgeschlossen
-event_msg_deleted#:#Aufzeichnung wird gelöscht. Bis sie in der unten stehenden Liste verschwindet, dauert es eine Weile.
+event_msg_deleted#:#Aufzeichnung gelöscht
 event_msg_unpublish_started#:#Die Publikationen werden nun entfernt.
 event_msg_currently_unpublishing#:#Der Prozess zum Entfernen der Publikationen läuft bereits.
 event_msg_no_access#:#kein Zugriff
@@ -240,14 +239,14 @@ event_update#:#Speichern
 event_updateOwner#:#Besitzer speichern
 event_view#:#Anzeigen
 event_online#:#Aufzeichnung online
-event_online_info#:#Dies bezieht sich nur auf diese ILIAS-Installation und wird nicht auf SWITCHcast abgebildet
+event_online_info#:#Dies bezieht sich nur auf diese ILIAS-Installation und wird nicht auf Opencast abgebildet
 event_upload_select#:#Datei auswählen
 event_upload_clear#:#Zurücksetzen
 event_supported_filetypes#:#Unterstützte Dateitypen
 event_set_offline#:#Offline schalten
 event_created_unix#:#Datum
 event_set_online#:#Online schalten
-event_delete_confirm_w_duplicates#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auf SWITCHcast und in den anderen ILIAS-Verlinkungen). Wollen Sie diese Aufzeichnung wirklich löschen?
+event_delete_confirm_w_duplicates#:#Das Löschen bewirkt, dass die Aufzeichnung definitiv gelöscht wird (auf Opencast und in den anderen ILIAS-Verlinkungen). Wollen Sie diese Aufzeichnung wirklich löschen?
 event_state_failed_owner#:#Fehlgeschlagen. Melden Sie sich bei Ihrer Supportstelle.
 event_state_running_owner#:#Wird konvertiert, für andere Studierende noch nicht sichtbar
 event_report_date_modification#:#Terminanpassungen melden
@@ -273,9 +272,9 @@ owner_only_one_owner#:#Es kann nur ein Besitzer pro Video ausgewählt werden.
 invitations_back#:#Zurück
 invitations_header#:#Zugriffsrechte erteilen
 invitations_none_available#:#Keine verfügbar
-obj_xoct#:#Video (SWITCHcast Serie)
-objs_xoct#:#SWITCHcast Serie
 invitations_invite_all#:#Alle hinzufügen
+obj_xoct#:#Opencast
+objs_xoct#:#Opencast
 perm_upload#:#Upload
 perm_edit_videos#:#Videos Editieren
 publication_usage_add#:#Hinzufügen
@@ -325,7 +324,7 @@ series_channel_id#:#Series ID
 series_channel_type#:#Serie-Typ
 series_create#:#Serie anlegen
 series_chat_active#:#Chat bei Live-Streams
-series_chat_active_info#:#Nur bei Live-Streams (nicht bei Aufzeichnungen): Aktiviert einen on-screen Chat.
+series_chat_active_info#:#Nur bei Live-Streams (nicht bei Aufzeichnungen): Aktiviert einen on-screen Chat
 series_default_view#:#Standard-Ansicht
 series_department#:#Department
 series_department_info#:#Name Ihrer Institution
@@ -367,7 +366,7 @@ series_member_upload#:#Upload durch Mitglieder
 series_member_upload_info#:#Kurs- bzw. Gruppenmitglieder erhalten durch das Recht "Upload" die Möglichkeit, Videos hochzuladen und eigene Videos zu löschen. Kann später in den Rechteeinstellungen geändert werden.
 series_video_portal_link#:#Link zur Serie in %s
 series_view_changeable#:#Ansicht änderbar
-series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, zwischen Listen- und Kachelansicht zu wechseln.
+series_view_changeable_info#:#Der Benutzer hat die Möglichkeit, die Ansicht selbst zu wechseln.
 series_view_type_0#:#Liste
 series_view_type_1#:#Kacheln
 series_links#:#Links
@@ -410,21 +409,21 @@ subtab_workflow_params#:#Workflow-Parameter
 upload_token_channel_id#:#Series-ID
 upload_token_daily_upload_token#:#Token
 upload_token_upload_token#:#Upload-Token
-xoct_new#:#SWITCHcast Serie erstellen
+xoct_new#:#Opencast-Series erstellen
 xoct_rep_robj_xoct_perm_upload#:#Benutzer kann Videos hochladen
 xoct_rep_robj_xoct_perm_edit_videos#:#Benutzer kann Videos editieren
-xoct_visible#:#SWITCHcast-Objekt ist sichtbar
-xoct_read#:#Lesezugriff auf SWITCHcast-Objekt
-xoct_write#:#Einstellungen eines SWITCHcast-Objekts bearbeiten
-xoct_delete#:#SWITCHcast-Objekt löschen oder verschieben
-xoct_edit_permission#:#Rechteeinstellungen des SWITCHcast-Objektes ändern
+xoct_visible#:#Opencast-Objekt ist sichtbar
+xoct_read#:#Lesezugriff auf Opencast-Objekt
+xoct_write#:#Einstellungen eines Opencast-Objekts bearbeiten
+xoct_delete#:#Opencast-Objekt löschen oder verschieben
+xoct_edit_permission#:#Rechteeinstellungen des Opencast-Objektes ändern
 form_msg_select#:#Bitte wählen Sie zuerst eine Videodatei aus
 form_msg_not_supported#:#Dateityp wird nicht unterstützt
 info_linked_items#:#Verlinkungen
 info_linked_item#:#Verlinkung
 info_auto_publish_forced#:#Das Video wird automatisch publiziert, da Sie nicht über genügend Rechte verfügen, um es später manuell zu publizieren.
 msg_info_multiple_aftersave#:#Diese Serie hat mehrere Verlinkungen in ILIAS (siehe unter «Info»). Hochgeladene Aufzeichnungen werden in alle Verlinkungen hochgeladen.
-msg_creation_failed#:#Objekte vom Typ "SWITCHcast Serie" können nur innerhalb von Kursen oder Gruppen angelegt werden.
+msg_creation_failed#:#Objekte vom Typ "Opencast" können nur innerhalb von Kursen oder Gruppen angelegt werden.
 msg_permission_templates_info#:#Die erstellten Vorlagen können beim Erstellen und Bearbeiten einer Serie ausgewählt werden, um die konfigurierte Rolle mit den entsprechenden Rechten und ACL-Actions auf der Serie zu setzen. Die Rollen der restlichen Vorlagen werden dabei entfernt.
 msg_confirm_delete_perm_template#:#Sind Sie sicher, dass Sie folgende Vorlage löschen möchten?
 msg_confirm_delete_reports#:#Sind Sie sicher, dass Sie folgende Meldungen löschen möchten?
@@ -459,7 +458,7 @@ perm_tpl_form_info_en#:#Info EN
 perm_tpl_form_info_de_info#:#Wird für die Anzeige in ILIAS verwendet (Deutsch).
 perm_tpl_form_info_en_info#:#Wird für die Anzeige in ILIAS verwendet (Englisch).
 perm_tpl_form_role#:#Rolle
-perm_tpl_form_role_info#:#Rolle, welche in SWITCHcast gesetzt wird.
+perm_tpl_form_role_info#:#Rolle, welche in Opencast gesetzt wird.
 perm_tpl_form_read#:#Leserechte
 perm_tpl_form_read_info#:#Bestimmt, ob obiger Rolle Leserechte zugeschrieben werden.
 perm_tpl_form_write#:#Schreibrechte
@@ -475,11 +474,6 @@ msg_quality_report_sent#:#Die Meldung wurde abgeschickt. Der Support wurde benac
 date_from#:#Datum Von
 date_to#:#Datum Bis
 sender#:#Verfasser
-grp_create_xoct#:#SWITCHcast Serie anlegen
-cat_create_xoct#:#SWITCHcast Serie anlegen
-crs_create_xoct#:#SWITCHcast Serie anlegen
-root_create_xoct#:#SWITCHcast Serie anlegen
-fold_create_xoct#:#SWITCHcast Serie anlegen
 workflow_parameters#:#Workflow Parameter
 default_values#:#Standardwerte
 default_value_member#:#Verwendung Mitglieder
@@ -507,4 +501,8 @@ parameters_info#:#Hier angegebene Workflow-Parameter werden mit dem Wert 'true' 
 unprotected_link#:#Ungeschützter Link
 msg_link_copied#:#Link kopiert
 tooltip_copy_link#:#Link in die Zwischenablage kopieren
-
+cat_create_xoct#:#Opencast-Objekt anlegen
+crs_create_xoct#:#Opencast-Objekt anlegen
+fold_create_xoct#:#Opencast-Objekt anlegen
+grp_create_xoct#:#Opencast-Objekt anlegen
+root_create_xoct#:#Opencast-Objekt anlegen 
