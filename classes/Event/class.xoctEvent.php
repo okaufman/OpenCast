@@ -574,6 +574,7 @@ class xoctEvent extends APIObject {
 			$this->setStart($this->scheduling->getStart());
 			$this->setEnd($this->scheduling->getEnd());
 			$this->setLocation($this->scheduling->getAgentId());
+            $this->setInputs($this->scheduling->getInputs());
 		} else {
 			$this->scheduling = new Scheduling();
 		}
@@ -704,6 +705,11 @@ class xoctEvent extends APIObject {
 	 * @var string
 	 */
 	protected $presenter;
+
+    /**
+     * @var array
+     */
+    protected $inputs;
 	/**
 	 * @var array
 	 */
@@ -1020,6 +1026,15 @@ class xoctEvent extends APIObject {
 	}
 
 
+    public function getInputs($inputs) {
+      $this->inputs;
+    }
+
+    public function setInputs($inputs) {
+        $this->inputs =  $inputs;
+    }
+
+
 	/**
 	 * @return array
 	 */
@@ -1314,6 +1329,7 @@ class xoctEvent extends APIObject {
 		$this->getScheduling()->setEnd($this->getEnd());
 		$this->getScheduling()->setStart($this->getStart());
 		$this->getScheduling()->setAgentId($this->getLocation());
+        $this->getScheduling()->setInputs( xoctConf::getConfig(xoctConf::F_SCHEDULE_CHANNEL)[0] == "" ? ['default']: xoctConf::getConfig(xoctConf::F_SCHEDULE_CHANNEL));
 	}
 
 

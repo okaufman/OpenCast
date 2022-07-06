@@ -58,6 +58,7 @@ class xoctConf extends ActiveRecord {
 	const F_SIGN_THUMBNAIL_LINKS_WITH_IP = 'sign_thumbnail_links_with_ip';
 	const F_WORKFLOW_PARAMETERS = 'workflow_parameters';
 	const F_AUDIO_ALLOWED = 'audio_allowed';
+    const F_SCHEDULE_CHANNEL = 'schedule_channel';
 	const F_CREATE_SCHEDULED_ALLOWED = 'create_scheduled_allowed';
 	const F_STUDIO_ALLOWED = 'oc_studio_allowed';
 	const F_EXT_DL_SOURCE = 'external_download_source';

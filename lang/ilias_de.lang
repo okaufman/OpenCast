@@ -22,6 +22,8 @@ config_common_idp#:#Gemeinsamer IdP
 config_common_idp_info#:#Auswählen, falls ILIAS und Opencast den selben Identity Provider verwenden (z.B. Shibboleth oder LDAP). Dadurch können gewisse Rechteprüfungen genauer durchgeführt werden.
 config_oc_studio_allowed#:#Opencast Studio aktivieren
 config_oc_studio_allowed_info#:#Ermöglichen Sie Benutzern den Zugriff auf Opencast Studio von Ilias aus (Erfordert Opencast > 8.3)
+config_schedule_channel#:#Input-Wert für Scheduling
+config_schedule_channel_info#:#Input Wert, der an die Capture Agents geschickt wird, wenn Aufzeichnungen über das Plugin geplant werden. Hinweis: Scheduling benötigt die API v1.1.0.
 config_curl#:#cURL
 config_curl_debug_level#:#Debug-Level
 config_curl_password#:#API-Passwort

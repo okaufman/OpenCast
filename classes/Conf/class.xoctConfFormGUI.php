@@ -207,6 +207,11 @@ class xoctConfFormGUI extends ilPropertyFormGUI {
 		$te->setInfo($this->parent_gui->txt(xoctConf::F_WORKFLOW_UNPUBLISH . '_info'));
 		$this->addItem($te);
 
+		$te = new ilTextInputGUI($this->parent_gui->txt(xoctConf::F_SCHEDULE_CHANNEL), xoctConf::F_SCHEDULE_CHANNEL);
+		$te->setInfo($this->parent_gui->txt(xoctConf::F_SCHEDULE_CHANNEL . '_info'));
+		$te->setMulti(true);
+		$this->addItem($te);
+
 		$te = new ilTextInputGUI($this->parent_gui->txt(xoctConf::F_EDITOR_LINK), xoctConf::F_EDITOR_LINK);
 		$te->setInfo($this->parent_gui->txt(xoctConf::F_EDITOR_LINK . '_info'));
 		$this->addItem($te);
