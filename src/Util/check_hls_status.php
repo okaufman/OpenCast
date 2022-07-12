@@ -35,7 +35,7 @@ function parsePlaylist(string $m3u8) : array
     $pieces = explode("\n", $m3u8); // make an array out of curl return value
     $pieces = array_map('trim', $pieces); // remove unnecessary space
     $chunklists = array_filter($pieces, function (string $piece) { // pluck out m3u8 urls
-       return strtolower(substr($piece, -5)) === '.m3u8';
+       return strtolower(substr($piece, -3)) === '.ts';
     });
     return $chunklists;
 }
@@ -45,7 +45,7 @@ $response = fetch($url);
 $url = $response['effective_url'] ?? $url;
 $base_url = substr($url, 0, strrpos($url, '/') + 1);
 // check playlist
-if (($response['httpCode'] !== 200) || (strpos($response['body'], 'EXT-X-STREAM-INF') === false)) {
+if (($response['httpCode'] !== 200) || (strpos($response['body'], 'EXT-X-MEDIA-SEQUENCE') === false)) {
     echo 'false';
     exit;
 }
