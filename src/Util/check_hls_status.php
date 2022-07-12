@@ -29,12 +29,12 @@ function fetch(string $url) : array
     ];
 }
 
-function parsePlaylist(string $m3u8) : array
+function parsePlaylist(string $ts) : array
 {
     // process the string
-    $pieces = explode("\n", $m3u8); // make an array out of curl return value
+    $pieces = explode("\n", $ts); // make an array out of curl return value
     $pieces = array_map('trim', $pieces); // remove unnecessary space
-    $chunklists = array_filter($pieces, function (string $piece) { // pluck out m3u8 urls
+    $chunklists = array_filter($pieces, function (string $piece) { // pluck out .ts urls
        return strtolower(substr($piece, -3)) === '.ts';
     });
     return $chunklists;
@@ -50,7 +50,7 @@ if (($response['httpCode'] !== 200) || (strpos($response['body'], 'EXT-X-MEDIA-S
     exit;
 }
 
-// check chunklists in m3u8 playlist (only one has to be accessible)
+// check if chunklist-urls are accessible
 foreach (parsePlaylist($response['body']) as $chunklist_url) {
     $url = (strpos($chunklist_url, 'http') === 0) ? $chunklist_url : ($base_url . $chunklist_url);
     $response = fetch($url);
