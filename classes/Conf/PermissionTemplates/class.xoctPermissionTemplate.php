@@ -136,6 +136,65 @@ class xoctPermissionTemplate extends ActiveRecord {
 	 */
 	protected $additional_actions_annotate;
 
+    /**
+     * @var String
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $added_role;
+
+    /**
+     * @var String
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           256
+     */
+    protected $added_role_name;
+
+    /**
+     * @var Integer
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $added_role_read_access;
+    /**
+     * @var Integer
+     *
+     * @db_has_field        true
+     * @db_fieldtype        integer
+     * @db_length           1
+     */
+    protected $added_role_write_access;
+    /**
+     * @var String
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           256
+     */
+    protected $added_role_acl_actions;
+    /**
+     * @var String
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           256
+     */
+    protected $added_role_actions_download;
+    /**
+     * @var String
+     *
+     * @db_has_field        true
+     * @db_fieldtype        text
+     * @db_length           256
+     */
+    protected $added_role_actions_annotate;
+
 
 	public function create() {
 		$this->setSort(self::count() + 1);
@@ -457,6 +516,116 @@ class xoctPermissionTemplate extends ActiveRecord {
 	public function setAdditionalActionsAnnotate($additional_actions_annotate) {
 		$this->additional_actions_annotate = $additional_actions_annotate;
 	}
+
+
+    /**
+     * @return String
+     */
+    public function getAddedRole() {
+        return $this->added_role;
+    }
+
+
+    /**
+     * @param String $added_role
+     */
+    public function setAddedRole($added_role) {
+        $this->added_role = $added_role;
+    }
+
+    /**
+     * @return String
+     */
+    public function getAddedRoleName() {
+        return $this->added_role_name;
+    }
+
+
+    /**
+     * @param String $added_role_name
+     */
+    public function setAddedRoleName($added_role_name) {
+        $this->added_role_name = $added_role_name;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAddedRoleRead() {
+        return $this->added_role_read_access;
+    }
+
+
+    /**
+     * @param int $read
+     */
+    public function setAddedRoleRead($read) {
+        $this->added_role_read_access = $read;
+    }
+
+
+    /**
+     * @return int
+     */
+    public function getAddedRoleWrite() {
+        return $this->added_role_write_access;
+    }
+
+
+    /**
+     * @param int $write
+     */
+    public function setAddedRoleWrite($write) {
+        $this->added_role_write_access = $write;
+    }
+
+
+    /**
+     * @return String
+     */
+    public function getAddedRoleAclActions() {
+        return str_replace(' ', '', $this->added_role_acl_actions);
+    }
+
+
+    /**
+     * @param String $additional_acl_actions
+     */
+    public function setAddedRoleAclActions($additional_acl_actions) {
+        $this->added_role_acl_actions = $additional_acl_actions;
+    }
+
+
+    /**
+     * @return String
+     */
+    public function getAddedRoleActionsDownload() {
+        return $this->added_role_actions_download;
+    }
+
+
+    /**
+     * @param String $additional_actions_download
+     */
+    public function setAddedRoleActionsDownload($additional_actions_download) {
+        $this->added_role_actions_download = $additional_actions_download;
+    }
+
+
+    /**
+     * @return String
+     */
+    public function getAddedRoleActionsAnnotate() {
+        return $this->added_role_actions_annotate;
+    }
+
+
+    /**
+     * @param String $additional_actions_annotate
+     */
+    public function setAddedRoleActionsAnnotate($additional_actions_annotate) {
+        $this->added_role_actions_annotate = $additional_actions_annotate;
+    }
 
 
 	/**
