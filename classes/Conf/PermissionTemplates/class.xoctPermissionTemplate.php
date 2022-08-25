@@ -19,7 +19,6 @@ class xoctPermissionTemplate extends ActiveRecord {
 		return self::TABLE_NAME;
 	}
 
-
 	/**
 	 * @return string
 	 */
@@ -306,6 +305,33 @@ class xoctPermissionTemplate extends ActiveRecord {
 			}
 		}
 
+        if($this->getAddedRole()) {
+            $role_name = $this->getAddedRoleName();
+            if ($this->getAddedRoleRead()) {
+                $acls[] = $this->constructAclActionForRole(xoctAcl::READ, $role_name);
+            }
+
+            if ($this->getAddedRoleWrite()) {
+                $acls[] = $this->constructAclActionForRole(xoctAcl::WRITE, $role_name);
+            }
+
+            foreach (array_filter(explode(',', $this->getAdditionalRoleAclActions())) as $additional_action) {
+                $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+            }
+
+            if ($with_download && $this->getAdditionalRoleActionsDownload()) {
+                foreach (explode(',', $this->getAdditionalRoleActionsDownload()) as $additional_action) {
+                    $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+                }
+            }
+
+            if ($with_annotate && $this->getAdditionalRoleActionsAnnotate()) {
+                foreach (explode(',', $this->getAdditionalRoleActionsAnnotate()) as $additional_action) {
+                    $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+                }
+
+            }
+        }
 		return $acls;
 	}
 
@@ -323,6 +349,21 @@ class xoctPermissionTemplate extends ActiveRecord {
 
 		return $acl;
 	}
+
+
+    /**
+     * @param $action
+     *
+     * @return xoctAcl
+     */
+    protected function constructAclActionForRole($action, $role) {
+        $acl = new xoctAcl();
+        $acl->setRole($role);
+        $acl->setAction($action);
+        $acl->setAllow(true);
+
+        return $acl;
+    }
 
 
 	/**
