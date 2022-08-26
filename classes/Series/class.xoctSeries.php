@@ -113,13 +113,19 @@ class xoctSeries extends APIObject {
 
 		$already_has_read = false;
 		$already_has_write = false;
+
+        $actions = xoctConf::getConfig(xoctConf::F_ROLE_USER_ACTIONS);
+        $already_has_actions = false;
 		foreach ($this->getAccessPolicies() as $acl) {
 			if ($acl->getRole() == $xoctUser) {
 				if ($acl->getAction() == xoctAcl::READ) {
 					$already_has_read = true;
 				} else if ($acl->getAction() == xoctAcl::WRITE) {
 					$already_has_write = true;
-				}
+				}else if ($acl-AgetAction() == $actions[0]){
+                    $already_has_actions = true;
+                }
+
 
 			}
 		}
@@ -139,9 +145,9 @@ class xoctSeries extends APIObject {
 			$new_write_acl->setRole($xoctUser);
 			$this->addAccessPolicy($new_write_acl);
 		}
-        $actions = xoctConf::getConfig(xoctConf::F_ROLE_USER_ACTIONS);
-        foreach($actions as $action){
-            if ($acl->getAction() != $action){
+
+        if ($already_has_actions){
+            foreach($actions as $action){
                 $acl = new xoctAcl();
                 $acl->setRole($xoctUser);
                 $acl->setAllow(true);
@@ -149,19 +155,6 @@ class xoctSeries extends APIObject {
                 $this->addAccessPolicy($acl);
             }
         }
-       /*
-        if (!$already_has_action)
-            {
-            foreach($actions as $action)
-                {
-                    $acl = new xoctAcl();
-                    $acl->setRole($xoctUser);
-                    $acl->setAllow(true);
-                    $acl->setAction($action);
-                    $this->addAccessPolicy($acl);
-                }
-            }
-       */
 
 		if (!$omit_update && (!$already_has_read || !$already_has_write)) {
 			$this->update();
