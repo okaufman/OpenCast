@@ -315,18 +315,18 @@ class xoctPermissionTemplate extends ActiveRecord {
                 $acls[] = $this->constructAclActionForRole(xoctAcl::WRITE, $role_name);
             }
 
-            foreach (array_filter(explode(',', $this->getAdditionalRoleAclActions())) as $additional_action) {
+            foreach (array_filter(explode(',', $this->getAddedRoleAclActions())) as $additional_action) {
                 $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
             }
 
-            if ($with_download && $this->getAdditionalRoleActionsDownload()) {
-                foreach (explode(',', $this->getAdditionalRoleActionsDownload()) as $additional_action) {
+            if ($with_download && $this->getAddedRoleActionsDownload()) {
+                foreach (explode(',', $this->getAddedRoleActionsDownload()) as $additional_action) {
                     $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
                 }
             }
 
-            if ($with_annotate && $this->getAdditionalRoleActionsAnnotate()) {
-                foreach (explode(',', $this->getAdditionalRoleActionsAnnotate()) as $additional_action) {
+            if ($with_annotate && $this->getAddedRoleActionsAnnotate()) {
+                foreach (explode(',', $this->getAddedRoleActionsAnnotate()) as $additional_action) {
                     $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
                 }
 

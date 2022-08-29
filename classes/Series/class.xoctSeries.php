@@ -122,7 +122,7 @@ class xoctSeries extends APIObject {
 					$already_has_read = true;
 				} else if ($acl->getAction() == xoctAcl::WRITE) {
 					$already_has_write = true;
-				}else if ($acl-AgetAction() == $actions[0]){
+				}else if ($acl->getAction() == $actions[0]){
                     $already_has_actions = true;
                 }
 
@@ -146,7 +146,7 @@ class xoctSeries extends APIObject {
 			$this->addAccessPolicy($new_write_acl);
 		}
 
-        if ($already_has_actions){
+        if (!$already_has_actions){
             foreach($actions as $action){
                 $acl = new xoctAcl();
                 $acl->setRole($xoctUser);
