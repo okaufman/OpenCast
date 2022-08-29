@@ -285,7 +285,7 @@ if ($role_owner_prefix) {
 \srag\Plugins\Opencast\Cache\Service\DB\DBCacheAR::updateDB();
 ?>
 
-<#37>
+<#31>
 <?php
 xoctPermissionTemplate::updateDB();
 ?>
