@@ -460,6 +460,10 @@ class xoctConfFormGUI extends ilPropertyFormGUI {
 		$te->setInlineStyle('min-width:250px');
 		$this->addItem($te);
 
+		$te = new ilTextInputGUI($this->parent_gui->txt(xoctConf::F_ROLE_USER_ACTIONS), xoctConf::F_ROLE_USER_ACTIONS);
+		$te->setMulti(true);
+		$this->addItem($te);
+
 		// other roles
 		foreach (xoctConf::$roles as $role) {
 			$te = new ilTextInputGUI($this->parent_gui->txt($role), $role);
