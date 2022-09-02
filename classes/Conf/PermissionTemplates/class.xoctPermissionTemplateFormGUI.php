@@ -244,8 +244,10 @@ class xoctPermissionTemplateFormGUI extends ilPropertyFormGUI {
         if ($this->getInput(self::F_DEFAULT)) {
            foreach(xoctPermissionTemplate::where(array('is_default' => 1))->get() as $default_template) {
                /** @var $default_template xoctPermissionTemplate */
-               $default_template->setDefault(0);
-               $default_template->update();
+               if($default_template->getId() != $this->object->getId()) {
+                   $default_template->setDefault(0);
+                   $default_template->update();
+               }
            }
 
         }
