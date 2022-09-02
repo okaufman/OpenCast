@@ -464,7 +464,7 @@ class xoctEventGUI extends xoctGUI {
 		$xoctUser = xoctUser::getInstance(self::dic()->user());
 		$xoctEventFormGUI = new EventFormGUI($this, new xoctEvent(), $this->xoctOpenCast);
 
-		$xoctAclStandardSets = new xoctAclStandardSets($xoctUser->getOwnerRoleName() ? array($xoctUser->getOwnerRoleName(), $xoctUser->getUserRoleName()) : array());
+		$xoctAclStandardSets = new xoctAclStandardSets($xoctUser->getOwnerRoleName() ? array($xoctUser->getOwnerRoleName()) : array());
 		$xoctEventFormGUI->getObject()->setAcl($xoctAclStandardSets->getAcls());
 
 		if ($xoctEventFormGUI->saveObject()) {
