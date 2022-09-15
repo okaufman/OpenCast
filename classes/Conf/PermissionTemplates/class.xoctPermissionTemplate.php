@@ -265,7 +265,7 @@ class xoctPermissionTemplate extends ActiveRecord {
 	public function removeFromAcls(array &$acls) {
 		/** @var xoctAcl $existing_acl */
 		foreach ($acls as $key => $existing_acl) {
-			if ($existing_acl->getRole() == $this->getRole()) {
+			if ($existing_acl->getRole() == $this->getRole() || $existing_acl->getRole() == $this->getAddedRoleName()) {
 				unset($acls[$key]);
 			}
 		}
