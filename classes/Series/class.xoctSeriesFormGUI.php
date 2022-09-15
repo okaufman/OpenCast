@@ -422,6 +422,7 @@ class xoctSeriesFormGUI extends ilPropertyFormGUI {
 		    $default_template->addToAcls($series_acls, !$this->cast->getStreamingOnly(), $this->cast->getUseAnnotations());
         }
 
+        $series_acls = array_unique($series_acls, SORT_REGULAR);
         sort($series_acls);
 		$this->series->setAccessPolicies($series_acls);
 
