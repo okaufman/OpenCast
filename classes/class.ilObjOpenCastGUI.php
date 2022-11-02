@@ -424,7 +424,7 @@ class ilObjOpenCastGUI extends ilObjectPluginGUI
                 !$settings->getStreamingOnly(),
                 $settings->getUseAnnotations()
             );
-        }
+
 
         // TODO: do we need contributor / organizer?
         if (!$series_id) {
