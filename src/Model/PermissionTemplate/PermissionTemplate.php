@@ -315,26 +315,26 @@ class PermissionTemplate extends ActiveRecord
         if($this->getAddedRole()) {
             $role_name = $this->getAddedRoleName();
             if ($this->getAddedRoleRead()) {
-                $acls[] = $this->constructAclActionForRole(ACLEntry::READ, $role_name);
+                $entries[] = $this->constructAclActionForRole(ACLEntry::READ, $role_name);
             }
 
             if ($this->getAddedRoleWrite()) {
-                $acls[] = $this->constructAclActionForRole(ACLEntry::WRITE, $role_name);
+                $entries[] = $this->constructAclActionForRole(ACLEntry::WRITE, $role_name);
             }
 
             foreach (array_filter(explode(',', $this->getAddedRoleAclActions())) as $additional_action) {
-                $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+                $entries[] = $this->constructAclActionForRole($additional_action, $role_name);
             }
 
             if ($with_download && $this->getAddedRoleActionsDownload()) {
                 foreach (explode(',', $this->getAddedRoleActionsDownload()) as $additional_action) {
-                    $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+                    $entries[] = $this->constructAclActionForRole($additional_action, $role_name);
                 }
             }
 
             if ($with_annotate && $this->getAddedRoleActionsAnnotate()) {
                 foreach (explode(',', $this->getAddedRoleActionsAnnotate()) as $additional_action) {
-                    $acls[] = $this->constructAclActionForRole($additional_action, $role_name);
+                    $entries[] = $this->constructAclActionForRole($additional_action, $role_name);
                 }
 
             }
