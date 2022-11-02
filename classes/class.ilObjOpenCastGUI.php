@@ -412,7 +412,10 @@ class ilObjOpenCastGUI extends ilObjectPluginGUI
             $acl->merge($this->opencast_dic->acl_utils()->getUserRolesACL($producer));
         }
 
-        if ($perm_tpl_id) {
+        if ($perm_tpl_id == '') {
+            $default_template = PermissionTemplate::where(array('is_default' => 1))->first();
+            $perm_tpl_id = $default_template->getId();
+        }
             $acl = PermissionTemplate::removeAllTemplatesFromAcls($acl);
             /** @var PermissionTemplate $perm_tpl */
             $perm_tpl = PermissionTemplate::find($perm_tpl_id);
