@@ -47,10 +47,7 @@ class ACLUtils
         $additional_actions = PluginConfig::getConfig(PluginConfig::F_ROLE_USER_ACTIONS);
         if ($additional_actions && !in_array('', $additional_actions)) {
             foreach ($additional_actions as $action) {
-                $acl_entry = new ACLEntry($user->getUserRoleName(), $action, true);
-                if(!in_array($acl_entry, $acl_list->getEntries())){
-                    $acl_list->add(new ACLEntry($user->getUserRoleName(), $action, true));
-                }
+                $acl_list->add(new ACLEntry($user->getUserRoleName(), $action, true));
             }
         }
         return $acl_list;
