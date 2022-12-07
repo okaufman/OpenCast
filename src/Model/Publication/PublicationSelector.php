@@ -503,7 +503,7 @@ class PublicationSelector
     public function getFirstPublicationMetadataForUsage($xoctPublicationUsage)
     {
         $metadata = $this->getPublicationMetadataForUsage($xoctPublicationUsage);
-        return count($metadata) ? array_shift($metadata) : new Publication();
+        return count($metadata) ? array_shift($metadata) : null;
     }
 
 
