@@ -145,10 +145,11 @@ class xoctSeriesAPI
         // add producers
         $producers = ilObjOpenCastAccess::getProducersForRefID($ilObjOpenCast->getRefId());
 
+        /* Patch fixes #130
         if (isset($additional_data['owner'])) {
             $producers[] = xoctUser::getInstance($additional_data['owner']);
         }
-
+        */
         if (is_array($additional_data['producers'])) {
             foreach ($additional_data['producers'] as $producer) {
                 $producers[] = xoctUser::getInstance($producer);
