@@ -8,7 +8,7 @@ $token = filter_input(INPUT_GET, 'token');
 $protocol = filter_input(INPUT_GET, 'protocol');
 $host = filter_input(INPUT_GET, 'host') ?? $_SERVER['SERVER_NAME'];
 
-$chat_base_url = $protocol . '://' . $host . ':' . $port;
+$chat_base_url = $protocol . '://' . $host . '/castchat';
 
 $ch = curl_init($chat_base_url . '/srchat/check_connection');
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
@@ -16,7 +16,7 @@ curl_setopt($ch, CURLOPT_NOBODY, true);
 curl_setopt($ch, CURLOPT_HEADER, true);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_TIMEOUT, 5);
-curl_setopt($ch, CURLOPT_PORT, $port);
+//curl_setopt($ch, CURLOPT_PORT, $port);
 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 $output = curl_exec($ch);
