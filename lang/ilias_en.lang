@@ -364,7 +364,7 @@ series_permission_per_clip#:#Set permissions per Event
 series_permission_per_clip_info#:#This setting enables an individual rights management based on Event ownership (iVT-Mode). Let this setting deactivated, when all students are allowed to see all the Events of this series.
 series_permission_template#:#Permissions
 series_publish_on_video_portal#:#Publish Series on %s
-series_publish_on_video_portal_info#:#This setting leads to a publication on the video portal of your institution. Leave this setting deactivated if the recordings are only to be viewed in ILIAS.
+series_publish_on_video_portal_info#:#This setting leads to a publication on the video portal of the University of Bern (Tobira). Leave the setting disabled if only ILIAS course administrators should be able to access the series on Tobira. In any case, the series is published hidden in Tobira and can only be accessed via a direct link.
 series_save#:#Save
 series_saved#:#Series-Information saved
 series_show_upload_token#:#Show Upload-Token
