@@ -121,7 +121,7 @@ class xoctEventAPI
 
         $acl = $this->acl_utils->getStandardRolesACL();
 
-        $this->event_repository->schedule(new ScheduleEventRequest(
+        $response = $this->event_repository->schedule(new ScheduleEventRequest(
             new ScheduleEventRequestPayload(
                 $metadata->withoutEmptyFields(),
                 $acl,
@@ -131,6 +131,7 @@ class xoctEventAPI
         ));
 
         $event = new Event();
+        $metadata->getField(MDFieldDefinition::F_IDENTIFIER)->setValue($response);
         $event->setMetadata($metadata);
         $event->setAcl($acl);
         $event->setScheduling($scheduling);
