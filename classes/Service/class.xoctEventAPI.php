@@ -111,6 +111,7 @@ class xoctEventAPI
         if (is_array($additional_data['workflow_parameters'])) {
             $workflow_parameters = $workflow_parameters + $additional_data['workflow_parameters'];
         }
+
         $workflow_parameters = array_map(function ($value) {
             return $value == 1 ? 'true' : 'false';
         }, $workflow_parameters);
@@ -173,6 +174,7 @@ class xoctEventAPI
 
         $metadata = $this->md_factory->event()->withoutEmptyFields();
         $scheduling = $event->getScheduling();
+
         foreach ($data as $title => $value) {
             if (in_array($title, ['title', 'description', 'presenters'])) {
                 // presenters is actually an MD field called creator. this is a workaround to not break compatability
@@ -184,9 +186,11 @@ class xoctEventAPI
                 $metadataField->setValue($value);
                 $metadata->addField($metadataField);
             } elseif ($title === 'start') {
-                $scheduling->setStart(new DateTimeImmutable($data['start']));
+                $start = $data['start'] instanceof DateTime ? DateTimeImmutable::createFromMutable($data['start']->setTimezone(new DateTimeZone('GMT'))) : new DateTimeImmutable($data['start']);
+                $scheduling->setStart($start);
             } elseif ($title === 'end') {
-                $scheduling->setEnd(new DateTimeImmutable($data['end']));
+                $end = $data['end'] instanceof DateTime ? DateTimeImmutable::createFromMutable($data['end']->setTimezone(new DateTimeZone('GMT'))) : new DateTimeImmutable($data['end']);
+                $scheduling->setEnd($end);
             } elseif ($title === 'location') {
                 $scheduling->setAgentId($data['location']);
             }
