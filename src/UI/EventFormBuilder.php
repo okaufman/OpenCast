@@ -250,12 +250,13 @@ class EventFormBuilder
             $form_action,
             $inputs
         )->withAdditionalTransformation($this->refinery_factory->custom()->constraint(function ($vs) {
-            $vs['metadata']['object']->addField(new MetadataField(MDFieldDefinition::F_START_DATE, MDDataType::datetime()));
-            $vs['metadata']['object']->getField(MDFieldDefinition::F_START_DATE)
-                                     ->setValue($vs['scheduling'] ["start_date_time"]);
-            $vs['metadata']['object']->addField(new MetadataField(MDFieldDefinition::F_START_TIME, MDDataType::time()));
-            $vs['metadata']['object']->getField(MDFieldDefinition::F_START_TIME)
-                                     ->setValue($vs['scheduling'] ["start_date_time"]->setTimeZone(new DateTimeZone('GMT'))->format('H:i:s'));
+            $date_field = new MetadataField(MDFieldDefinition::F_START_DATE, MDDataType::datetime());
+            $date_field->setValue($vs['scheduling'] ["start_date_time"]);
+            $vs['metadata']['object']->addField($date_field);
+
+            $time_field = new MetadataField(MDFieldDefinition::F_START_TIME, MDDataType::time());
+            $time_field->setValue($vs['scheduling'] ["start_date_time"]->setTimeZone(new DateTimeZone('utc'))->format('H:i:s'));
+            $vs['metadata']['object']->addField($time_field);
             return $vs;
         }, \xoctException::INTERNAL_ERROR));
     }
