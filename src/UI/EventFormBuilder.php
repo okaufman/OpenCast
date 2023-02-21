@@ -193,7 +193,7 @@ class EventFormBuilder
             $this->plugin->txt('file')
         );
         $workflow_param_section = $obj_id == 0 ?
-            $this->workflowParameterRepository->getGeneralFormSection( $this->plugin->txt('processing_settings'))
+            $this->workflowParameterRepository->getGeneralFormSection($this->plugin->txt('processing_settings'))
             : $this->workflowParameterRepository->getFormSectionForObjId($obj_id, $as_admin, $this->plugin->txt('processing_settings'));
         $inputs = [
             'file' => $file_section,
@@ -222,7 +222,7 @@ class EventFormBuilder
     public function schedule(string $form_action, bool $with_terms_of_use, int $obj_id = 0, bool $as_admin = false): Form
     {
         $workflow_param_section = $obj_id == 0 ?
-            $this->workflowParameterRepository->getGeneralFormSection( $this->plugin->txt('processing_settings'))
+            $this->workflowParameterRepository->getGeneralFormSection($this->plugin->txt('processing_settings'))
             : $this->workflowParameterRepository->getFormSectionForObjId($obj_id, $as_admin, $this->plugin->txt('processing_settings'));
         $inputs = [
             'metadata' => $this->formItemBuilder->schedule_section($as_admin),
