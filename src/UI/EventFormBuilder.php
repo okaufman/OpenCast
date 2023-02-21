@@ -21,6 +21,9 @@ use srag\Plugins\Opencast\UI\Metadata\MDFormItemBuilder;
 use srag\Plugins\Opencast\UI\Scheduling\SchedulingFormItemBuilder;
 use srag\Plugins\Opencast\Util\FileTransfer\UploadStorageService;
 use ILIAS\UI\Implementation\Component\Input\Field\ChunkedFile;
+use srag\Plugins\Opencast\Model\Metadata\MetadataField;
+use srag\Plugins\Opencast\Model\Metadata\Definition\MDDataType;
+use DateTimeZone;
 
 /**
  * Responsible for creating forms to upload, schedule or edit an event.
@@ -246,7 +249,15 @@ class EventFormBuilder
         return $this->ui_factory->input()->container()->form()->standard(
             $form_action,
             $inputs
-        );
+        )->withAdditionalTransformation($this->refinery_factory->custom()->constraint(function ($vs) {
+            $vs['metadata']['object']->addField(new MetadataField(MDFieldDefinition::F_START_DATE, MDDataType::datetime()));
+            $vs['metadata']['object']->getField(MDFieldDefinition::F_START_DATE)
+                                     ->setValue($vs['scheduling'] ["start_date_time"]);
+            $vs['metadata']['object']->addField(new MetadataField(MDFieldDefinition::F_START_TIME, MDDataType::time()));
+            $vs['metadata']['object']->getField(MDFieldDefinition::F_START_TIME)
+                                     ->setValue($vs['scheduling'] ["start_date_time"]->setTimeZone(new DateTimeZone('GMT'))->format('H:i:s'));
+            return $vs;
+        }, \xoctException::INTERNAL_ERROR));
     }
 
     private function buildTermsOfUseSection(): Input
