@@ -501,7 +501,7 @@
             "matomoGlobalLoaded": false,
             "cookieType": "tracking",
             "mediaAnalyticsTitle": "${metadata.videoid}",
-            "logUserId": true,
+            "logUserId": false,
             "events": {
                 "category": "ILIAS PaellaPlayer",
                 "action": "${event}",
@@ -509,7 +509,7 @@
             },
             "customDimensions": {
                 "1": "${metadata.videoid}",
-                "2": "${metadata.series}",
+                "2": "${metadata.seriesid}",
                 "3": "${metadata.title}"
             }
         },
