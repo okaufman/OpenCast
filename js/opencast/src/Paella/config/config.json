@@ -492,7 +492,7 @@
             "context": [
                 "userTracking"
             ],
-            "server": "https://webstats.opencast-test.unibe.ch/",
+            "server": "https://webstats.opencast.unibe.ch/",
             "siteId": "1",
             "trackerUrl": {
                 "php": "3012.php",
