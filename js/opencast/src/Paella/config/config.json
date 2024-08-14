@@ -450,7 +450,7 @@
     },
 
     "es.upv.paella.userEventTracker": {
-      "enabled": false,
+      "enabled": true,
       "context": "userTracking",
       "events": [
           "PLAY",
@@ -460,20 +460,14 @@
           "SEEK",
           "FULLSCREEN_CHANGED",
           "VOLUME_CHANGED",
-          "TIMEUPDATE",
           "CAPTIONS_CHANGED",
           "BUTTON_PRESS",
           "SHOW_POPUP",
           "HIDE_POPUP",
-          "ENTER_FULLSCREEN",
-          "EXIT_FULLSCREEN",
-          "VOLUME_CHANGED",
-          "CAPTIONS_ENABLED",
-          "CAPTIONS_DISABLED",
           "LAYOUT_CHANGED",
-          "PLAYBACK_RATE_CHANGED",
-          "VIDEO_QUALITY_CHANGED",
-          "RESIZE_END"
+	  "PLAYBACK_RATE_CHANGED",
+          "RESIZE_END",
+	  "LOG"
       ]
     },
 
@@ -492,6 +486,34 @@
         "userTracking"
       ]
     },
+
+"es.upv.paella.matomo.userTrackingDataPlugin": {
+            "enabled": true,
+            "context": [
+                "userTracking"
+            ],
+            "server": "https://webstats.opencast-test.unibe.ch/",
+            "siteId": "1",
+            "trackerUrl": {
+                "php": "3012.php",
+                "js": "3012.js"
+            },
+            "matomoGlobalLoaded": false,
+            "cookieType": "tracking",
+            "mediaAnalyticsTitle": "${metadata.videoid}",
+            "logUserId": true,
+            "events": {
+                "category": "ILIAS PaellaPlayer",
+                "action": "${event}",
+                "name": "${eventData}"
+            },
+            "customDimensions": {
+                "1": "${metadata.videoid}",
+                "2": "${metadata.series}",
+                "3": "${metadata.title}"
+            }
+        },
+
     "es.upv.paella.liveStreamingProgressIndicator": {
       "enabled": true,
       "layer": "foreground",
