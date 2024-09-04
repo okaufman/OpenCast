@@ -88,7 +88,7 @@ class xoctPlayerGUI extends xoctGUI
      */
     public function streamVideo(): void
     {
-        if (!isset($this->identifier) || empty($this->identifier)) {
+        if (empty($this->identifier)) {
             $this->sendReponse("Error: invalid identifier");
         }
         $event = $this->event_repository->find($this->identifier);
@@ -130,7 +130,7 @@ class xoctPlayerGUI extends xoctGUI
             $tpl->setVariable('LIVE_OVER_TEXT', $this->translate('live_over_text', 'event'));
         }
 
-        if ($this->isChatVisible()) {
+        if ($this->isChatVisible($event)) {
             $this->initChat($event, $tpl);
         } else {
             $tpl->setVariable(
@@ -179,9 +179,10 @@ class xoctPlayerGUI extends xoctGUI
         return $js_config;
     }
 
-    protected function isChatVisible(): bool
+    protected function isChatVisible(Event $event): bool
     {
         return !$this->force_no_chat
+            && $event->isLiveEvent() // The event must only be live to provide the chat!
             && PluginConfig::getConfig(PluginConfig::F_ENABLE_CHAT)
             && $this->object_settings->isChatActive();
     }
@@ -193,7 +194,8 @@ class xoctPlayerGUI extends xoctGUI
     protected function initChat(Event $event, ilTemplate $tpl)
     {
         $ChatroomAR = ChatroomAR::findBy($event->getIdentifier(), $this->object_settings->getObjId());
-        if ($event->isLiveEvent()) {
+        if ($event->getProcessingState() == Event::STATE_LIVE_RUNNING) {
+            // For running live events, provide a clean chat!
             $tpl->setVariable(
                 "STYLE_SHEET_LOCATION",
                 $this->plugin->getDirectory() . "/templates/default/player_w_chat.css"
@@ -205,8 +207,11 @@ class xoctPlayerGUI extends xoctGUI
             $TokenAR = TokenAR::getNewFrom($ChatroomAR->getId(), $this->user->getId(), $public_name);
             $ChatGUI = new ChatGUI($TokenAR);
             $tpl->setVariable('CHAT', $ChatGUI->render(true));
-        } elseif ($ChatroomAR && MessageAR::where(["chat_room_id" => $ChatroomAR->getId()])->hasSets()) {
-            // show chat history for past live events
+        } elseif ($event->getProcessingState() == Event::STATE_LIVE_SCHEDULED
+            && $ChatroomAR
+            && MessageAR::where(["chat_room_id" => $ChatroomAR->getId()])->hasSets()
+        ) {
+            // For scheduled live events, show chat history for past live events!
             $tpl->setVariable(
                 "STYLE_SHEET_LOCATION",
                 $this->plugin->getDirectory() . "/templates/default/player_w_chat.css"
