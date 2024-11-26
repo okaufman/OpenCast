@@ -36,7 +36,7 @@ class WorkflowDBRepository implements WorkflowRepository
 
     public function anyWorkflowAvailable(): bool
     {
-        return (count($this->getFilteredWorkflowsArray()) > 0);
+        return ($this->getFilteredWorkflowsArray() !== []);
     }
 
 
@@ -134,10 +134,8 @@ class WorkflowDBRepository implements WorkflowRepository
                 }
                 if ($input->hasAttribute('name')) {
                     $key = $input->getAttribute('name');
-                } else {
-                    if ($input->hasAttribute('id')) {
-                        $key = $input->getAttribute('id');
-                    }
+                } elseif ($input->hasAttribute('id')) {
+                    $key = $input->getAttribute('id');
                 }
 
                 if ($input->hasAttribute('value')) {
@@ -145,9 +143,10 @@ class WorkflowDBRepository implements WorkflowRepository
                 }
 
                 if (!empty($key)) {
-                    $value = ($type == 'checkbox') ?
-                        ($value == 'true' ? true : false) :
-                        trim($value);
+                    $value = ($type === 'checkbox')
+                        ? ($value === 'true')
+                        : trim($value);
+
                     $config_panel_array[$key] = [
                         'value' => $value,
                         'type' => $type
@@ -160,10 +159,8 @@ class WorkflowDBRepository implements WorkflowRepository
                 $value = '';
                 if ($input->hasAttribute('name')) {
                     $key = $input->getAttribute('name');
-                } else {
-                    if ($input->hasAttribute('id')) {
-                        $key = $input->getAttribute('id');
-                    }
+                } elseif ($input->hasAttribute('id')) {
+                    $key = $input->getAttribute('id');
                 }
 
                 if ($input->hasAttribute('value')) {
@@ -192,9 +189,7 @@ class WorkflowDBRepository implements WorkflowRepository
             'filter' => $filter,
         ]);
         if ($with_tags) {
-            return array_filter($workflows, function ($workflow) {
-                return !empty($workflow->tags);
-            });
+            return array_filter($workflows, fn ($workflow): bool => !empty($workflow->tags));
         }
         return $workflows;
     }
@@ -228,10 +223,10 @@ class WorkflowDBRepository implements WorkflowRepository
                 $new_config_panel = json_encode(
                     str_replace("\r\n", "\n", trim($oc_wf->configuration_panel))
                 );
-                if (!strcmp($current_config_panel, $new_config_panel)) {
+                if (strcmp($current_config_panel, $new_config_panel) === 0) {
                     continue;
                 }
-                $configuration_panel = !empty($oc_wf->configuration_panel) ? $oc_wf->configuration_panel : '';
+                $configuration_panel = empty($oc_wf->configuration_panel) ? '' : $oc_wf->configuration_panel;
                 $current_workflow->setConfigPanel($configuration_panel);
                 $current_workflow->store();
             } else {
@@ -239,7 +234,7 @@ class WorkflowDBRepository implements WorkflowRepository
                 $title = isset($oc_wf->title) ? trim($oc_wf->title) : '';
                 $description = isset($oc_wf->description) ? trim($oc_wf->description) : '';
                 $tags = isset($oc_wf->tags) ? implode(',', $oc_wf->tags) : '';
-                $configuration_panel = !empty($oc_wf->configuration_panel) ? $oc_wf->configuration_panel : '';
+                $configuration_panel = empty($oc_wf->configuration_panel) ? '' : $oc_wf->configuration_panel;
                 $this->createOrUpdate($oc_wd_id, $title, $description, $tags, $configuration_panel);
             }
         }
@@ -281,7 +276,7 @@ class WorkflowDBRepository implements WorkflowRepository
             $title = isset($oc_wf->title) ? trim($oc_wf->title) : '';
             $description = isset($oc_wf->description) ? trim($oc_wf->description) : '';
             $tags = isset($oc_wf->tags) ? implode(',', $oc_wf->tags) : '';
-            $configuration_panel = !empty($oc_wf->configuration_panel) ? $oc_wf->configuration_panel : '';
+            $configuration_panel = empty($oc_wf->configuration_panel) ? '' : $oc_wf->configuration_panel;
             $this->createOrUpdate($oc_wd_id, $title, $description, $tags, $configuration_panel);
         }
 
@@ -319,9 +314,7 @@ class WorkflowDBRepository implements WorkflowRepository
         }
 
         $this->store($workflow_id, $title, $description, $tags, $config_panel, $id);
-
-        $new_workflow = $this->getByWorkflowId($workflow_id);
-        return $new_workflow;
+        return $this->getByWorkflowId($workflow_id);
     }
 
     /**
@@ -370,9 +363,7 @@ class WorkflowDBRepository implements WorkflowRepository
             $tags_to_include = $tags_str;
         }
         $tags_to_include_arr = $this->commaToArray($tags_to_include);
-        $tags_to_include_arr = array_filter($tags_to_include_arr, function ($tag) {
-            return !empty(trim($tag));
-        });
+        $tags_to_include_arr = array_filter($tags_to_include_arr, fn ($tag): bool => !empty(trim($tag)));
         // Disable the feature if tags list is empty.
         if (empty($tags_to_include_arr)) {
             return [];
@@ -595,11 +586,9 @@ class WorkflowDBRepository implements WorkflowRepository
                 if ($input->hasAttribute('type')) {
                     $type = $input->getAttribute('type');
                     // Exception for hidden inputs, to make them following the form naming convension.
-                    if ($type == 'hidden') {
-                        if (empty($new_name) && !empty($old_id)) {
-                            $new_name = "{$workflow_id}[{$old_id}]";
-                            $input->setAttribute('name', $new_name);
-                        }
+                    if ($type == 'hidden' && (empty($new_name) && !empty($old_id))) {
+                        $new_name = "{$workflow_id}[{$old_id}]";
+                        $input->setAttribute('name', $new_name);
                     }
                 }
             }
